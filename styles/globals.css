@@ -25,9 +25,10 @@ a {
 }
 
 .demoPage {
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.5);
   background-color: #EDEAE8;
   padding: 20px;
+  border-radius: 5px;
 }
 
 .demoPage img {
