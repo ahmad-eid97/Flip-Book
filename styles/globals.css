@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    overflow: hidden;
 }
 
 a {
@@ -13,4 +14,22 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.mainPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.demoPage {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  background-color: #EDEAE8;
+  padding: 20px;
+}
+
+.demoPage img {
+  width: 100%;
 }
