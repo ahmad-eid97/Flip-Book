@@ -6,10 +6,26 @@ import HTMLFlipBook from 'react-pageflip';
 
 export default function Home() {
   const [name, setName] = useState('');
-  const flipBook = useRef(null);
+  let flipBook = useRef(null);
 
-  const flipPage = () => {
-    console.log('page flipped successfully!')
+  const flipPage = (e) => {
+    // if(name === '') {
+    //   flipBook.current.pageFlip().turnToPrevPage()
+    //   console.log('you must enter a name')
+    // }
+
+  }
+
+  const check = (e) => {
+    
+    // if(e.data === 'user_fold' || e.data === 'flipping') {
+    //   if(name === '') {
+    //     console.log('should prevent here')
+    //     // e.data = 'read'
+    //     flipBook.current.pageFlip().userStop()
+    //   }
+    // }
+
   }
 
   return (
@@ -20,61 +36,57 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Our Awesome Flip Book</h1>
-
-      <HTMLFlipBook ref={flipBook} width={400} height={500} showCover={true} flippingTime={1500} onFlip={flipPage}>
-        <div className="demoPage">
+      <HTMLFlipBook ref={flipBook} width={450} height={550} showCover={true} flippingTime={1500} onFlip={flipPage} onChangeState={(e) => check(e)}>
+        <div className="cover">
 
           <h2>Book Cover</h2>
 
         </div>
-        <div className="demoPage">
+        <div className="demoPage" onClick={check}>
 
           <img src="/imgs/nature.jpg" alt="" />
 
-          <h2>Second page</h2>
-
-          <h4>Type anything to move to the next page</h4>
-
-          <input type="text" placeholder='Type Your Name' value={name} onChange={(e) => setName(e.target.value)} />
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?</p>
 
         </div>
         <div className="demoPage">
 
           <img src="/imgs/nature.jpg" alt="" />
 
-          <h2>Third page</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?</p>
+
+          <button>test</button>
 
         </div>
         <div className="demoPage">
 
           <img src="/imgs/nature.jpg" alt="" />
 
-          <h2>Fourth page</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?</p>
 
         </div>
         <div className="demoPage">
 
           <img src="/imgs/nature.jpg" alt="" />
 
-          <h2>Fifth page</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?</p>
 
         </div>
         <div className="demoPage">
 
           <img src="/imgs/nature.jpg" alt="" />
 
-          <h2>Sixth page</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?</p>
 
         </div>
         <div className="demoPage">
 
           <img src="/imgs/nature.jpg" alt="" />
 
-          <h2>Seventh page</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?</p>
 
         </div>
-        <div className="demoPage">
+        <div className="cover">
 
           <h2>Book End</h2>
 
