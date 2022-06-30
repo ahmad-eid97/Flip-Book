@@ -13,41 +13,6 @@ import { langRedirection } from './../Utils/redirections/langRedirection/langRed
 
 import HTMLFlipBook from 'react-pageflip';
 
-const pagesData = [
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  },
-  {
-    image: '/imgs/nature.jpg',
-    details: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, incidunt? Dolores ad deserunt tenetur, sunt beatae voluptate dolor odio rem porro labore repudiandae, iste molestiae nostrum. Voluptas adipisci unde dicta?'
-  }
-]
-
 export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
