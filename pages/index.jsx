@@ -22,7 +22,7 @@ export default function Home() {
 
       <h1>Our Awesome Flip Book</h1>
 
-      <HTMLFlipBook ref={flipBook} width={400} height={500} showCover={true} flippingTime={1500} onFlip={flipPage}>
+      <HTMLFlipBook ref={flipBook} width={400} height={500} showCover={true} flippingTime={1500} startUserTouch={flipPage}>
         <div className="demoPage">
 
           <h2>Book Cover</h2>
