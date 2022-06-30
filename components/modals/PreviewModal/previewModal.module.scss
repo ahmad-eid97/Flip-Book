@@ -1,0 +1,87 @@
+// IMPORTING GLOBAL VARIABLES AND MIXINS
+@import '../../../styles/mixins';
+@import '../../../styles/extends';
+
+.overlay {
+  @keyframes showModal {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: showModal 0.2s forwards ease-in-out 1;
+  .area {
+    background-color: transparent;
+    width: 700px;
+    height: auto;
+    max-height: 90%;
+    position: relative;
+    animation: show 0.3s forwards ease-in-out 1;
+    @keyframes show {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    .area__wrapper {
+      max-height: 90vh;
+      padding: 30px;
+    }
+    @include lg {
+      width: 500px;
+    }
+    @include md {
+      width: 500px;
+    }
+    @include sm {
+      width: 500px;
+    }
+    @include xs {
+      width: 90%;
+    }
+    .close {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      background-color: #000;
+      border: 1px solid #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease-in-out !important;
+      &:hover {
+        background-color: var(--main-color);
+      }
+      &.ar {
+        right: unset;
+        left: -15px;
+      }
+    }
+
+    .area__content {
+      img {
+        width: 100%;
+      }
+    }
+
+  }
+}
