@@ -1,0 +1,31 @@
+.quizSection {
+  button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    position: relative;
+    img {
+      position: relative;
+      left: 0;
+      top: 0;
+      z-index: -1;
+    }
+  }
+  iframe {
+    width: 100%;
+    min-width: 530px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    html, body {
+      height: unset !important;
+      margin: unset !important;
+      padding: unset !important;
+    }
+  }
+}

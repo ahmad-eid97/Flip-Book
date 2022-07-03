@@ -3,6 +3,9 @@ import Script from "next/script";
 
 import { appWithTranslation } from "next-i18next";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import '../public/css/all.min.css';
 import '../styles/globals.scss';
 import '../styles/variables.scss'
@@ -27,6 +30,17 @@ function MyApp({ Component, pageProps }) {
         crossOrigin="anonymous"
       />
       {/* BOOTSTRAP CSS AND JS INTEGERATION */}
+
+      <ToastContainer
+        position={"top-right"}
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
 
       <Component {...pageProps} />
 
@@ -56,7 +70,6 @@ MyApp.getInitialProps = async (context) => {
   }
 
   return {
-
   }
 
 }

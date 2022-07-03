@@ -4,6 +4,7 @@ import LayoutOne from '../layouts/LayoutOne';
 import { Page, BookFrontCover, BookBackCover, LangSwitch } from '../components';
 
 import PreviewModal from "../components/modals/PreviewModal/PreviewModal";
+import QuizModal from "../components/modals/QuizModal/QuizModal";
 
 import axios from '../Utils/axios';
 
@@ -16,21 +17,26 @@ import HTMLFlipBook from 'react-pageflip';
 export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
-  const [allPages, setAllPages] = useState(pages)
-  const [openPreview, setOpenPreview] = useState(false)
-  const [previewData, setPreviewData] = useState()
-  const [previewType, setPreviewType] = useState()
+  const [allPages, setAllPages] = useState(pages);
+  const [openPreview, setOpenPreview] = useState(false);
+  const [openQuizModal, setOpenQuizModal] = useState(false);
+  const [previewData, setPreviewData] = useState();
+  const [previewType, setPreviewType] = useState();
+  const [quizData, setQuizData] = useState();
 
   const { t, i18n } = useTranslation('common');
 
   const [name, setName] = useState('');
 
-  console.log(bookUnits)
-
   const openModal = (state, data, type) => {
     setOpenPreview(state)
     setPreviewData(data)
     setPreviewType(type)
+  }
+
+  const openQuiz = (state, data, type) => {
+    setOpenQuizModal(state)
+    setQuizData(data)
   }
 
   let flipBook = useRef(null);
@@ -76,10 +82,11 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
           {
             ALL_PAGES.map((page, idx) => (
               <div key={idx} className="demoPage">
-                {console.log(page)}
+                {/* {console.log(page)} */}
                 {/* <h5>{ page.title }</h5> */}
                 {/* <h6 dangerouslySetInnerHTML={{ __html: page.details }}></h6> */}
-                <img src={page.photo_file} alt="image" />
+                {/* <img src={page.photo_file} alt="image" /> */}
+                <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details }} openQuiz={openQuiz} />
               </div>
             ))
           }
@@ -93,6 +100,8 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
       </div>
 
       {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} />}
+
+      {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} />}
 
     </LayoutOne>
 
@@ -140,7 +149,7 @@ export async function getServerSideProps({ req, locale }) {
   if(unitsResponse) {
     bookPages = unitsResponse.data.data.pages;
     bookPages.sort((a, b) => a.id - b.id);
-    bookPages.forEach(page => {
+    bookPages.forEach(async page => {
       const unitFound = ALL_PAGES.findIndex(pa => pa.title === page.lesson.unit.title && !pa.unit && !pa.lesson)
       if(unitFound <= -1) ALL_PAGES.push({ ...page.lesson.unit });
 
@@ -148,7 +157,9 @@ export async function getServerSideProps({ req, locale }) {
       if(lessonFound <= -1) ALL_PAGES.push({ ...page.lesson });
 
       const pageFound = ALL_PAGES.findIndex(pa => pa.title === page.title && pa.lesson && pa.lesson.id === page.lesson.id)
-      if(pageFound <= -1) ALL_PAGES.push({ ...page });
+      if(pageFound <= -1) {
+        ALL_PAGES.push({ ...page })
+      };
     });
   }
 

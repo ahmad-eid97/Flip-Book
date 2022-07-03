@@ -1,8 +1,12 @@
-import React from 'react'
+import cls from './imageSection.module.scss';
 
-const ImageSection = () => {
+const ImageSection = ({ image }) => {
   return (
-    <div>ImageSection</div>
+    <div className={cls.imageSection}>
+
+      <img src={image} alt="pageImage" />
+
+    </div>
   )
 }
 
