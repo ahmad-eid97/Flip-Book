@@ -1,0 +1,16 @@
+.matching {
+  .wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    p {
+      font-weight: 600;
+    }
+    svg {
+      color: red !important;
+    }
+  }
+  svg {
+    color: red !important;
+  }
+}

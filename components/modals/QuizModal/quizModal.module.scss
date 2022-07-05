@@ -29,6 +29,7 @@
     max-height: 90%;
     position: relative;
     animation: show 0.3s forwards ease-in-out 1;
+    background: url('../../../public/imgs/back.png');
     @keyframes show {
       0% {
         opacity: 0;
@@ -42,13 +43,13 @@
       padding: 30px;
     }
     @include lg {
-      width: 500px;
+      width: 700px;
     }
     @include md {
-      width: 500px;
+      width: 600px;
     }
     @include sm {
-      width: 500px;
+      width: 550px;
     }
     @include xs {
       width: 90%;
@@ -70,6 +71,7 @@
       transition: all 0.2s ease-in-out !important;
       &:hover {
         background-color: var(--main-color);
+        border: 1px solid var(--main-color);
       }
       &.ar {
         right: unset;
@@ -78,33 +80,6 @@
     }
 
     .area__content {
-      .question {
-        span {
-          margin-right: 10px;
-        }
-        .answers {
-          margin-top: 15px;
-          display: flex;
-          justify-content: space-between;
-        }
-      }
-    }
-
-    .btn {
-      text-align: center;
-      margin-top: 30px;
-      button {
-        background-color: var(--main-color);
-        color: #fff;
-        border: 1px solid var(--main-color);
-        padding: 5px 20px;
-        border-radius: 5px;
-        outline: none;
-        &:hover {
-          background-color: transparent;
-          color: var(--main-color);
-        }
-      }
     }
 
   }

@@ -39,7 +39,7 @@ const PreviewModal = ({ setOpenPreview, imgSrc, previewType }) => {
 
               :
 
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/Od6LJhVvNOI" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+              <iframe width="560" height="315" src={imgSrc} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
           
             }
 

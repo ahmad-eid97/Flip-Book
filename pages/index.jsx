@@ -81,12 +81,9 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
 
           {
             ALL_PAGES.map((page, idx) => (
-              <div key={idx} className="demoPage">
-                {/* {console.log(page)} */}
-                {/* <h5>{ page.title }</h5> */}
-                {/* <h6 dangerouslySetInnerHTML={{ __html: page.details }}></h6> */}
-                {/* <img src={page.photo_file} alt="image" /> */}
-                <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details }} openQuiz={openQuiz} />
+              <div key={idx} className={`${page.title.split(" ")[0] === "Unit" ? 'unit' : ''} ${page.title.split(" ")[0] === "Lesson" ? 'lesson' : ''} demoPage`}>
+                {console.log(page)}
+                <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} />
               </div>
             ))
           }

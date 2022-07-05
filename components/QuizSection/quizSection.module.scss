@@ -9,23 +9,15 @@
     height: auto;
     align-items: center;
     position: relative;
+    transition: all 0.1s ease-in-out;
     img {
       position: relative;
       left: 0;
       top: 0;
       z-index: -1;
     }
-  }
-  iframe {
-    width: 100%;
-    min-width: 530px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    html, body {
-      height: unset !important;
-      margin: unset !important;
-      padding: unset !important;
+    &:hover {
+      border: 3px solid var(--main-color);
     }
   }
 }

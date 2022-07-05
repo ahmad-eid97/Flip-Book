@@ -2,6 +2,7 @@ import ImageSection from '../ImageSection/ImageSection';
 import TextSection from '../TextSection/TextSection';
 import VideoSection from '../VideoSection/VideoSection';
 import QuizSection from './../QuizSection/QuizSection';
+
 import cls from './page.module.scss';
 
 const Page = ({ data, openModal, openQuiz }) => {
@@ -49,9 +50,15 @@ const Page = ({ data, openModal, openQuiz }) => {
 
         <div>
 
-          <h2>{ data.title }</h2>
+          <div className={cls.title}>
 
-          <p dangerouslySetInnerHTML={{ __html: data.details }}></p>
+            <h2>{ data.title }</h2>
+
+            <p dangerouslySetInnerHTML={{ __html: data.details }}></p>
+
+          </div>
+
+          <img src={data.photo} alt="" />
 
         </div>
     
