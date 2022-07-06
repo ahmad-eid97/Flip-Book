@@ -1,29 +1,36 @@
-// import LineTo from 'react-lineto';
-
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import cls from './matching.module.scss';
 
 const Matching = ({ question }) => {
-  const [selected, setSelected] = useState(null);
-  
-  const startMatching = (e) => {
-    setSelected(1);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const canvas = useRef();
+
+  const drawCanvasLine = (from, to) => {
+    const ctx = canvas.current.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(0, from);
+    ctx.lineTo(300, to);
+    ctx.stroke();
   }
-  
-  const doMatching = (e) => {
-    const canvas = document.getElementById('matching_area');
-    const ctx = canvas.getContext('2d');
 
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(300, 75);
-    ctx.stroke();
+  const selectOption = (e, answer) => {
+    setSelectedOption({ element: e.target, answer });
+  }
 
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(300, 85);
-    ctx.stroke();
+  const drawLine = (e, ans) => {
+    const FROM_PARENT = document.querySelector(`.${cls.list}`).getBoundingClientRect().top;
+    const FROM_OPTION = selectedOption.element.getBoundingClientRect().top;
+    
+    const TO_PARENT = document.querySelector(`.${cls.match}`).getBoundingClientRect().top;
+    const TO_OPTION = e.target.getBoundingClientRect().top;
 
+    //= Check Answers
+    if (selectedOption.answer.answer_two_gap_match !== ans) {
+      return console.log('Wrong Answer');
+    }
+
+    //= Draw Correct Line
+    drawCanvasLine(FROM_OPTION - FROM_PARENT + 10, TO_OPTION - TO_PARENT + 10);
   }
 
   return (
@@ -37,7 +44,7 @@ const Matching = ({ question }) => {
 
           {question.answers.map((answer, idx) => (
 
-            <div key={idx} onClick={() => startMatching(idx + 1)}>
+            <div key={idx} onClick={(e) => selectOption(e, answer)}>
 
               <p className='A'>{ answer.title }</p>
 
@@ -47,25 +54,19 @@ const Matching = ({ question }) => {
 
         </div>
 
-        <canvas id="matching_area"></canvas>
+        <canvas id="matching_area" ref={canvas}></canvas>
 
         <div className={cls.match}>
 
           {question.answers.map((answer, idx) => (
 
-            <p className='B' key={idx} onClick={doMatching}>{ answer.answer_two_gap_match }</p>
+            <p className='B' onClick={(e) => drawLine(e, answer.answer_two_gap_match)} key={idx}>{ answer.answer_two_gap_match }</p>
 
           ))}
 
         </div>
 
       </div>
-      
-        {/* <div>
-          <div className="A">Element A</div>
-          <div className="B">Element B</div>
-          <LineTo from="A" to="B" />
-        </div> */}
 
     </div>
   )

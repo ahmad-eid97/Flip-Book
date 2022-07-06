@@ -31,12 +31,17 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
 
   }
 
-  const handleFields = (e, answer) => {
+  const handleFields = (e, idx) => {
 
     setAnswers({
       ...answers,
-      [e.target.name]: e.target.value
+      [idx]: {
+        ...answers[idx],
+        [e.target.name]: e.target.value
+      }
     })
+
+    console.log(answers)
 
   }
 
@@ -48,12 +53,12 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
 
       <h6>{`${'=>' + 'Fill in blank with right words'}`}</h6>
 
-      {question.answers.map((answer) => (
+      {question.answers.map((answer, idx) => (
 
         <div key={answer.id} className={cls.text}>
 
           {replaceReact(answer.title, /({dash})/g, (match, key) => (
-            <input type="text" placeholder='--------------------------------------' name={key} onChange={(e) => handleFields(e, answer)} />
+            <input type="text" placeholder='--------------------------------------' name={key} onChange={(e) => handleFields(e, idx)} />
           ))}
         
         </div>
