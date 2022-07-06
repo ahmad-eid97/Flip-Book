@@ -1,8 +1,13 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
+import { toast } from 'react-toastify';
+
 import cls from './matching.module.scss';
 
-const Matching = ({ question }) => {
+const Matching = ({ question, setOpenQuizModal }) => {
+  const [options, setOptions] = useState([])
   const [selectedOption, setSelectedOption] = useState(null);
+  const [allAnswers, setAllAnswers] = useState([])
   const canvas = useRef();
 
   const drawCanvasLine = (from, to) => {
@@ -24,14 +29,48 @@ const Matching = ({ question }) => {
     const TO_PARENT = document.querySelector(`.${cls.match}`).getBoundingClientRect().top;
     const TO_OPTION = e.target.getBoundingClientRect().top;
 
-    //= Check Answers
+    // Check Answers
     if (selectedOption.answer.answer_two_gap_match !== ans) {
-      return console.log('Wrong Answer');
+      return errorNotify('Wrong selection, try again!')
     }
 
-    //= Draw Correct Line
+    // Draw Correct Line
     drawCanvasLine(FROM_OPTION - FROM_PARENT + 10, TO_OPTION - TO_PARENT + 10);
+    setAllAnswers(prev => [...prev, ans])
   }
+
+  useEffect(() => {
+
+    var randomOptions = [];
+
+    for(var index = 0; index < question.answers.length; index++) {
+      var randomNum = Math.floor(Math.random() * question.answers.length);
+
+      if(randomOptions.find(option => option.id === question.answers[randomNum].id)) {
+        index--;
+        continue;
+      }
+      randomOptions.push(question.answers[randomNum])
+
+    }
+
+    setOptions(randomOptions)
+
+  }, [])
+
+  const submit = () => {
+    console.log(allAnswers)
+    console.log(question.answers.length)
+    if(allAnswers.length < question.answers.length) {
+      errorNotify('Select all answers before submit!')
+    } else {
+      setOpenQuizModal(false)
+      successNotify('Bravo, the answer is right')
+    }
+  }
+  
+  const successNotify = (message) => toast.success(message)
+  const errorNotify = (message) => toast.error(message)
 
   return (
     <div className={cls.matching}>
@@ -42,7 +81,7 @@ const Matching = ({ question }) => {
 
         <div className={cls.list}>
 
-          {question.answers.map((answer, idx) => (
+          {options.map((answer, idx) => (
 
             <div key={idx} onClick={(e) => selectOption(e, answer)}>
 
@@ -65,6 +104,12 @@ const Matching = ({ question }) => {
           ))}
 
         </div>
+
+      </div>
+
+      <div className={cls.btn}>
+
+        <button onClick={submit}>Submit</button>
 
       </div>
 

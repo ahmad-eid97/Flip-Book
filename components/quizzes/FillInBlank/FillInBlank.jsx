@@ -9,24 +9,36 @@ import cls from './fillInBlank.module.scss';
 
 const FillInBlank = ({ question, setOpenQuizModal }) => {
   const [answers, setAnswers] = useState({});
+  const [wrongAnswers, setWrongAnswers] = useState({})
 
   const submit = () => {
 
-    if(Object.values(answers).find(one => one === '')) {
-      errorNotify('OPS, wrong answer! try again')
-    } else {
-      const rightAnswers = question.answers[0].answer_two_gap_match.split('|');
-      const studentAnswers = Object.values(answers);
+    for(var prop in answers) {
 
-      console.log(rightAnswers)
-      console.log(studentAnswers)
+      const rightAnswers = question.answers[prop].answer_two_gap_match.split('|');
+      const studentAnswers = Object.values(answers[prop]);
 
-      if(rightAnswers.every((val, index) => val === studentAnswers[index])) {
-        successNotify('Bravo, the answer is right')
-        setOpenQuizModal(false)
-      } else {
+      if(Object.values(studentAnswers).find(one => one === '')) {
         errorNotify('OPS, wrong answer! try again')
+      } else {
+        console.log(rightAnswers)
+        console.log(studentAnswers)
+  
+        if(rightAnswers.every((val, index) => val === studentAnswers[index])) {
+          successNotify('Bravo, the answer is right')
+          setOpenQuizModal(false)
+        } else {
+          setWrongAnswers({
+            ...wrongAnswers,
+            [prop]: {
+              ...answers[prop]
+            }
+          })
+          console.log(wrongAnswers)
+          errorNotify('OPS, wrong answer! try again')
+        }
       }
+      
     }
 
   }
@@ -40,8 +52,6 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
         [e.target.name]: e.target.value
       }
     })
-
-    console.log(answers)
 
   }
 
@@ -58,7 +68,13 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
         <div key={answer.id} className={cls.text}>
 
           {replaceReact(answer.title, /({dash})/g, (match, key) => (
-            <input type="text" placeholder='--------------------------------------' name={key} onChange={(e) => handleFields(e, idx)} />
+            <input 
+              type="text" 
+              placeholder='--------------------------------------' 
+              name={key} 
+              onChange={(e) => handleFields(e, idx)} 
+              className={wrongAnswers[idx] && wrongAnswers[idx][key] ? cls.error : ''}
+            />
           ))}
         
         </div>
