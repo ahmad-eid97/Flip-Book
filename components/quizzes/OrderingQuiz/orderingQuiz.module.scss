@@ -1,12 +1,45 @@
 .orderingQuiz {
+  text-align: center !important;
+  h6 {
+    font-size: 1.3rem;
+  }
+  .answerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(226, 226, 226);
+    margin-bottom: 10px;
+    padding: 10px;
+    span {
+      font-size: 1rem;
+      margin: 0 10px;
+      padding: 5px 10px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(238, 238, 238);
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+    }
+    p {
+      margin: 0;
+    }
+  }
   .answers {
     margin-top: 30px;
+    display: grid;
+    justify-content: center;
     .box {
-      background-color: var(--main-color);
-      width: 300px;
-      color: #fff;
+      background-color: rgb(238, 238, 238);
+      width: auto;
+      min-width: 200px;
+      color: #000;
       border-radius: 2px;
-      padding: 5px 20px;
+      padding: 8px 20px;
+      font-size: 1.1rem;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     }
   }
 

@@ -16,6 +16,16 @@ a {
   box-sizing: border-box;
 }
 
+#en {
+  direction: ltr !important;
+  text-align: left;
+}
+
+#ar {
+  direction: rtl !important;
+  text-align: right;
+}
+
 .mainPage {
   display: flex;
   flex-direction: column;

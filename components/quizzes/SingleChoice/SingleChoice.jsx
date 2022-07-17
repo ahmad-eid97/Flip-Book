@@ -2,21 +2,35 @@ import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
+
 import cls from './singleChoice.module.scss';
 
 const SingleChoice = ({ question, idx, setOpenQuizModal }) => {
-  const [choosedAnswer, setChoosedAnswer] = useState(null)
+  const [choosedAnswer, setChoosedAnswer] = useState(null);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const submit = () => {
     if (choosedAnswer) {
       if(choosedAnswer.is_correct === '1') {
-        successNotify('Bravo, the answer is right')
-        setOpenQuizModal(false)
+        setTimeout(() => {
+          setOpenSuccess(false)
+          setOpenQuizModal(false)
+        }, 4000)
+        setOpenSuccess(true)
       } else {
-        errorNotify('OPS, wrong answer! try again')
+        setTimeout(() => {
+          setOpenWrong(false)
+        }, 4000)
+        setOpenWrong(true)
       }
     } else {
-      errorNotify('Solve questions before submit')
+      setTimeout(() => {
+        setOpenWrong(false)
+      }, 4000)
+      setOpenWrong(true)
     }
   }
 
@@ -26,14 +40,18 @@ const SingleChoice = ({ question, idx, setOpenQuizModal }) => {
   return (
     <div className={cls.singelChoice}>
 
-      <span>{idx + 1})</span> {question.title}
+      <h6><span>{idx + 1})</span> {question.title}</h6>
 
       <div className={cls.answers}>
 
         {question.answers.map((answer, idx) => (
           <p key={idx}>
 
-            <input type="radio" name={question.id} value={answer.title} onChange={() => setChoosedAnswer(answer)} /> {answer.title}
+            <span className={cls.num}>{idx + 1}</span>
+
+            <span>
+              <input type="radio" name={question.id} value={answer.title} onChange={() => setChoosedAnswer(answer)} /> {answer.title}
+            </span>
 
           </p>
         ))}
@@ -42,9 +60,12 @@ const SingleChoice = ({ question, idx, setOpenQuizModal }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

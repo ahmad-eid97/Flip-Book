@@ -5,17 +5,23 @@
     justify-content: center;
     p {
       font-weight: 600;
-      background-color: #ccc;
+      background-color: rgb(222, 222, 222);
       padding: 8px 10px;
       border-radius: 5px;
+      width: 150px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      text-align: center !important;
+      margin-top: 10px;
     }
 
     .list {
-      padding: 5px;
+      padding: 5px 15px;
+      background-color: rgb(238, 238, 238);
     }
 
     .match {
-      padding: 5px;
+      padding: 5px 15px;
+      background-color: rgb(238, 238, 238);
     }
   }
 

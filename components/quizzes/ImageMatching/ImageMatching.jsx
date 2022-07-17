@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import { toast } from 'react-toastify';
 
@@ -8,7 +10,9 @@ import cls from './imageMatching.module.scss';
 
 const DragQuiz = ({ question, setOpenQuizModal }) => {
   const [answers, setAnswers] = useState(question.answers);
-  const [titles, setTitles] = useState(question.answers.map(ans => ans.title))
+  const [titles, setTitles] = useState(question.answers.map(ans => ans.title));
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const handleOndragEnd = (result) => {
     if(!result.destination) return;
@@ -25,10 +29,16 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
     const studentAnswers = answers.map(ans => ans.title)
 
     if(rightAnswer.every((val, index) => val === studentAnswers[index])) {
-      successNotify('Bravo, the answer is right')
-      setOpenQuizModal(false)
+      setTimeout(() => {
+        setOpenSuccess(false)
+        setOpenQuizModal(false)
+      }, 4000)
+      setOpenSuccess(true)
     } else {
-      errorNotify('OPS, wrong answer! try again')
+      setTimeout(() => {
+        setOpenWrong(false)
+      }, 4000)
+      setOpenWrong(true)
     }
 
     console.log(studentAnswers)
@@ -58,59 +68,66 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
   return (
     <div className={cls.dragQuiz}>
 
-      <h6>{'=>' + question.title }</h6>
+      <h6> 1) { question.title }</h6>
 
-      <DragDropContext onDragEnd={handleOndragEnd}>
+      <div className={cls.wrapper}>
 
-        <Droppable droppableId="matching" className={cls.box} direction="horizontal">
+        <DragDropContext onDragEnd={handleOndragEnd}>
 
-          {(provided) => (
+          <Droppable droppableId="matching" className={cls.box} direction="horizontal">
 
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            {(provided) => (
 
-              {answers.map((answer, idx) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
 
-                <Draggable key={answer.id} draggableId={answer.id.toString()} index={idx} direction="horizontal">
+                {answers.map((answer, idx) => (
 
-                  {(provided) => (
+                  <Draggable key={answer.id} draggableId={answer.id.toString()} index={idx} direction="horizontal">
 
-                    <img src={ answer.answer_img } alt="answerImage" className={cls.box} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} />
+                    {(provided) => (
 
-                  )}
+                      <img src={ answer.answer_img } alt="answerImage" className={cls.box} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} />
 
-                </Draggable>
+                    )}
 
-              ))}
+                  </Draggable>
 
-              {provided.placeholder}
-            
-            </div>
+                ))}
 
-          )}
+                {provided.placeholder}
+              
+              </div>
 
-        </Droppable>
-        
-      </DragDropContext>
+            )}
 
-      <div className={cls.answers}>
+          </Droppable>
 
-        {titles.map((title, idx) => (
+        </DragDropContext>
 
-          <h6 key={idx}>
+        <div className={cls.answers}>
 
-            {title}
+          {titles.map((title, idx) => (
 
-          </h6>
+            <h6 key={idx}>
 
-        ))}
+              {title}
+
+            </h6>
+
+          ))}
+
+        </div>
 
       </div>
 
       <div className={cls.btn}>
 
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

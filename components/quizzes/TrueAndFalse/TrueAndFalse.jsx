@@ -2,11 +2,16 @@ import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
+
 import cls from './trueAndFalse.module.scss';
 
 const TrueAndFalse = ({ question, setOpenQuizModal }) => {
   const [answer, setAnswer] = useState('')
   const [state, setState] = useState('')
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const checkAnswer = (check, answer) => {
     setState(check)
@@ -16,13 +21,22 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
   const submit = () => {
     if (answer) {
       if(answer.is_correct === '1') {
-        successNotify('Bravo, the answer is right')
-        setOpenQuizModal(false)
+        setTimeout(() => {
+          setOpenSuccess(false)
+          setOpenQuizModal(false)
+        }, 4000)
+        setOpenSuccess(true)
       } else {
-        errorNotify('OPS, wrong answer! try again')
+        setTimeout(() => {
+          setOpenWrong(false)
+        }, 4000)
+        setOpenWrong(true)
       }
     } else {
-      errorNotify('Solve questions before submit')
+        setTimeout(() => {
+          setOpenWrong(false)
+        }, 4000)
+        setOpenWrong(true)
     }
   }
 
@@ -34,7 +48,7 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
 
       <div className={cls.question}>
 
-        <h6>{'=>' + question.title }</h6>
+        <h6> 1) { question.title }</h6>
 
         <div className={cls.checks}>
 
@@ -48,9 +62,12 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

@@ -1,11 +1,42 @@
+@import '../../../styles/mixins.scss';
+
 .multipleChoice {
-  span {
-    margin-right: 10px;
+  h6 {
+    font-size: 1.2rem;
+    text-align: center !important;
+    margin-bottom: 1.5rem;
+    span {
+      margin-right: 10px;
+    }
   }
   .answers {
     margin-top: 15px;
     display: flex;
     justify-content: space-between;
+    background-color: rgb(236, 236, 236);
+    padding: 10px 20px;
+    border-radius: 5px;
+    @include sm {
+      display: block;
+    }
+    p {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 5px 10px;
+      .num {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(238, 238, 238);
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        margin: 0 10px;
+      }
+    }
   }
 
   .btn {

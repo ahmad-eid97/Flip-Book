@@ -4,12 +4,17 @@ import { toast } from 'react-toastify';
 
 import { replaceReact } from "replace-react";
 
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
+
 import cls from './fillInBlank.module.scss';
 
 
 const FillInBlank = ({ question, setOpenQuizModal }) => {
   const [answers, setAnswers] = useState({});
   const [wrongAnswers, setWrongAnswers] = useState({})
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const submit = () => {
 
@@ -21,12 +26,13 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
       if(Object.values(studentAnswers).find(one => one === '')) {
         errorNotify('OPS, wrong answer! try again')
       } else {
-        console.log(rightAnswers)
-        console.log(studentAnswers)
   
         if(rightAnswers.every((val, index) => val === studentAnswers[index])) {
-          successNotify('Bravo, the answer is right')
-          setOpenQuizModal(false)
+          setTimeout(() => {
+            setOpenSuccess(false)
+            setOpenQuizModal(false)
+          }, 4000)
+          setOpenSuccess(true)
         } else {
           setWrongAnswers({
             ...wrongAnswers,
@@ -34,8 +40,10 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
               ...answers[prop]
             }
           })
-          console.log(wrongAnswers)
-          errorNotify('OPS, wrong answer! try again')
+          setTimeout(() => {
+            setOpenWrong(false)
+          }, 4000)
+          setOpenWrong(true)
         }
       }
       
@@ -61,7 +69,7 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
   return (
     <div className={cls.fillInBlank}>
 
-      <h6>{`${'=>' + 'Fill in blank with right words'}`}</h6>
+      <h6> 1) {`${'Fill in blank with right words'}`}</h6>
 
       {question.answers.map((answer, idx) => (
 
@@ -83,9 +91,12 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

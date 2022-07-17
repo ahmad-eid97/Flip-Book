@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
 
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
+
 import cls from './matching.module.scss';
 
 const Matching = ({ question, setOpenQuizModal }) => {
@@ -9,6 +12,8 @@ const Matching = ({ question, setOpenQuizModal }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [allAnswers, setAllAnswers] = useState([])
   const canvas = useRef();
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const drawCanvasLine = (from, to) => {
     const ctx = canvas.current.getContext('2d');
@@ -31,12 +36,16 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
     // Check Answers
     if (selectedOption.answer.answer_two_gap_match !== ans) {
-      return errorNotify('Wrong selection, try again!')
+      setTimeout(() => {
+        setOpenWrong(false)
+      }, 4000)
+      setOpenWrong(true)
+    } else {
+      // Draw Correct Line
+      drawCanvasLine(FROM_OPTION - FROM_PARENT + 5, TO_OPTION - TO_PARENT + 5);
+      setAllAnswers(prev => [...prev, ans])
     }
 
-    // Draw Correct Line
-    drawCanvasLine(FROM_OPTION - FROM_PARENT + 10, TO_OPTION - TO_PARENT + 10);
-    setAllAnswers(prev => [...prev, ans])
   }
 
   useEffect(() => {
@@ -62,10 +71,16 @@ const Matching = ({ question, setOpenQuizModal }) => {
     console.log(allAnswers)
     console.log(question.answers.length)
     if(allAnswers.length < question.answers.length) {
-      errorNotify('Select all answers before submit!')
+      setTimeout(() => {
+        setOpenWrong(false)
+      }, 4000)
+      setOpenWrong(true)
     } else {
-      setOpenQuizModal(false)
-      successNotify('Bravo, the answer is right')
+      setTimeout(() => {
+        setOpenSuccess(false)
+        setOpenQuizModal(false)
+      }, 4000)
+      setOpenSuccess(true)
     }
   }
   
@@ -109,9 +124,12 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

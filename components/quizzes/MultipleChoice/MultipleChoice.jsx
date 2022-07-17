@@ -2,10 +2,15 @@ import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
+
 import cls from './multipleChoice.module.scss';
 
 const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
   const [choosedAnswer, setChoosedAnswer] = useState([]);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const selectChoice = (answer) => {
 
@@ -21,13 +26,9 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
 
       choosedAnswers.splice(answerFound, 1)
 
-      console.log(choosedAnswers)
-
       setChoosedAnswer(choosedAnswers)
 
     }
-
-    console.log(choosedAnswer)
   }
 
   const submit = () => {
@@ -35,18 +36,24 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
 
       const rightAnswers = choosedAnswer.filter(ans => ans.is_correct === '0')
 
-      console.log(rightAnswers)
-
       if(rightAnswers.length >= 1) {
-        errorNotify('OPS, wrong answer! try again')
+        setTimeout(() => {
+          setOpenWrong(false)
+        }, 4000)
+        setOpenWrong(true)
       } else {
-        successNotify('Bravo, the answer is right')
-
-        setOpenQuizModal(false)
+        setTimeout(() => {
+          setOpenSuccess(false)
+          setOpenQuizModal(false)
+        }, 4000)
+        setOpenSuccess(true)
       }
 
     } else {
-      errorNotify('Solve questions before submit')
+      setTimeout(() => {
+        setOpenWrong(false)
+      }, 4000)
+      setOpenWrong(true)
     }
   }
 
@@ -56,14 +63,18 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
   return (
     <div className={cls.multipleChoice}>
 
-      <span>{idx + 1})</span> {question.title}
+      <h6><span>{idx + 1})</span> {question.title}</h6>
 
       <div className={cls.answers}>
 
         {question.answers.map((answer, idx) => (
           <p key={idx}>
 
-            <input type="checkbox" name={question.id} value={answer.title} onChange={() => selectChoice(answer)} /> {answer.title}
+            <span className={cls.num}>{idx + 1}</span>
+
+            <span>
+              <input type="checkbox" name={question.id} value={answer.title} onChange={() => selectChoice(answer)} /> {answer.title}
+            </span>
 
           </p>
         ))}
@@ -72,9 +83,12 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}>Submit</button>
+        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

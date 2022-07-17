@@ -2,14 +2,17 @@ import { useState, useEffect } from "react";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
+import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
+import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
+
 import { toast } from 'react-toastify';
 
 import cls from './orderingQuiz.module.scss';
 
 const OrderingQuiz = ({ question, setOpenQuizModal }) => {
   const [answers, setAnswers] = useState(question.answers)
-
-  console.log(question)
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openWrong, setOpenWrong] = useState(false);
 
   const handleOndragEnd = (result) => {
     if(!result.destination) return;
@@ -19,11 +22,7 @@ const OrderingQuiz = ({ question, setOpenQuizModal }) => {
     setAnswers(allAnswers)
   }
 
-  console.log(Math.floor(Math.random() * question.answers.length))
-
   useEffect(() => {
-
-    console.log(question)
 
     let randomAnswers = []
 
@@ -45,10 +44,16 @@ const OrderingQuiz = ({ question, setOpenQuizModal }) => {
     const answerArray = answers.map(answer => (answer.title))
     
     if(rightOrder.length === answerArray.length && rightOrder.every((val, index) => val === answerArray[index])) {
-      successNotify('Bravo, the answer is right')
-      setOpenQuizModal(false)
+      setTimeout(() => {
+        setOpenSuccess(false)
+        setOpenQuizModal(false)
+      }, 4000)
+      setOpenSuccess(true)
     } else {
-      errorNotify('OPS, wrong answer! try again')
+      setTimeout(() => {
+        setOpenWrong(false)
+      }, 4000)
+      setOpenWrong(true)
     }
   }
 
@@ -58,7 +63,7 @@ const OrderingQuiz = ({ question, setOpenQuizModal }) => {
   return (
     <div className={cls.orderingQuiz}>
 
-      <h6>{ '=>' + question.title }</h6>
+      <h6> 1) { question.title }</h6>
 
       <div className={cls.answers}>
 
@@ -76,11 +81,14 @@ const OrderingQuiz = ({ question, setOpenQuizModal }) => {
 
                     {(provided) => (
 
-                      <p className={cls.box} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                      <div className={cls.answerWrapper} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                        <span>{idx + 1}</span>
+                        <p className={cls.box}>
 
-                        { answer.title }
+                          { answer.title }
 
-                      </p>
+                        </p>
+                      </div>
 
                     )}
 
@@ -100,11 +108,14 @@ const OrderingQuiz = ({ question, setOpenQuizModal }) => {
 
         <div className={cls.btn}>
 
-          <button onClick={submit}>Submit</button>
+          <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
         </div>
 
       </div>
+
+      {openSuccess && <CorrectAnswer />}
+      {openWrong && <WrongAnswer />}
 
     </div>
   )

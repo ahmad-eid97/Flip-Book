@@ -65,7 +65,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
 
     <LayoutOne>
 
-      <div id={locale} className="mainPage">
+      <div className="mainPage" id={locale}>
 
         {/* <LangSwitch locale={locale} />
 
@@ -94,11 +94,11 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
 
         </HTMLFlipBook>
 
+        {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} />}
+
+        {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} />}
+
       </div>
-
-      {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} />}
-
-      {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} />}
 
     </LayoutOne>
 
