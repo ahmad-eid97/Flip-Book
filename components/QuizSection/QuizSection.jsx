@@ -7,8 +7,6 @@ const QuizSection = ({ section, openQuiz }) => {
     openQuiz(state, data)
   }
 
-  console.log(section)
-
   return (
     <div className={cls.quizSection}>
 

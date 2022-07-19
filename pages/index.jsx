@@ -60,18 +60,22 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
     // }
 
   }
+  
+  const test = (data) => {
+    console.log(data)
+  }
 
   return (
 
     <LayoutOne>
 
-      <div className="mainPage" id={locale}>
+      <div className="mainPage flipBook" id={locale}>
 
         {/* <LangSwitch locale={locale} />
 
         <h1><i className="fa-solid fa-house-user"></i> {t('welcome')}</h1> */}
 
-        <HTMLFlipBook ref={flipBook} width={550} height={650} showCover={true} flippingTime={1500} onFlip={flipPage} onChangeState={(e) => check(e)}>
+        <HTMLFlipBook usePortrait='true' ref={flipBook} width={550} height={650} showCover={true} flippingTime={1500} onFlip={flipPage} onChangeState={(e) => check(e)}>
           
           <div className="cover">
 
@@ -82,7 +86,6 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
           {
             ALL_PAGES.map((page, idx) => (
               <div key={idx} className={`${page.title.split(" ")[0] === "Unit" ? 'unit' : ''} ${page.title.split(" ")[0] === "Lesson" ? 'lesson' : ''} demoPage`}>
-                {console.log(page)}
                 <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} />
               </div>
             ))

@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
 
+import { useTranslation } from 'react-i18next';
+
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
@@ -14,12 +16,18 @@ const Matching = ({ question, setOpenQuizModal }) => {
   const canvas = useRef();
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const { i18n } = useTranslation();
 
   const drawCanvasLine = (from, to) => {
     const ctx = canvas.current.getContext('2d');
     ctx.beginPath();
-    ctx.moveTo(0, from);
-    ctx.lineTo(300, to);
+    if(i18n.language === 'ar') {
+      ctx.moveTo(0, to);
+      ctx.lineTo(300, from);
+    } else {
+      ctx.moveTo(0, from);
+      ctx.lineTo(300, to);
+    }
     ctx.stroke();
   }
 
@@ -29,13 +37,14 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
   const drawLine = (e, ans) => {
     const FROM_PARENT = document.querySelector(`.${cls.list}`).getBoundingClientRect().top;
-    const FROM_OPTION = selectedOption.element.getBoundingClientRect().top;
+    let FROM_OPTION;
+    if(selectedOption) FROM_OPTION = selectedOption.element.getBoundingClientRect().top;
     
     const TO_PARENT = document.querySelector(`.${cls.match}`).getBoundingClientRect().top;
     const TO_OPTION = e.target.getBoundingClientRect().top;
 
     // Check Answers
-    if (selectedOption.answer.answer_two_gap_match !== ans) {
+    if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
       setTimeout(() => {
         setOpenWrong(false)
       }, 4000)
@@ -90,7 +99,7 @@ const Matching = ({ question, setOpenQuizModal }) => {
   return (
     <div className={cls.matching}>
 
-      <h6>{ question.title }</h6>
+      <h6> 1 ) { question.title }</h6>
 
       <div className={`${cls.wrapper} wrapper`}>
 
@@ -98,9 +107,9 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
           {options.map((answer, idx) => (
 
-            <div key={idx} onClick={(e) => selectOption(e, answer)}>
+            <div key={idx} onClick={(e) => selectOption(e, answer)} className={cls.one}>
 
-              <p className='A'>{ answer.title }</p>
+              <p className='A'><span>{ answer.title }</span></p>
 
             </div>
 
@@ -114,7 +123,9 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
           {question.answers.map((answer, idx) => (
 
-            <p className='B' onClick={(e) => drawLine(e, answer.answer_two_gap_match)} key={idx}>{ answer.answer_two_gap_match }</p>
+            <div key={idx} className={cls.one}>
+              <p className='B' onClick={(e) => drawLine(e, answer.answer_two_gap_match)}><span>{ answer.answer_two_gap_match }</span></p>
+            </div>
 
           ))}
 

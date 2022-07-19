@@ -13,13 +13,21 @@
   }
   .box {
     margin-top: 20px;
-    margin-left: 60px;
+    margin-left: 61px;
+    &.ar {
+      margin-left: unset;
+      margin-right: 70px !important;
+    }
   } 
   .answers {
     display: flex;
     justify-content: space-evenly;
     margin-top: 20px;
     margin-left: 50px;
+    // &.ar {
+    //   margin-left: unset;
+    //   margin-right: 50px;
+    // }
     h6 {
       margin-right: 60px;
       font-size: 1.1rem;

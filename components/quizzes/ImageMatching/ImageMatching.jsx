@@ -4,15 +4,19 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
+import { useTranslation } from "next-i18next";
+
 import { toast } from 'react-toastify';
 
 import cls from './imageMatching.module.scss';
+import { i18n } from "next-i18next";
 
 const DragQuiz = ({ question, setOpenQuizModal }) => {
   const [answers, setAnswers] = useState(question.answers);
   const [titles, setTitles] = useState(question.answers.map(ans => ans.title));
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const { i18n } = useTranslation()
 
   const handleOndragEnd = (result) => {
     if(!result.destination) return;
@@ -74,7 +78,9 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
 
         <DragDropContext onDragEnd={handleOndragEnd}>
 
-          <Droppable droppableId="matching" className={cls.box} direction="horizontal">
+          {console.log(cls[i18n.language])}
+
+          <Droppable droppableId="matching" className={`${cls.box} ${cls[i18n.language]}`} direction="horizontal">
 
             {(provided) => (
 
@@ -86,7 +92,7 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
 
                     {(provided) => (
 
-                      <img src={ answer.answer_img } alt="answerImage" className={cls.box} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} />
+                      <img src={ answer.answer_img } alt="answerImage" className={`${cls.box} ${cls[i18n.language]}`} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} />
 
                     )}
 
@@ -104,7 +110,7 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
 
         </DragDropContext>
 
-        <div className={cls.answers}>
+        <div className={`${cls.answers} ${cls[i18n.language]}`}>
 
           {titles.map((title, idx) => (
 

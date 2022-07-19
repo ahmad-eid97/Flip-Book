@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }) {
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
           crossOrigin="anonymous"
         />
+        <title>Emicrolearn</title>
       </Head>
       
       <Script

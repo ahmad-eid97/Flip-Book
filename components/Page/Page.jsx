@@ -54,7 +54,7 @@ const Page = ({ data, openModal, openQuiz }) => {
 
             <h2>{ data.title }</h2>
 
-            <p dangerouslySetInnerHTML={{ __html: data.details }}></p>
+            <p dangerouslySetInnerHTML={{ __html: data.details }} className="label"></p>
 
           </div>
 

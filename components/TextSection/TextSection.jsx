@@ -1,15 +1,18 @@
 import { useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
+
 import cls from './textSection.module.scss';
 import { useEffect } from 'react';
 
 const TextSection = ({ title, details }) => {
   const [text, setText] = useState('');
-
+  const { i18n } = useTranslation()
+ 
   useEffect(() => {
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(details, 'text/html');
-    setText(doc.body.firstChild.firstChild.innerHTML);
+    // let parser = new DOMParser();
+    // let doc = parser.parseFromString(details, 'text/html');
+    // setText(doc.body.firstChild.firstChild.innerHTML);
   }, [])
 
   return (
@@ -17,7 +20,9 @@ const TextSection = ({ title, details }) => {
 
       <h5>{ title }</h5>
 
-      <mark>{text}</mark>
+      <mark className={cls[i18n.language]}>{details}</mark>
+
+      {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}
 
     </div>
   )
