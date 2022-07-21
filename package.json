@@ -25,6 +25,7 @@
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.12.2",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6"
   }
