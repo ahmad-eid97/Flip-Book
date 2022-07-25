@@ -11,6 +11,7 @@ const ShortAnswer = ({ question, setOpenQuizModal }) => {
   const [field, setField] = useState('')
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
 
   const submit = () => {
     
@@ -19,6 +20,7 @@ const ShortAnswer = ({ question, setOpenQuizModal }) => {
         setOpenWrong(false)
       }, 4000)
       setOpenWrong(true)
+      setWrongTries(prev => (prev += 1))
     } else {
       setTimeout(() => {
         setOpenSuccess(false)

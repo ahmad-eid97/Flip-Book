@@ -11,6 +11,7 @@ const SingleChoice = ({ question, idx, setOpenQuizModal }) => {
   const [choosedAnswer, setChoosedAnswer] = useState(null);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
 
   const submit = () => {
     if (choosedAnswer) {
@@ -31,6 +32,7 @@ const SingleChoice = ({ question, idx, setOpenQuizModal }) => {
         setOpenWrong(false)
       }, 4000)
       setOpenWrong(true)
+      setWrongTries(prev => (prev += 1))
     }
   }
 

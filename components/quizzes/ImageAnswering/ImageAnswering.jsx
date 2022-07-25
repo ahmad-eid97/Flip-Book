@@ -13,6 +13,7 @@ const ImageAnswering = ({ question, setOpenQuizModal }) => {
   const [fields, setFields] = useState({})
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
 
   const changeFields = (e) => {
     setFields({
@@ -38,6 +39,7 @@ const ImageAnswering = ({ question, setOpenQuizModal }) => {
           setOpenWrong(false)
         }, 4000)
         setOpenWrong(true)
+        setWrongTries(prev => (prev += 1))
       }
 
     }

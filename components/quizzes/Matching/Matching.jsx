@@ -16,6 +16,7 @@ const Matching = ({ question, setOpenQuizModal }) => {
   const canvas = useRef();
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
 
   const drawCanvasLine = (from, to) => {
@@ -49,6 +50,7 @@ const Matching = ({ question, setOpenQuizModal }) => {
         setOpenWrong(false)
       }, 4000)
       setOpenWrong(true)
+      setWrongTries(prev => (prev += 1))
     } else {
       // Draw Correct Line
       drawCanvasLine(FROM_OPTION - FROM_PARENT + 5, TO_OPTION - TO_PARENT + 5);
@@ -84,6 +86,7 @@ const Matching = ({ question, setOpenQuizModal }) => {
         setOpenWrong(false)
       }, 4000)
       setOpenWrong(true)
+      setWrongTries(prev => (prev += 1))
     } else {
       setTimeout(() => {
         setOpenSuccess(false)

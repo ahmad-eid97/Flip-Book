@@ -23,17 +23,14 @@ const TextSection = ({ title, details }) => {
 
     interval = setInterval(() => {
       timer += 1
+      setReadingTimer(timer)
     }, 1000)
-
-    setReadingTimer(timer)
   }
 
   const endHoverHandler = () => {
     clearInterval(interval)
-  }
-
-  const test = () => {
     console.log(readingTimer)
+
   }
 
   return (
@@ -41,7 +38,7 @@ const TextSection = ({ title, details }) => {
 
       <h5>{ title }</h5>
 
-      <mark className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler} onClick={test}>{details}</mark>
+      <mark className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
 
       {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}
 

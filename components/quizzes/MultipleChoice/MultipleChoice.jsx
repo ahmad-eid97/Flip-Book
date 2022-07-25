@@ -11,6 +11,7 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
   const [choosedAnswer, setChoosedAnswer] = useState([]);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
 
   const selectChoice = (answer) => {
 
@@ -41,6 +42,7 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
           setOpenWrong(false)
         }, 4000)
         setOpenWrong(true)
+        setWrongTries(prev => (prev += 1))
       } else {
         setTimeout(() => {
           setOpenSuccess(false)
@@ -54,6 +56,7 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal }) => {
         setOpenWrong(false)
       }, 4000)
       setOpenWrong(true)
+      setWrongTries(prev => (prev += 1))
     }
   }
 

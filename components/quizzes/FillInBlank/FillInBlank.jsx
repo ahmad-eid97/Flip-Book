@@ -15,6 +15,7 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
   const [wrongAnswers, setWrongAnswers] = useState({})
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
 
   const submit = () => {
 
@@ -24,7 +25,11 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
       const studentAnswers = Object.values(answers[prop]);
 
       if(Object.values(studentAnswers).find(one => one === '')) {
-        errorNotify('OPS, wrong answer! try again')
+        setTimeout(() => {
+          setOpenWrong(false)
+        }, 4000)
+        setOpenWrong(true)
+        setWrongTries(prev => (prev += 1))
       } else {
   
         if(rightAnswers.every((val, index) => val === studentAnswers[index])) {
@@ -44,6 +49,7 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
             setOpenWrong(false)
           }, 4000)
           setOpenWrong(true)
+          setWrongTries(prev => (prev += 1))
         }
       }
       
@@ -52,7 +58,6 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
   }
 
   const handleFields = (e, idx) => {
-
     setAnswers({
       ...answers,
       [idx]: {
@@ -60,7 +65,6 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
         [e.target.name]: e.target.value
       }
     })
-
   }
 
   const successNotify = (message) => toast.success(message)

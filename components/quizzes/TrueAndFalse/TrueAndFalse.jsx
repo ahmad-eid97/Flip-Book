@@ -12,6 +12,7 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
   const [state, setState] = useState('')
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
 
   const checkAnswer = (check, answer) => {
     setState(check)
@@ -31,12 +32,14 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
           setOpenWrong(false)
         }, 4000)
         setOpenWrong(true)
+        setWrongTries(prev => (prev += 1))
       }
     } else {
         setTimeout(() => {
           setOpenWrong(false)
         }, 4000)
         setOpenWrong(true)
+        setWrongTries(prev => (prev += 1))
     }
   }
 

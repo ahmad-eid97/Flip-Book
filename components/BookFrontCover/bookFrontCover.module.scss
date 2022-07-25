@@ -1,11 +1,12 @@
 .front {
   // background-color: #CAAA97;
   // background-color: var(--main-color);
-  background-color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #fff;
+  color: #000;
+  // height: 750px;
+  margin-top: 50%;
   
   img {
     height: 100%;

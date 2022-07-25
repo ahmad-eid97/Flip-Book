@@ -17,6 +17,7 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
   const [titles, setTitles] = useState(question.answers.map(ans => ans.title));
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
+  const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation()
 
   const handleOndragEnd = (result) => {
@@ -44,9 +45,8 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
         setOpenWrong(false)
       }, 4000)
       setOpenWrong(true)
+      setWrongTries(prev => (prev += 1))
     }
-
-    console.log(studentAnswers)
 
   }
 
