@@ -1,0 +1,34 @@
+.home {
+  direction: rtl !important;
+  text-align: right !important;
+  .wrapper {
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+    .one:nth-child(even) {
+      background-color: var(--forth-color);
+    }
+    .one:nth-child(odd) {
+      background-color: var(--first-color);
+    }
+    .one {
+      padding: 20px;
+      margin-top: 30px;
+      color: #fff;
+      text-align: center !important;
+      border-radius: 20px;
+      height: 200px;
+      grid-row: span 3;
+      grid-column: span 3;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      background-color: #fff;
+      cursor: pointer;
+      img {
+        width: 80px;
+      }
+    }
+  }
+}
