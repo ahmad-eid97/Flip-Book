@@ -53,10 +53,11 @@ a {
   border-radius: 5px;
   // background: url('../public/imgs/back.png');
   background-color: unset !important;
+  padding: 20px;
   img {
     width: 100%;
     height: 100%;
-    border-radius: 5px;
+    // border-radius: 5px;
   }
 }
 
@@ -124,6 +125,7 @@ a {
   // background-color: #CAAA97;
   padding: 0;
   background-color: #965A3B;
+  height: 100%;
   // background-color: var(--main-color);
   img {
     width: 100%;

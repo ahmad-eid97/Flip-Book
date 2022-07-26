@@ -2,11 +2,15 @@
   direction: rtl !important;
   text-align: right !important;
   .wrapper {
-    display: grid;
-    place-items: center;
-    grid-template-columns: repeat(auto-fit, 100px);
-    gap: 10px;
+    // display: grid;
+    // place-items: center;
+    // grid-template-columns: repeat(auto-fit, 100px);
+    // gap: 10px;
+    // justify-content: center;
+    display: flex;
     justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
     .one:nth-child(even) {
       background-color: var(--forth-color);
     }
@@ -17,10 +21,10 @@
       padding: 20px;
       margin-top: 30px;
       color: #fff;
+      flex: 0 0 calc(25% - 20px);
       text-align: center !important;
-      border-radius: 20px;
+      border-radius: 40px;
       height: 200px;
-      grid-column: span 3;
       width: 100%;
       display: grid;
       place-items: center;

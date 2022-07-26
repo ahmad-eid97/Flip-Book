@@ -4,10 +4,11 @@
   .wrapper {
     display: grid;
     place-items: center;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(auto-fit, 100px);
     gap: 10px;
+    justify-content: center;
     .one:nth-child(even) {
-      background-color: var(--forth-color);
+      background-color: var(--second-color);
     }
     .one:nth-child(odd) {
       background-color: var(--first-color);
@@ -17,10 +18,9 @@
       margin-top: 30px;
       color: #fff;
       text-align: center !important;
-      border-radius: 20px;
+      border-radius: 30px;
       height: 200px;
-      grid-row: span 3;
-      grid-column: span 3;
+      grid-column: span 2;
       width: 100%;
       display: grid;
       place-items: center;

@@ -41,8 +41,7 @@
         border-radius: 10px;
         box-shadow: -1px -1px 5px rgba($color: #000000, $alpha: .15);
         height: 100%;
-        background-color: #fff;
-        background-image: url('./assets/paper.jpg');
+        background: var(--flippyPaperSkin);
         background-size: cover;
         margin-right: 2px;
   
@@ -62,12 +61,22 @@
         top: 0;
         width: 0;
         height: 100%;
-        background-color: #fff;
+        background: var(--flippyPaperSkin);
         background-size: cover;
         z-index: 99;
-        background-image: url('./assets/paper.jpg');
         box-shadow: inset -10px 0 30px -7px rgba(0, 0, 0, .35);
         transition: width var(--flippyFlippingTime), right var(--flippyFlippingTime), left var(--flippyFlippingTime);
+        overflow: hidden;
+
+        & > div {
+          opacity: 0;
+        }
+
+        &.flipping {
+          & > div {
+            opacity: 1!important;
+          }
+        }
       }
   
       &.page_changer_right {
@@ -80,8 +89,8 @@
         &:hover {
           .flipped_page {
             left: unset;
-            right: 25px!important;
-            width: 25px!important;
+            right: 15px!important;
+            width: 15px!important;
           }
         }
       }
@@ -97,8 +106,8 @@
         &:hover {
           .flipped_page {
             right: unset;
-            left: 25px!important;
-            width: 25px!important;
+            left: 15px!important;
+            width: 15px!important;
           }
         }
       }
@@ -118,12 +127,10 @@
         height: 100%;
         top: 0;
         left: 0;
-        padding: 10px;
         color: #4d4d4d;
-        background-color: #fff;
         border: 4px solid var(--flippyBackSkin);
         border-left-width: 15px;
-        // background-image: url('./assets/paper.jpg');
+        background: var(--flippyPaperSkin);
         background-size: cover;
         overflow: hidden;
   
@@ -142,6 +149,18 @@
           z-index: 0;
           box-shadow: inset 10px 0 20px -7px rgba(0, 0, 0, .35);
           border: none;
+        }
+
+        * {
+          -webkit-user-drag: none;
+          -khtml-user-drag: none;
+          -moz-user-drag: none;
+          -o-user-drag: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -o-user-select: none;
+          user-select: none;
         }
       }
   
@@ -178,6 +197,9 @@
   
           &.front2 {
             border-color: transparent;
+            border: 10px solid var(--flippyBackSkin);
+            border-left: none;
+            border-radius: 5px;
           }
         }
       }
@@ -189,6 +211,11 @@
         width: 50%;
         left: 0%;
         visibility: hidden;
+
+        &.atBreakpoint {
+          width: 100%;
+          left: 0;
+        }
   
         .face {
           width: 100%;
@@ -224,6 +251,12 @@
       &.flipped.cover {
         width: 50%;
         left: 50%;
+
+        &.atBreakpoint {
+          width: 100%;
+          left: 0;
+        }
+
         .face:not(.front2) {
           transform: rotateY(-180deg);
         }
@@ -245,6 +278,7 @@
       &.flipped.cover_end {
         width: 100%;
         left: 0!important;
+
         .face {
           box-shadow: none;
           left: 0!important;
@@ -252,6 +286,10 @@
         .face:not(.front2) {
           transform: rotateY(0deg);
         }
+      }
+
+      &.flipping .face {
+        filter: blur(8px);
       }
     }
   
@@ -300,7 +338,7 @@
           &:hover {
             .flipped_page {
               right: unset!important;
-              left: 25px!important;
+              left: 15px!important;
             }
           }
         }
@@ -316,7 +354,7 @@
           &:hover {
             .flipped_page {
               left: unset!important;
-              right: 25px!important;
+              right: 15px!important;
             }
           }
         }
@@ -352,6 +390,11 @@
             left: unset!important;
             right: 0!important;
             transform-origin: right;
+
+            &.front2 {
+              border-left: 10px solid var(--flippyBackSkin);
+              border-right: none;
+            }
           }
         }
     
@@ -385,6 +428,12 @@
         &.flipped.cover {
           left: unset;
           right: 50%;
+
+          &.atBreakpoint {
+            left: 0;
+            right: unset;
+          }
+
           .face:not(.front2) {
             transform: rotateY(180deg);
           }

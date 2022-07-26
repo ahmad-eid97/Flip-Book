@@ -91,6 +91,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
             pageHeight={650}
             rtl={true}
             backSkin="#965A3B"
+            pageSkin="#fff"
             breakpoint={992}
             flippingTime={500}
             disableSound={false}

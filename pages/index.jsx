@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 
 import Navbar from '../components/home/Navbar/Navbar';
@@ -6,9 +7,12 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { langRedirection } from './../Utils/redirections/langRedirection/langRedirection';
 
+import axios from '../Utils/axios';
+
 import cls from './home.module.scss';
 
-export default function Home({ locale }) {
+export default function Home({ locale, levels }) {
+  console.log(levels)
   return (
     <div className={cls.home}>
 
@@ -16,35 +20,14 @@ export default function Home({ locale }) {
 
       <div className={`${cls.wrapper} container`}>
 
-        <div className={cls.one}>
-          <img src="/imgs/one.png" alt="bookCover" />
-          <h4>الصف الأول</h4>
-        </div>
+        {levels.map(level => (
 
-        <div className={cls.one}>
-          <img src="/imgs/two.png" alt="bookCover" />
-          <h4>الصف الثاني</h4>
-        </div>
+          <div key={level.id} className={cls.one}>
+            <img src="/imgs/one.png" alt="bookCover" />
+            <h4>{level.title}</h4>
+          </div>
 
-        <div className={cls.one}>
-          <img src="/imgs/three.png" alt="bookCover" />
-          <h4>الصف الثالث</h4>
-        </div>
-
-        <div className={cls.one}>
-          <img src="/imgs/four.png" alt="bookCover" />
-          <h4>الصف الرابع</h4>
-        </div>
-
-        <div className={cls.one}>
-          <img src="/imgs/five.png" alt="bookCover" />
-          <h4>الصف الخامس</h4>
-        </div>
-
-        <div className={cls.one}>
-          <img src="/imgs/six.png" alt="bookCover" />
-          <h4>الصف السادس</h4>
-        </div>
+        ))}
 
       </div>
 
@@ -58,9 +41,17 @@ export async function getServerSideProps({ req, locale }) {
 
   if( languageRedirection ) return languageRedirection;
 
+  let levels = []
+
+  let LEVELS = await axios.get(`/crm/levels?lang=${locale}`);
+
+  if (LEVELS) levels = LEVELS.data.data.levels; 
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common']))
+      ...(await serverSideTranslations(locale, ['common'])),
+      locale,
+      levels
     }
   }
 } 
