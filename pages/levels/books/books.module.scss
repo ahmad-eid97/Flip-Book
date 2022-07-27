@@ -1,3 +1,5 @@
+@import '../../../styles/mixins.scss';
+
 .books {
   direction: rtl !important;
   text-align: right !important;
@@ -6,14 +8,22 @@
   .wrapper {
     padding: 0;
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    justify-content: center !important;
-    justify-items: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    place-content: center;
-    place-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    @include xs {
+      gap: 20px;
+      // display: grid;
+      // grid-template-columns: repeat(2, 1fr);
+      // width: 90%;
+      // margin: auto;
+      // .book {
+      //   grid-column: span 1;
+      //   margin: 0 0px;
+      // }
+    }
     .book {
       margin-top: 30px;
       margin-bottom: 10px;
@@ -28,6 +38,7 @@
       overflow: hidden;
       display: grid;
       grid-column: span 1;
+      flex: 0 0 calc(20% - 20px);
       img {
         width: 100%;
         height: 250px;
@@ -36,6 +47,25 @@
       h5 {
         margin-bottom: 20px;
         font-weight: 500;
+      }
+      @include md {
+        flex: 0 0 calc(33.33% - 20px);
+      }
+      @include sm {
+        flex: 0 0 calc(50% - 20px);
+      }
+      @include xs {
+        flex: 0 0 calc(50% - 20px) !important;
+        min-width: 100px;
+        img {
+          width: 100%;
+          height: 200px;
+          margin-bottom: 10px;
+        }
+        h5 {
+          font-size: 0.9rem;
+          margin-bottom: 10px;
+        }
       }
     }
   }

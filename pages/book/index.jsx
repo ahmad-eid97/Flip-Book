@@ -12,6 +12,7 @@ import axios from '../../Utils/axios';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { langRedirection } from '../../Utils/redirections/langRedirection/langRedirection';
+import { routeRedirection } from '../../Utils/redirections/routeRedirection/routeRedirection';
 
 import HTMLFlipBook from 'react-pageflip';
 
@@ -116,11 +117,15 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
   )
 }
 
-export async function getServerSideProps({ req, locale }) {
+export async function getServerSideProps({ req, locale, resolvedUrl }) {
 
   const languageRedirection = langRedirection(req, locale)
 
+  const routerRedirection = routeRedirection(req, resolvedUrl)
+
   if( languageRedirection ) return languageRedirection;
+
+  if( routerRedirection ) return routerRedirection;
 
   // FETCH PAGES FOR BOOK
   let bookId = 1;

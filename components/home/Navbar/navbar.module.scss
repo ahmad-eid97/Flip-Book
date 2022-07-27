@@ -1,10 +1,11 @@
 .navbar {
-  background-color: var(--second-color);
+  background-color: var(--first-color);
   border-bottom: 1px solid #e5e5e5;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
   position: relative;
   z-index: 1;
+  margin-bottom: 30px;
   h5 {
     color: #fff;
     text-align: center !important;

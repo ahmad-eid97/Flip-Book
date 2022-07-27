@@ -6,13 +6,36 @@ import Navbar from '../components/home/Navbar/Navbar';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { langRedirection } from './../Utils/redirections/langRedirection/langRedirection';
+import { routeRedirection } from './../Utils/redirections/routeRedirection/routeRedirection';
 
 import axios from '../Utils/axios';
 
 import cls from './home.module.scss';
 
 export default function Home({ locale, levels }) {
-  console.log(levels)
+
+  const renderImages = (idx) => {
+    switch (idx) {
+      case idx = 0:
+      return <img src="/imgs/one.png" alt="number" />
+      
+      case idx = 1:
+      return <img src="/imgs/two.png" alt="number" />
+      
+      case idx = 2:
+      return <img src="/imgs/three.png" alt="number" />
+      
+      case idx = 3:
+      return <img src="/imgs/four.png" alt="number" />
+      
+      case idx = 4:
+      return <img src="/imgs/five.png" alt="number" />
+      
+      case idx = 5:
+      return <img src="/imgs/six.png" alt="number" />
+    }
+  }
+
   return (
     <div className={cls.home}>
 
@@ -20,10 +43,11 @@ export default function Home({ locale, levels }) {
 
       <div className={`${cls.wrapper} container`}>
 
-        {levels.map(level => (
+        {levels.map((level, idx) => (
 
           <div key={level.id} className={cls.one}>
-            <img src="/imgs/one.png" alt="bookCover" />
+            {renderImages(idx)}
+            {/* <span>{idx + 1}</span> */}
             <h4>{level.title}</h4>
           </div>
 
@@ -35,11 +59,15 @@ export default function Home({ locale, levels }) {
   )
 }
 
-export async function getServerSideProps({ req, locale }) {
+export async function getServerSideProps({ req, locale, resolvedUrl }) {
 
   const languageRedirection = langRedirection(req, locale)
 
+  const routerRedirection = routeRedirection(req, resolvedUrl)
+
   if( languageRedirection ) return languageRedirection;
+
+  if( routerRedirection ) return routerRedirection;
 
   let levels = []
 
