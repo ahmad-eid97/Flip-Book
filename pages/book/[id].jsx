@@ -117,7 +117,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
   )
 }
 
-export async function getServerSideProps({ req, locale, resolvedUrl }) {
+export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
 
   const languageRedirection = langRedirection(req, locale)
 
@@ -127,17 +127,19 @@ export async function getServerSideProps({ req, locale, resolvedUrl }) {
 
   if( routerRedirection ) return routerRedirection;
 
+  console.log(query)
+
   // FETCH PAGES FOR BOOK
   let bookId = 1;
 
   let book = {}
 
-  const bookResponse = await axios.get(`/crm/books/${bookId}?lang=${locale}`).catch(err => console.log(err));
+  const bookResponse = await axios.get(`/crm/books/${query.id}?lang=${locale}`).catch(err => console.log(err));
 
   if(bookResponse) book = bookResponse.data.data;
 
   // FETCH BOOK UNITS
-  let bookPages = []
+  let bookPages = [];
 
   const unitsResponse = await axios.get(`/crm/books/all_pages_by_page_index/${bookId}?lang=${locale}`).catch(err => console.log(err));
 

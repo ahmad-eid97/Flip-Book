@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import Cookies from 'universal-cookie';
 
@@ -18,19 +19,22 @@ const cookie = new Cookies()
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const router = useRouter();
   const { i18n } = useTranslation()
 
   const login = async () => {
     if(email && password) {
-      console.log({email, password})
       const response = await axios.post('/crm/students/auth/login', {email, password}).catch(err => console.log(err));
 
-      if (!response) return;
-
-      // cookie.set('EmicrolearnAuth', response.data.token)
+      if (!response || !response.data) return;
 
       console.log(response)
+
+      cookie.set('EmicrolearnAuth', response.data.data.access_token, {path: '/'});
+
+      setTimeout(() => {
+        router.push('/home')
+      }, 100)
     }
   }
 

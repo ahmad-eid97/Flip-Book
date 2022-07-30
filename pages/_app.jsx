@@ -1,5 +1,9 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Script from "next/script";
+import { useRouter } from "next/router";
+
+import Loader from "../components/Loader/Loader";
 
 import { appWithTranslation } from "next-i18next";
 
@@ -8,9 +12,32 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import '../public/css/all.min.css';
 import '../styles/globals.scss';
-import '../styles/variables.scss'
+import '../styles/variables.scss';
+
+
+// Router.events.on('routeChangeStart', () => {
+//   console.log('change starts')
+// })
+
+// Router.events.on('routeChangeComplete', () => {
+//   console.log('change ended')
+// })
 
 function MyApp({ Component, pageProps }) {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", () => {
+      setLoading(true)
+      console.log("routeChangeStart");
+    });
+    router.events.on("routeChangeComplete", () => {
+      setLoading(false)
+      console.log("routeChangeComplete");
+    });
+  }, [router.events]);
+
   return (
     <>
 
@@ -44,7 +71,13 @@ function MyApp({ Component, pageProps }) {
         pauseOnHover
       />
 
-      <Component {...pageProps} />
+      <div style={{ position: 'relative' }}>
+      
+        {loading && <Loader />}
+
+        <Component {...pageProps} />
+
+      </div>
 
     </>
   )

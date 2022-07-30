@@ -3,7 +3,7 @@ export const routeRedirection = (req, resolvedUrl) => {
 
   const requireNoAuthRoutes = ['/signup', '/login'];
 
-  const requireAuthRoutes = ['/levels', '/levels/books', '/book'];
+  const requireAuthRoutes = ['/home', '/levels', '/levels/books', '/book'];
 
   const requireNoAuth = requireNoAuthRoutes.find(route => resolvedUrl.startsWith(route));
 
@@ -12,7 +12,7 @@ export const routeRedirection = (req, resolvedUrl) => {
   if(authenticated && requireNoAuth) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/home',
         permanent: false
       }
     }

@@ -1,6 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import Navbar from '../../../components/home/Navbar/Navbar';
+
+import axios from '../../../Utils/axios';
 
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -9,7 +13,9 @@ import { routeRedirection } from './../../../Utils/redirections/routeRedirection
 
 import cls from './books.module.scss';
 
-export default function Books({ locale }) {
+export default function Books({ locale, books }) {
+  const router = useRouter();
+
   return (
     <div className={cls.books}>
 
@@ -19,15 +25,14 @@ export default function Books({ locale }) {
 
         <div className={cls.wrapper}>
 
-          <div className={cls.book}>
-            <img src="/imgs/bookCover2.jpg" alt="bookCover" />
-            <h5>التربية الإسلامية</h5>
-          </div>
+          {books.map(book => (
 
-          <div className={cls.book}>
-            <img src="/imgs/bookCover.png" alt="bookCover" />
-            <h5>الرياضيات</h5>
-          </div>
+            <div key={book.id} className={cls.book} onClick={() => router.push(`/book/${book.id}`)}>
+              <img src={book.logo_file} alt="bookCover" />
+              <h5>{book.title}</h5>
+            </div>
+
+          ))}
 
         </div>
 
@@ -37,7 +42,7 @@ export default function Books({ locale }) {
   )
 }
 
-export async function getServerSideProps({ req, locale, resolvedUrl }) {
+export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
 
   const languageRedirection = langRedirection(req, locale)
 
@@ -47,9 +52,19 @@ export async function getServerSideProps({ req, locale, resolvedUrl }) {
 
   if( routerRedirection ) return routerRedirection;
 
+  const { level, semester } = query;
+
+  let books = []
+
+  let BOOKS = await axios.get(`/crm/books?lang=${locale}&semester_id=${semester}&level_id=${level}`);
+
+  if (BOOKS) books = BOOKS.data.data.books; 
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common']))
+      ...(await serverSideTranslations(locale, ['common'])),
+      locale,
+      books
     }
   }
 } 
