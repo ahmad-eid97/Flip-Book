@@ -49,6 +49,8 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
   return (
     <div className={cls.trueAndFalse}>
 
+      <h6>ضع علامة صح او خطأ امام الاجابه المناسبه</h6>
+
       <div className={cls.question}>
 
         <h6> 1) { question.title }</h6>
@@ -63,11 +65,11 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
 
       </div>
 
-      <div className={cls.btn}>
+      {/* <div className={cls.btn}>
 
         <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
-      </div>
+      </div> */}
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}

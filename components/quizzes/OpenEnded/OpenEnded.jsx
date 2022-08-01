@@ -40,11 +40,11 @@ const OpenEnded = ({ question, setOpenQuizModal }) => {
 
       <input type="text" placeholder='Type your answer' value={field} onChange={(e) => setField(e.target.value)} />
 
-      <div className={cls.btn}>
+      {/* <div className={cls.btn}>
 
         <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
-      </div>
+      </div> */}
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}

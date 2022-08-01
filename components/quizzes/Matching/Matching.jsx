@@ -136,11 +136,11 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
       </div>
 
-      <div className={cls.btn}>
+      {/* <div className={cls.btn}>
 
         <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
-      </div>
+      </div> */}
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}

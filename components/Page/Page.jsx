@@ -5,13 +5,15 @@ import VideoSection from '../VideoSection/VideoSection';
 import QuizSection from './../QuizSection/QuizSection';
 
 import cls from './page.module.scss';
+import { useEffect } from 'react';
 
-const Page = ({ data, openModal, openQuiz, index }) => {
+const Page = ({ data, openModal, openQuiz, index, setSectionId }) => {
 
   const renderSection = (type, section) => {
+    setSectionId(section.id)
     if(type === 'text') {
 
-      return <TextSection title={section.title} details={section.details} />
+      return <TextSection title={section.title} details={section.details} sectionId={section.id} />
 
     } else if (type === 'image') {
 
@@ -27,6 +29,9 @@ const Page = ({ data, openModal, openQuiz, index }) => {
 
     }
   }
+
+  useEffect(() => {
+  })
 
   return (
     <div className={cls.page}>

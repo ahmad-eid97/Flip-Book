@@ -17,6 +17,7 @@ import { routeRedirection } from '../../Utils/redirections/routeRedirection/rout
 import HTMLFlipBook from 'react-pageflip';
 
 export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPagesAll }) {
+  const [allBookPages, setAllBookPages] = useState(ALL_PAGES)
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
   const [allPages, setAllPages] = useState(pages);
@@ -24,8 +25,10 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
   const [openQuizModal, setOpenQuizModal] = useState(false);
   const [previewData, setPreviewData] = useState();
   const [previewType, setPreviewType] = useState();
+  const [sectionId, setSectionId] = useState();
   const [quizData, setQuizData] = useState();
   const [isLoad, setIsLoad] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1)
 
   console.log(allPagesAll)
 
@@ -61,17 +64,20 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
 
   const bookPages = [
     bookCover,
-    ...ALL_PAGES.map((page, idx) => (
+    ...allBookPages.map((page, idx) => (
       <div key={idx} className={`${page.title.split(" ")[0] === "Unit" ? 'unit' : ''} ${page.title.split(" ")[0] === "Lesson" ? 'lesson' : ''} demoPage`}>
-        {/* {console.log(page)} */}
-        <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} index={idx} />
+        <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} index={idx} setSectionId={setSectionId} />
       </div>
     )),
     bookEnd
   ]
 
-  const goToNextPage = () => {
-
+  const goToNextPage = (pageNum) => {
+    console.log(pageNum)
+    if(pageNum === 20) {
+      setPageNumber(pageNumber += 1)
+      console.log('here **************************************')
+    }
   }
 
   const goToPrevPage = () => {
@@ -99,7 +105,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
             breakpoint={992}
             flippingTime={500}
             disableSound={false}
-            flipNext={goToNextPage}
+            flipNext={(pageNum) => goToNextPage(pageNum)}
             flipPrev={goToPrevPage}
             ref={flippy}
           >
@@ -109,7 +115,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
           </Flippy>
         }
 
-        {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} />}
+        {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} sectionId={sectionId} />}
 
         {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} />}
 
