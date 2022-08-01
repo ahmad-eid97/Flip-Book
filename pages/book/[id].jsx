@@ -16,7 +16,7 @@ import { routeRedirection } from '../../Utils/redirections/routeRedirection/rout
 
 import HTMLFlipBook from 'react-pageflip';
 
-export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
+export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPagesAll }) {
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
   const [allPages, setAllPages] = useState(pages);
@@ -26,6 +26,8 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
   const [previewType, setPreviewType] = useState();
   const [quizData, setQuizData] = useState();
   const [isLoad, setIsLoad] = useState(false);
+
+  console.log(allPagesAll)
 
   useEffect(() => {
     setIsLoad(true);
@@ -61,7 +63,8 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
     bookCover,
     ...ALL_PAGES.map((page, idx) => (
       <div key={idx} className={`${page.title.split(" ")[0] === "Unit" ? 'unit' : ''} ${page.title.split(" ")[0] === "Lesson" ? 'lesson' : ''} demoPage`}>
-        <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} />
+        {/* {console.log(page)} */}
+        <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} index={idx} />
       </div>
     )),
     bookEnd
@@ -91,7 +94,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES }) {
             pageWidth={550}
             pageHeight={650}
             rtl={true}
-            backSkin="#965A3B"
+            backSkin="#088a19"
             pageSkin="#fff"
             breakpoint={992}
             flippingTime={500}
@@ -143,27 +146,12 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
 
   const unitsResponse = await axios.get(`/crm/books/all_pages_by_page_index/${bookId}?lang=${locale}`).catch(err => console.log(err));
 
-  // EASY BEASY => FLAT ARRAY  ====>   FLAT MEANS CONVERT CHILDREN TO SIBLINGS
-  // var ALL_PAGES = [];
-  // if(unitsResponse) {
-  //   bookPages = unitsResponse.data.data.pages;
-  //   bookPages.forEach(page => {
-  //     ALL_PAGES.unshift({ ...page, lessons: null });
-
-  //     page.lessons.forEach(lesson => {
-  //       ALL_PAGES.unshift({ ...lesson, pages: null });
-        
-  //       lesson.units.forEach(unit => {
-  //         ALL_PAGES.unshift(unit);
-  //       })
-  //     })
-  //   });
-  // }
-
   var ALL_PAGES = [];
+  var allPagesAll = []
   if(unitsResponse) {
     bookPages = unitsResponse.data.data.pages;
-    bookPages.sort((a, b) => a.id - b.id);
+    allPagesAll = unitsResponse.data
+    // bookPages.sort((a, b) => a.id - b.id);
     bookPages.forEach(async page => {
       const unitFound = ALL_PAGES.findIndex(pa => pa.title === page.lesson.unit.title && !pa.unit && !pa.lesson)
       if(unitFound <= -1) ALL_PAGES.push({ ...page.lesson.unit });
@@ -199,7 +187,8 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
       pages,
       pagesLinks,
       pagesMeta,
-      ALL_PAGES
+      ALL_PAGES,
+      allPagesAll
     }
   }
 } 

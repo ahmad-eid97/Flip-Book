@@ -3,10 +3,11 @@
   border: 1px solid rgb(230, 230, 230);
   margin: 5px;
   border-radius: 5px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Amiri', serif !important;
+  // box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 
   mark.en {
-    font-size: 1rem !important;
+    font-size: 1.2em !important;
     background-color: transparent;
     /* background must be of type background image not color so we can animate it (Notice: linear-gradient is an background-image && second color is opacity: 0 coz we only need one color to highlight be we have to make it of type image got me ?)*/
     background: linear-gradient(90deg, #dfbf09 50%, rgba(255, 255, 255, 0) 50%);
@@ -26,7 +27,7 @@
   }
 
   mark.ar {
-    font-size: 1rem !important;
+    font-size: 1.2rem !important;
     background-color: transparent;
     /* background must be of type background image not color so we can animate it (Notice: linear-gradient is an background-image && second color is opacity: 0 coz we only need one color to highlight be we have to make it of type image got me ?)*/
     background: linear-gradient(270deg, #dfbf09 50%, rgba(255, 255, 255, 0) 50%);

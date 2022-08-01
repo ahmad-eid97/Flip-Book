@@ -1,6 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import cls from './videoSection.module.scss';
 
-const VideoSection = ({ video, openModal }) => {
+const VideoSection = ({ video, openModal, data }) => {
+
+  console.log(data)
 
   const openPreview = (state, data, type) => {
     openModal(state, data, type)
@@ -8,13 +11,10 @@ const VideoSection = ({ video, openModal }) => {
 
   return (
     <div className={cls.videoSection}>
-      
-      {/* <button onClick={() => openPreview(true, video, 'video')}><iframe style={{ pointerEvents: 'none', borderRadius: '5px', margin: 'auto' }} width="90%" height="415" src={video} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe></button> */}
-      
+      <span>{data.title}</span>
       <button className='wrapper' onClick={() => openPreview(true, video, 'video')}>
         <img src="/imgs/video.png" alt="" />
       </button>
-
     </div>
   )
 }

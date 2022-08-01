@@ -36,7 +36,7 @@ const TextSection = ({ title, details }) => {
   return (
     <div className={cls.textSection}>
 
-      <h5>{ title }</h5>
+      {/* <h5>{ title }</h5> */}
 
       <mark className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
 

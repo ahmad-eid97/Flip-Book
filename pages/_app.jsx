@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-page-custom-font */
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Script from "next/script";
@@ -50,6 +51,7 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="anonymous"
         />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
         <title>Emicrolearn</title>
       </Head>
       

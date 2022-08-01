@@ -73,7 +73,7 @@ const FillInBlank = ({ question, setOpenQuizModal }) => {
   return (
     <div className={cls.fillInBlank}>
 
-      <h6> 1) {`${'Fill in blank with right words'}`}</h6>
+      <h6> 1) {`${'أكمل الفراغات التاليه بالاجابات المناسبة'}`}</h6>
 
       {question.answers.map((answer, idx) => (
 
