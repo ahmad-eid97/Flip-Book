@@ -9,10 +9,15 @@ import { useTranslation } from "next-i18next";
 
 import { toast } from 'react-toastify';
 
-import cls from './imageMatching.module.scss';
-import { i18n } from "next-i18next";
+import axios from '../../../Utils/axios';
 
-const DragQuiz = ({ question, setOpenQuizModal }) => {
+import Cookies from 'universal-cookie';
+
+import cls from './imageMatching.module.scss';
+
+const cookie = new Cookies();
+
+const DragQuiz = ({ question, setOpenQuizModal, attemptIp }) => {
   const [answers, setAnswers] = useState(question.answers);
   const [titles, setTitles] = useState(question.answers.map(ans => ans.title));
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -28,25 +33,40 @@ const DragQuiz = ({ question, setOpenQuizModal }) => {
     setAnswers(allAnswers)
   }
 
-  const submit = () => {
-
-    const rightAnswer = [...titles]
-
-    const studentAnswers = answers.map(ans => ans.title)
-
-    if(rightAnswer.every((val, index) => val === studentAnswers[index])) {
-      setTimeout(() => {
-        setOpenSuccess(false)
-        setOpenQuizModal(false)
-      }, 4000)
-      setOpenSuccess(true)
-    } else {
-      setTimeout(() => {
-        setOpenWrong(false)
-      }, 4000)
-      setOpenWrong(true)
-      setWrongTries(prev => (prev += 1))
+  const submit = async () => {
+    const data = {
+      quiz_attempt_id: attemptIp,
+      question_id: question.id,
+      given_answer: answers
     }
+
+    console.log(data)
+
+    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+      headers: {
+        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+      }
+    }).catch(err => console.log(err));
+
+    if(!response) return;
+
+    // const rightAnswer = [...titles]
+
+    // const studentAnswers = answers.map(ans => ans.title)
+
+    // if(rightAnswer.every((val, index) => val === studentAnswers[index])) {
+    //   setTimeout(() => {
+    //     setOpenSuccess(false)
+    //     setOpenQuizModal(false)
+    //   }, 4000)
+    //   setOpenSuccess(true)
+    // } else {
+    //   setTimeout(() => {
+    //     setOpenWrong(false)
+    //   }, 4000)
+    //   setOpenWrong(true)
+    //   setWrongTries(prev => (prev += 1))
+    // }
 
   }
 

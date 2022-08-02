@@ -17,7 +17,7 @@ import { routeRedirection } from '../../Utils/redirections/routeRedirection/rout
 import HTMLFlipBook from 'react-pageflip';
 
 export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPagesAll }) {
-  const [allBookPages, setAllBookPages] = useState(ALL_PAGES)
+  const [allBookPages, setAllBookPages] = useState(ALL_PAGES);
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
   const [allPages, setAllPages] = useState(pages);
@@ -28,7 +28,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
   const [sectionId, setSectionId] = useState();
   const [quizData, setQuizData] = useState();
   const [isLoad, setIsLoad] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1);
 
   console.log(allPagesAll)
 
@@ -117,7 +117,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
 
         {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} sectionId={sectionId} />}
 
-        {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} />}
+        {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} sectionId={sectionId} />}
 
       </div>
 

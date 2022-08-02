@@ -9,7 +9,7 @@ import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import cls from './matching.module.scss';
 
-const Matching = ({ question, setOpenQuizModal }) => {
+const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
   const [options, setOptions] = useState([])
   const [selectedOption, setSelectedOption] = useState(null);
   const [allAnswers, setAllAnswers] = useState([])
@@ -78,9 +78,26 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
   }, [])
 
-  const submit = () => {
+  const submit = async () => {
     console.log(allAnswers)
     console.log(question.answers.length)
+
+    const data = {
+      quiz_attempt_id: attemptIp,
+      question_id: question.id,
+      // given_answer: Object.values(answers['0'])
+    }
+
+    console.log(data)
+
+    // const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+    //   headers: {
+    //     Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    //   }
+    // }).catch(err => console.log(err));
+
+    // if(!response) return;
+
     if(allAnswers.length < question.answers.length) {
       setTimeout(() => {
         setOpenWrong(false)
@@ -136,11 +153,11 @@ const Matching = ({ question, setOpenQuizModal }) => {
 
       </div>
 
-      {/* <div className={cls.btn}>
+      <div className={cls.btn}>
 
         <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
-      </div> */}
+      </div>
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}

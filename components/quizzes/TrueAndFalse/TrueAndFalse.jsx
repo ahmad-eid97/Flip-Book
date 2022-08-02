@@ -5,9 +5,15 @@ import { toast } from 'react-toastify';
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
+import axios from '../../../Utils/axios';
+
+import Cookies from 'universal-cookie';
+
 import cls from './trueAndFalse.module.scss';
 
-const TrueAndFalse = ({ question, setOpenQuizModal }) => {
+const cookie = new Cookies();
+
+const TrueAndFalse = ({ question, setOpenQuizModal, attemptIp }) => {
   const [answer, setAnswer] = useState('')
   const [state, setState] = useState('')
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -19,28 +25,44 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
     setAnswer(answer)
   }
 
-  const submit = () => {
-    if (answer) {
-      if(answer.is_correct === '1') {
-        setTimeout(() => {
-          setOpenSuccess(false)
-          setOpenQuizModal(false)
-        }, 4000)
-        setOpenSuccess(true)
-      } else {
-        setTimeout(() => {
-          setOpenWrong(false)
-        }, 4000)
-        setOpenWrong(true)
-        setWrongTries(prev => (prev += 1))
-      }
-    } else {
-        setTimeout(() => {
-          setOpenWrong(false)
-        }, 4000)
-        setOpenWrong(true)
-        setWrongTries(prev => (prev += 1))
+  const submit = async () => {
+    const data = {
+      quiz_attempt_id: attemptIp,
+      question_id: question.id,
+      given_answer: answer
     }
+
+    console.log(data)
+
+    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+      headers: {
+        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+      }
+    }).catch(err => console.log(err));
+
+    if(!response) return;
+
+    // if (answer) {
+    //   if(answer.is_correct === '1') {
+    //     setTimeout(() => {
+    //       setOpenSuccess(false)
+    //       setOpenQuizModal(false)
+    //     }, 4000)
+    //     setOpenSuccess(true)
+    //   } else {
+    //     setTimeout(() => {
+    //       setOpenWrong(false)
+    //     }, 4000)
+    //     setOpenWrong(true)
+    //     setWrongTries(prev => (prev += 1))
+    //   }
+    // } else {
+    //     setTimeout(() => {
+    //       setOpenWrong(false)
+    //     }, 4000)
+    //     setOpenWrong(true)
+    //     setWrongTries(prev => (prev += 1))
+    // }
   }
 
   const successNotify = (message) => toast.success(message)
@@ -65,11 +87,11 @@ const TrueAndFalse = ({ question, setOpenQuizModal }) => {
 
       </div>
 
-      {/* <div className={cls.btn}>
+      <div className={cls.btn}>
 
         <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
 
-      </div> */}
+      </div>
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}

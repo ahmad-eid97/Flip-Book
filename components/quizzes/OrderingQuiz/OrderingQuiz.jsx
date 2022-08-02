@@ -7,9 +7,15 @@ import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import { toast } from 'react-toastify';
 
+import axios from '../../../Utils/axios';
+
+import Cookies from 'universal-cookie';
+
 import cls from './orderingQuiz.module.scss';
 
-const OrderingQuiz = ({ question, setOpenQuizModal }) => {
+const cookie = new Cookies();
+
+const OrderingQuiz = ({ question, setOpenQuizModal, attemptIp }) => {
   const [answers, setAnswers] = useState(question.answers)
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
@@ -40,23 +46,38 @@ const OrderingQuiz = ({ question, setOpenQuizModal }) => {
 
   }, [])
 
-  const submit = () => {
+  const submit = async () => {
     const rightOrder = question.answers.map(answer => (answer.title))
     const answerArray = answers.map(answer => (answer.title))
-    
-    if(rightOrder.length === answerArray.length && rightOrder.every((val, index) => val === answerArray[index])) {
-      setTimeout(() => {
-        setOpenSuccess(false)
-        setOpenQuizModal(false)
-      }, 4000)
-      setOpenSuccess(true)
-    } else {
-      setTimeout(() => {
-        setOpenWrong(false)
-      }, 4000)
-      setOpenWrong(true)
-      setWrongTries(prev => (prev += 1))
+    const data = {
+      quiz_attempt_id: attemptIp,
+      question_id: question.id,
+      given_answer: answers
     }
+
+    console.log(data)
+
+    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+      headers: {
+        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+      }
+    }).catch(err => console.log(err));
+
+    if(!response) return;
+    
+    // if(rightOrder.length === answerArray.length && rightOrder.every((val, index) => val === answerArray[index])) {
+    //   setTimeout(() => {
+    //     setOpenSuccess(false)
+    //     setOpenQuizModal(false)
+    //   }, 4000)
+    //   setOpenSuccess(true)
+    // } else {
+    //   setTimeout(() => {
+    //     setOpenWrong(false)
+    //   }, 4000)
+    //   setOpenWrong(true)
+    //   setWrongTries(prev => (prev += 1))
+    // }
   }
 
   const successNotify = (message) => toast.success(message)
