@@ -10,16 +10,20 @@ import axios from '../../../Utils/axios';
 
 import Cookies from 'universal-cookie';
 
+import { useTranslation } from 'next-i18next';
+
 import cls from './imageAnswering.module.scss';
 
 const cookie = new Cookies();
 
 
-const ImageAnswering = ({ question, setOpenQuizModal, attemptIp }) => {
+const ImageAnswering = ({ question, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
   const [fields, setFields] = useState({})
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
+  const { i18n } = useTranslation()
+  const [changing, setChanging] = useState(false)
 
   const changeFields = (e) => {
     setFields({
@@ -30,7 +34,7 @@ const ImageAnswering = ({ question, setOpenQuizModal, attemptIp }) => {
 
   const submit = async () => {
     const data = {
-      quiz_attempt_id: attemptIp,
+      quiz_attempt_id: attemptId,
       question_id: question.id,
       given_answer: fields
     }
@@ -69,7 +73,23 @@ const ImageAnswering = ({ question, setOpenQuizModal, attemptIp }) => {
   const errorNotify = (message) => toast.error(message)
 
   return (
-    <div className={cls.imageAnswering}>
+    <div className={`${cls.imageAnswering} ${changing && cls.animation}`}>
+
+      <div className='stepper'>
+
+        <div className='step'>
+          <p>{questionNum}</p>
+          <span>السؤال الحالي</span>
+        </div>
+
+        {/* <div className='line'></div> */}
+
+        <div className='lastStep'>
+          <p>{questionsNum}</p>
+          <span>عدد الاسئلة</span>
+        </div>
+
+      </div>
 
       <h6> 1) { question.title }</h6>
 
@@ -91,7 +111,11 @@ const ImageAnswering = ({ question, setOpenQuizModal, attemptIp }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
+        {questionsNum === questionNum ? 
+          <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
+          :
+          <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
+        }
 
       </div>
 

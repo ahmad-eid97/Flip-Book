@@ -34,10 +34,11 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId }) => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
-  const [attemptIp, setAttemptIp] = useState();
+  const [attemptId, setAttemptId] = useState();
   const overlay = useRef();
   const { t: translate, i18n } = useTranslation('common');
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [questionNum, setQuestionNum] = useState(1)
 
   console.log(quizData)
 
@@ -90,7 +91,9 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId }) => {
 
     if (!response) return;
 
-    setAttemptIp(response.data.data.attempt_ip)
+    console.log(response)
+
+    setAttemptId(response.data.data.id)
 
     console.log(response)
   }
@@ -120,29 +123,29 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId }) => {
 
             <div container className={cls.area__content} spacing={3}>
 
-              {questions && questions.length && questions.map((question, idx) => (
+              {questions && questions.length && questions.slice((questionNum - 1), questionNum).map((question, idx) => (
 
                 <div key={idx} className={cls.question}>
 
-                  {question.question_type === 'single_choice' && <SingleChoice question={question} idx={idx} setOpenQuizModal={setOpenQuizModal} attemptIp={attemptIp} />}
+                  {question.question_type === 'single_choice' && <SingleChoice question={question} idx={idx} setOpenQuizModal={setOpenQuizModal} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
                     
-                  {question.question_type === 'image_matching' &&  <ImageMatching question={question} setOpenQuizModal={setOpenQuizModal} attemptIp={attemptIp} />}
+                  {question.question_type === 'image_matching' &&  <ImageMatching question={question} setOpenQuizModal={setOpenQuizModal} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'ordering' &&  <OrderingQuiz question={question} setOpenQuizModal={setOpenQuizModal} attemptIp={attemptIp} />}
+                  {question.question_type === 'ordering' &&  <OrderingQuiz question={question} setOpenQuizModal={setOpenQuizModal} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'multiple_choice' &&  <MultipleChoice question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'multiple_choice' &&  <MultipleChoice question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'open_ended' &&  <OpenEnded question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'open_ended' &&  <OpenEnded question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'short_answer' &&  <ShortAnswer question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'short_answer' &&  <ShortAnswer question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'true_false' &&  <TrueAndFalse question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'true_false' &&  <TrueAndFalse question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'matching' &&  <Matching question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'matching' &&  <Matching question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'fill_in_the_blank' &&  <FillInBlank question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'fill_in_the_blank' &&  <FillInBlank question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
-                  {question.question_type === 'image_answering' &&  <ImageAnswering question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptIp={attemptIp} />}
+                  {question.question_type === 'image_answering' &&  <ImageAnswering question={question} setOpenQuizModal={setOpenQuizModal} idx={idx} attemptId={attemptId} questionNum={questionNum} setQuestionNum={setQuestionNum} questionsNum={questions.length} />}
 
                 </div>
 
@@ -150,11 +153,11 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId }) => {
 
             </div>
 
-            <div className={cls.btn}>
+            {/* <div className={cls.btn}>
 
               <button onClick={submit}><i className="fa-light fa-badge-check"></i> تأكيد</button>
 
-            </div>
+            </div> */}
 
           </div>
 

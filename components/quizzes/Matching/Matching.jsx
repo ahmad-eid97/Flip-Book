@@ -4,12 +4,18 @@ import { toast } from 'react-toastify';
 
 import { useTranslation } from 'react-i18next';
 
+import axios from '../../../Utils/axios';
+
+import Cookies from 'universal-cookie';
+
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import cls from './matching.module.scss';
 
-const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
+const cookie = new Cookies();
+
+const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
   const [options, setOptions] = useState([])
   const [selectedOption, setSelectedOption] = useState(null);
   const [allAnswers, setAllAnswers] = useState([])
@@ -18,6 +24,7 @@ const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
+  const [changing, setChanging] = useState(false)
 
   const drawCanvasLine = (from, to) => {
     const ctx = canvas.current.getContext('2d');
@@ -36,6 +43,8 @@ const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
     setSelectedOption({ element: e.target, answer });
   }
 
+  console.log(question)
+
   const drawLine = (e, ans) => {
     const FROM_PARENT = document.querySelector(`.${cls.list}`).getBoundingClientRect().top;
     let FROM_OPTION;
@@ -45,17 +54,22 @@ const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
     const TO_OPTION = e.target.getBoundingClientRect().top;
 
     // Check Answers
-    if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
-      setTimeout(() => {
-        setOpenWrong(false)
-      }, 4000)
-      setOpenWrong(true)
-      setWrongTries(prev => (prev += 1))
-    } else {
+    // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
+    //   setTimeout(() => {
+    //     setOpenWrong(false)
+    //   }, 4000)
+    //   setOpenWrong(true)
+    //   setWrongTries(prev => (prev += 1))
+    // } else {
       // Draw Correct Line
       drawCanvasLine(FROM_OPTION - FROM_PARENT + 5, TO_OPTION - TO_PARENT + 5);
+
+      console.log([...allAnswers, ans])
+
       setAllAnswers(prev => [...prev, ans])
-    }
+
+      console.log(ans)
+    // }
 
   }
 
@@ -83,54 +97,70 @@ const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
     console.log(question.answers.length)
 
     const data = {
-      quiz_attempt_id: attemptIp,
+      quiz_attempt_id: attemptId,
       question_id: question.id,
-      // given_answer: Object.values(answers['0'])
+      given_answer: allAnswers.map(answer => answer.id)
     }
 
     console.log(data)
 
-    // const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-    //   headers: {
-    //     Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
-    //   }
-    // }).catch(err => console.log(err));
+    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+      headers: {
+        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+      }
+    }).catch(err => console.log(err));
 
-    // if(!response) return;
+    if(!response) return;
 
-    if(allAnswers.length < question.answers.length) {
-      setTimeout(() => {
-        setOpenWrong(false)
-      }, 4000)
-      setOpenWrong(true)
-      setWrongTries(prev => (prev += 1))
-    } else {
-      setTimeout(() => {
-        setOpenSuccess(false)
-        setOpenQuizModal(false)
-      }, 4000)
-      setOpenSuccess(true)
-    }
+    console.log(response)
+
+    // if(allAnswers.length < question.answers.length) {
+    //   setTimeout(() => {
+    //     setOpenWrong(false)
+    //   }, 4000)
+    //   setOpenWrong(true)
+    //   setWrongTries(prev => (prev += 1))
+    // } else {
+    //   setTimeout(() => {
+    //     setOpenSuccess(false)
+    //     setOpenQuizModal(false)
+    //   }, 4000)
+    //   setOpenSuccess(true)
+    // }
   }
   
   const successNotify = (message) => toast.success(message)
   const errorNotify = (message) => toast.error(message)
 
   return (
-    <div className={cls.matching}>
+    <div className={`${cls.matching} ${changing && cls.animation}`}>
+
+      <div className='stepper'>
+
+        <div className='step'>
+          <p>{questionNum}</p>
+          <span>السؤال الحالي</span>
+        </div>
+
+        {/* <div className='line'></div> */}
+
+        <div className='lastStep'>
+          <p>{questionsNum}</p>
+          <span>عدد الاسئلة</span>
+        </div>
+
+      </div>
 
       <h6> 1 ) { question.title }</h6>
 
       <div className={`${cls.wrapper} wrapper`}>
 
-        <div className={cls.list}>
+        <div className={cls.match}>
 
-          {options.map((answer, idx) => (
+          {question.answers.map((answer, idx) => (
 
             <div key={idx} onClick={(e) => selectOption(e, answer)} className={cls.one}>
-
-              <p className='A'><span>{ answer.title }</span></p>
-
+              <p className='B'><span>{ answer.title }</span></p>
             </div>
 
           ))}
@@ -139,12 +169,14 @@ const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
 
         <canvas id="matching_area" ref={canvas}></canvas>
 
-        <div className={cls.match}>
+        <div className={cls.list}>
 
-          {question.answers.map((answer, idx) => (
+          {options.map((answer, idx) => (
 
-            <div key={idx} className={cls.one}>
-              <p className='B' onClick={(e) => drawLine(e, answer.answer_two_gap_match)}><span>{ answer.answer_two_gap_match }</span></p>
+            <div key={idx} onClick={(e) => selectOption(e, answer)} className={cls.one}>
+
+              <p className='A' onClick={(e) => drawLine(e, answer)}><span>{ answer.answer_two_gap_match }</span></p>
+
             </div>
 
           ))}
@@ -155,7 +187,11 @@ const Matching = ({ question, setOpenQuizModal, attemptIp }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
+        {questionsNum === questionNum ? 
+          <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
+          :
+          <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
+        }
 
       </div>
 

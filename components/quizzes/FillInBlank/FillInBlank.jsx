@@ -9,6 +9,8 @@ import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import axios from '../../../Utils/axios';
 
+import { useTranslation } from 'next-i18next';
+
 import Cookies from 'universal-cookie';
 
 import cls from './fillInBlank.module.scss';
@@ -16,18 +18,27 @@ import { useEffect } from 'react';
 
 const cookie = new Cookies();
 
-const FillInBlank = ({ question, setOpenQuizModal, attemptIp }) => {
+const FillInBlank = ({ question, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
   const [answers, setAnswers] = useState({});
   const [wrongAnswers, setWrongAnswers] = useState({})
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
+  const [changing, setChanging] = useState(false)
+  const { i18n } = useTranslation()
 
   const submit = async () => {
+    if(questionsNum === questionNum) {
+      setOpenQuizModal(false)
+    } else {
+      setQuestionNum(questionNum += 1)
+      setChanging(true)
+    }
+
     const data = {
-      quiz_attempt_id: attemptIp,
+      quiz_attempt_id: attemptId,
       question_id: question.id,
-      given_answer: Object.values(answers['0'])
+      given_answer: Object.values(answers).length && Object.values(answers['0'])
     }
 
     console.log(data)
@@ -39,6 +50,8 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptIp }) => {
     }).catch(err => console.log(err));
 
     if(!response) return;
+
+    console.log(response)
 
     if(response.success) {
       // setTimeout(() => {
@@ -107,8 +120,24 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptIp }) => {
   const errorNotify = (message) => toast.error(message)
 
   return (
-    <div className={cls.fillInBlank}>
+    <div className={`${cls.fillInBlank} ${changing && cls.animation}`}>
 
+      <div className='stepper'>
+
+        <div className='step'>
+          <p>{questionNum}</p>
+          <span>السؤال الحالي</span>
+        </div>
+
+        {/* <div className='line'></div> */}
+
+        <div className='lastStep'>
+          <p>{questionsNum}</p>
+          <span>عدد الاسئلة</span>
+        </div>
+
+      </div>
+      
       <h6> 1) {`${'أكمل الفراغات التاليه بالاجابات المناسبة'}`}</h6>
 
       {question.answers.map((answer, idx) => (
@@ -127,10 +156,14 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptIp }) => {
 
           <div className={cls.btn}>
 
-            <button onClick={submit}><i className="fa-light fa-badge-check"></i> تأكيد</button>
+            {questionsNum === questionNum ? 
+              <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
+              :
+              <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
+            }
 
           </div>
-        
+
         </div>
 
       ))}

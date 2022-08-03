@@ -262,19 +262,34 @@ const Flippy = ({
    * @description
    * Get Current Page Number
    */
-  flippy.getCurrentPageNumber = () => currentPage + 1;
+    flippy.getCurrentPageNumber = () => {
+      if (isPagesDouble) {
+        return currentPage * 2 <= 0 ? 1 : currentPage * 2;
+      }
+      return currentPage <= 0 ? 1 : currentPage + 1;
+    }
 
   /***
    * @description
    * Get Total Pages Count
    */
-  flippy.getTotalPagesCount = () => totalPages.middlePages.length + 2;
+    flippy.getTotalPagesCount = () => {
+      if (isPagesDouble) {
+        return totalPages.middlePages.length * 2 + 2;
+      }
+      return totalPages.middlePages.length + 2;
+    }
 
    /***
     * @description
     * Get Internal Pages Count
     */
-  flippy.getInternalPagesCount = () => totalPages.middlePages.length;
+    flippy.getInternalPagesCount = () => {
+      if (isPagesDouble) {
+        return totalPages.middlePages.length * 2;
+      }
+      return totalPages.middlePages.length;
+    }
   
 
   /***

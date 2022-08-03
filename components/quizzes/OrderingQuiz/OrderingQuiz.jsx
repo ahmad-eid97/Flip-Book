@@ -9,17 +9,21 @@ import { toast } from 'react-toastify';
 
 import axios from '../../../Utils/axios';
 
+import { useTranslation } from 'react-i18next';
+
 import Cookies from 'universal-cookie';
 
 import cls from './orderingQuiz.module.scss';
 
 const cookie = new Cookies();
 
-const OrderingQuiz = ({ question, setOpenQuizModal, attemptIp }) => {
+const OrderingQuiz = ({ question, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
   const [answers, setAnswers] = useState(question.answers)
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0)
+  const { i18n } = useTranslation()
+  const [changing, setChanging] = useState(false)
 
   const handleOndragEnd = (result) => {
     if(!result.destination) return;
@@ -49,10 +53,14 @@ const OrderingQuiz = ({ question, setOpenQuizModal, attemptIp }) => {
   const submit = async () => {
     const rightOrder = question.answers.map(answer => (answer.title))
     const answerArray = answers.map(answer => (answer.title))
+
+    const sortedAnswers = answers.sort((a,b) => a.id - b.id)
+
+    console.log(rightOrder)
     const data = {
-      quiz_attempt_id: attemptIp,
+      quiz_attempt_id: attemptId,
       question_id: question.id,
-      given_answer: answers
+      given_answer: sortedAnswers.map(answer => answer.id)
     }
 
     console.log(data)
@@ -84,7 +92,23 @@ const OrderingQuiz = ({ question, setOpenQuizModal, attemptIp }) => {
   const errorNotify = (message) => toast.error(message)
 
   return (
-    <div className={cls.orderingQuiz}>
+    <div className={`${cls.orderingQuiz} ${changing && cls.animation}`}>
+
+      <div className='stepper'>
+
+        <div className='step'>
+          <p>{questionNum}</p>
+          <span>السؤال الحالي</span>
+        </div>
+
+        {/* <div className='line'></div> */}
+
+        <div className='lastStep'>
+          <p>{questionsNum}</p>
+          <span>عدد الاسئلة</span>
+        </div>
+
+      </div>
 
       <h6> 1) { question.title }</h6>
 
@@ -131,7 +155,11 @@ const OrderingQuiz = ({ question, setOpenQuizModal, attemptIp }) => {
 
         <div className={cls.btn}>
 
-          <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
+          {questionsNum === questionNum ? 
+            <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
+            :
+            <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
+          }
 
         </div>
 

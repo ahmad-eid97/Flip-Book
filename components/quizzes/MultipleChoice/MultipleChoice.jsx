@@ -7,17 +7,21 @@ import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import axios from '../../../Utils/axios';
 
+import { useTranslation } from 'react-i18next';
+
 import Cookies from 'universal-cookie';
 
 import cls from './multipleChoice.module.scss';
 
 const cookie = new Cookies();
 
-const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptIp }) => {
+const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
   const [choosedAnswer, setChoosedAnswer] = useState([]);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
+  const { i18n } = useTranslation()
+  const [changing, setChanging] = useState(false)
 
   const selectChoice = (answer) => {
 
@@ -40,9 +44,9 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptIp }) => {
 
   const submit = async () => {
     const data = {
-      quiz_attempt_id: attemptIp,
+      quiz_attempt_id: attemptId,
       question_id: question.id,
-      given_answer: choosedAnswer
+      given_answer: choosedAnswer.map(answer => answer.id)
     }
 
     console.log(data)
@@ -54,6 +58,7 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptIp }) => {
     }).catch(err => console.log(err));
 
     if(!response) return;
+
 
     // if (choosedAnswer.length) {
 
@@ -86,7 +91,23 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptIp }) => {
   const errorNotify = (message) => toast.error(message)
 
   return (
-    <div className={cls.multipleChoice}>
+    <div className={`${cls.multipleChoice} ${changing && cls.animation}`}>
+
+      <div className='stepper'>
+
+        <div className='step'>
+          <p>{questionNum}</p>
+          <span>السؤال الحالي</span>
+        </div>
+
+        {/* <div className='line'></div> */}
+
+        <div className='lastStep'>
+          <p>{questionsNum}</p>
+          <span>عدد الاسئلة</span>
+        </div>
+
+      </div>
 
       <h6><span>{idx + 1})</span> {question.title}</h6>
 
@@ -108,7 +129,11 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptIp }) => {
 
       <div className={cls.btn}>
 
-        <button onClick={submit}><i className="fa-light fa-badge-check"></i> Submit</button>
+        {questionsNum === questionNum ? 
+          <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
+          :
+          <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
+        }
 
       </div>
 

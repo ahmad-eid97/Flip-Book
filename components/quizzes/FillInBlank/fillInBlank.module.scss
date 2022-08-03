@@ -1,4 +1,17 @@
 .fillInBlank {
+  &.animation {
+    animation: show 1s forwards;
+  }
+  @keyframes show {
+    0%{
+      opacity: 0;
+      transform: translateX(100px);
+    }
+    100%{
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
   h6 {
     font-size: 1.2rem;
     text-align: center !important;
@@ -32,6 +45,13 @@
       padding: 5px 20px;
       border-radius: 5px;
       outline: none;
+      i {
+        &.ar {
+          &.next {
+            transform: rotate(180deg);
+          }
+        }
+      }
       &:hover {
         background-color: transparent;
         color: var(--main-color);

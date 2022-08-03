@@ -1,6 +1,19 @@
 @import '../../../styles/mixins.scss';
 
 .imageAnswering {
+  &.animation {
+    animation: show 1s forwards;
+  }
+  @keyframes show {
+    0%{
+      opacity: 0;
+      transform: translateX(100px);
+    }
+    100%{
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
   h6 {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;

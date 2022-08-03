@@ -16,7 +16,7 @@ import { routeRedirection } from '../../Utils/redirections/routeRedirection/rout
 
 import HTMLFlipBook from 'react-pageflip';
 
-export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPagesAll }) {
+export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPagesAll, pagesLinks }) {
   const [allBookPages, setAllBookPages] = useState(ALL_PAGES);
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
@@ -30,7 +30,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
   const [isLoad, setIsLoad] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
 
-  console.log(allPagesAll)
+  // console.log(pagesLinks)
 
   useEffect(() => {
     setIsLoad(true);
@@ -72,11 +72,19 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
     bookEnd
   ]
 
-  const goToNextPage = (pageNum) => {
-    console.log(pageNum)
-    if(pageNum === 20) {
+  const goToNextPage = async (pageNum) => {
+    console.log(flippy.getCurrentPageNumber())
+    if(flippy.getCurrentPageNumber() === 10) {
       setPageNumber(pageNumber += 1)
-      console.log('here **************************************')
+      const response = await axios.get(pagesLinks.next).catch(err => console.log(err));
+
+      if(!response) return;
+
+      setAllBookPages(prev => [...prev, ...response.data.data.pages])
+
+      // console.log([...allBookPages, ...response.data.data.pages])
+
+      console.log(response)
     }
   }
 
@@ -150,13 +158,11 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
   // FETCH BOOK UNITS
   let bookPages = [];
 
-  const unitsResponse = await axios.get(`/crm/books/all_pages_by_page_index/${bookId}?lang=${locale}`).catch(err => console.log(err));
+  const unitsResponse = await axios.get(`/crm/books/all_pages_by_page_index/${query.id}?lang=${locale}`).catch(err => console.log(err));
 
   var ALL_PAGES = [];
-  var allPagesAll = []
   if(unitsResponse) {
     bookPages = unitsResponse.data.data.pages;
-    allPagesAll = unitsResponse.data
     // bookPages.sort((a, b) => a.id - b.id);
     bookPages.forEach(async page => {
       const unitFound = ALL_PAGES.findIndex(pa => pa.title === page.lesson.unit.title && !pa.unit && !pa.lesson)
@@ -193,8 +199,7 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
       pages,
       pagesLinks,
       pagesMeta,
-      ALL_PAGES,
-      allPagesAll
+      ALL_PAGES
     }
   }
 } 

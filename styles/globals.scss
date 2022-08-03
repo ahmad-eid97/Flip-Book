@@ -177,3 +177,54 @@ button.wrapper {
   font-size: 1.2rem;
   margin-top: 10px;
 }
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+  .step, .lastStep {
+    position: relative;
+    margin: 0 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    p {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--main-color);
+      color: var(--main-color);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      margin-right: 10px;
+    }
+    span {
+      font-size: 0.9rem;
+      text-align: center !important;
+    }
+  }
+  .step {
+    &:after {
+      content: '';
+      position: absolute;
+      top: 25%;
+      left: -136%;
+      width: 130px;
+      border: 5px dashed var(--main-color);
+    }
+  }
+  .lastStep {
+    p {
+      background-color: var(--main-color);
+      color: #fff;
+    }
+  }
+  // .line {
+  //   height: 10px;
+  //   width: 100px;
+  //   background-color: #ccc;
+  // }
+}
