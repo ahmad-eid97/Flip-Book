@@ -43,15 +43,13 @@ const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
     setSelectedOption({ element: e.target, answer });
   }
 
-  console.log(question)
-
   const drawLine = (e, ans) => {
-    const FROM_PARENT = document.querySelector(`.${cls.list}`).getBoundingClientRect().top;
+    const FROM_PARENT = document.querySelector(`.${cls.list}`).offsetTop;
     let FROM_OPTION;
-    if(selectedOption) FROM_OPTION = selectedOption.element.getBoundingClientRect().top;
+    if(selectedOption) FROM_OPTION = selectedOption.element.offsetTop - FROM_PARENT;
     
-    const TO_PARENT = document.querySelector(`.${cls.match}`).getBoundingClientRect().top;
-    const TO_OPTION = e.target.getBoundingClientRect().top;
+    const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
+    const TO_OPTION = e.target.offsetTop - TO_PARENT;
 
     // Check Answers
     // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
@@ -62,7 +60,8 @@ const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
     //   setWrongTries(prev => (prev += 1))
     // } else {
       // Draw Correct Line
-      drawCanvasLine(FROM_OPTION - FROM_PARENT + 5, TO_OPTION - TO_PARENT + 5);
+      console.log(selectedOption.element.getBoundingClientRect().top, FROM_PARENT)
+      drawCanvasLine(FROM_OPTION, TO_OPTION);
 
       console.log([...allAnswers, ans])
 
@@ -93,26 +92,30 @@ const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
   }, [])
 
   const submit = async () => {
-    console.log(allAnswers)
-    console.log(question.answers.length)
 
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: allAnswers.map(answer => answer.id)
-    }
-
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(allAnswers.length) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
 
-    if(!response) return;
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: allAnswers.map(answer => answer.id)
+      }
 
-    console.log(response)
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+
+      if(!response) return;
+
+    }
 
     // if(allAnswers.length < question.answers.length) {
     //   setTimeout(() => {

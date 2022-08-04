@@ -3,8 +3,6 @@ import cls from './videoSection.module.scss';
 
 const VideoSection = ({ video, openModal, data }) => {
 
-  console.log(data)
-
   const openPreview = (state, data, type) => {
     openModal(state, data, type)
   }

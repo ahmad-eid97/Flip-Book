@@ -24,21 +24,30 @@ const ShortAnswer = ({ question, setOpenQuizModal, attemptId, questionNum, setQu
   const [changing, setChanging] = useState(false)
 
   const submit = async () => {
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: field
-    }
 
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(field) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
 
-    if(!response) return;
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: field
+      }
+
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+
+      if(!response) return;
+
+    }
     
     // if(!field) {
     //   setTimeout(() => {

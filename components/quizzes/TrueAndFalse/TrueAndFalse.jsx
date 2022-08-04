@@ -29,7 +29,6 @@ const TrueAndFalse = ({ question, setOpenQuizModal, attemptId, questionNum, setQ
     setAnswer(answer)
   }
 
-  console.log(question)
   const currentAnswer = ''
   Object.keys(question.answers).forEach(key => {
     if(question.answers[key].answer_two_gap_match === `${state}`) {
@@ -44,23 +43,30 @@ const TrueAndFalse = ({ question, setOpenQuizModal, attemptId, questionNum, setQ
         currentAnswer = question.answers[key].id
       }
     })
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: currentAnswer
-    }
 
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(currentAnswer) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
 
-    if(!response) return;
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: currentAnswer
+      }
 
-    console.log(response)
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+
+      if(!response) return;
+
+    }
 
     // if (answer) {
     //   if(answer.is_correct === '1') {

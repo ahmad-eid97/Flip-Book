@@ -47,13 +47,10 @@ const PreviewModal = ({ setOpenPreview, imgSrc, previewType, sectionId }) => {
       }).catch(err => console.log(err));
   
       if(!response) return;
-  
-      console.log(response)
     }
   }
 
   const videoProgrssHandler = async (played) => {
-    console.log(played)
     setPlayedSeconds(played.playedSeconds)
     setStartTime(Date.now())
   }
@@ -78,8 +75,6 @@ const PreviewModal = ({ setOpenPreview, imgSrc, previewType, sectionId }) => {
 
     if(!response) return;
 
-    console.log(response)
-
     const trackData2 = {
       page_section_id: sectionId,
       event_category: 'video',
@@ -96,8 +91,6 @@ const PreviewModal = ({ setOpenPreview, imgSrc, previewType, sectionId }) => {
     }).catch(err => console.log(err));
 
     if(!response2) return;
-
-    console.log(response2)
   }
 
   return (

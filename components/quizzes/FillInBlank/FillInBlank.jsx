@@ -28,45 +28,44 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptId, questionNum, setQu
   const { i18n } = useTranslation()
 
   const submit = async () => {
-    if(questionsNum === questionNum) {
-      setOpenQuizModal(false)
-    } else {
-      setQuestionNum(questionNum += 1)
-      setChanging(true)
-    }
-
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: Object.values(answers).length && Object.values(answers['0'])
-    }
-
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    
+    if(Object.values(answers).length) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
+  
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: Object.values(answers).length && Object.values(answers['0'])
+      }
+  
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+  
+      if(!response) return;
+    }
 
-    if(!response) return;
-
-    console.log(response)
-
-    if(response.success) {
+    // if(response.success) {
       // setTimeout(() => {
       //   setOpenSuccess(false)
       //   setOpenQuizModal(false)
       // }, 4000)
       // setOpenSuccess(true)
 
-    } else {
+    // } else {
       // setTimeout(() => {
       //   setOpenWrong(false)
       // }, 4000)
       // setOpenWrong(true)
       // setWrongTries(prev => (prev += 1))
-    }
+    // }
 
     // for(var prop in answers) {
 

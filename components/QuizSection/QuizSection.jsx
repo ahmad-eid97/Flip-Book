@@ -3,7 +3,6 @@ import cls from './quizSection.module.scss'
 const QuizSection = ({ section, openQuiz }) => {
 
   const openQuizPreview = (state, data) => {
-    console.log('test modal')
     openQuiz(state, data)
   }
 

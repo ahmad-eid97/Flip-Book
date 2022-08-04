@@ -36,23 +36,31 @@ const DragQuiz = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
 
   const submit = async () => {
 
-    const sortedAnswers = answers.sort((a,b) => a.id - b.id)
+    // const sortedAnswers = answers.sort((a,b) => a.id - b.id)
 
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: sortedAnswers.map(answer => answer.id)
-    }
-
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(answers.length) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
 
-    if(!response) return;
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: answers.map(answer => answer.id)
+      }
+
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+
+      if(!response) return;
+
+  }
 
     // const rightAnswer = [...titles]
 
@@ -118,8 +126,6 @@ const DragQuiz = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
       <div className={cls.wrapper}>
 
         <DragDropContext onDragEnd={handleOndragEnd}>
-
-          {console.log(cls[i18n.language])}
 
           <Droppable droppableId="matching" className={`${cls.box} ${cls[i18n.language]}`} direction="horizontal">
 

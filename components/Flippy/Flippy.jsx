@@ -71,9 +71,9 @@ const Flippy = ({
    * @description
    * Combine each two pages into one mutli-faced page
   */
-  const combinePages = useCallback((cPage = currentPage, doublePage = isPagesDouble) => {
-    if (window.innerWidth > breakpoint && doublePage) return;
-    else if (window.innerWidth <= breakpoint && doublePage === false) return;
+  const combinePages = useCallback((cPage = currentPage, doublePage = isPagesDouble, reRender = false) => {
+    if (window.innerWidth > breakpoint && doublePage && !reRender) return;
+    else if (window.innerWidth <= breakpoint && doublePage === false && !reRender) return;
 
     const foldedPages = [{zIndex: 0, pages: [children[0], ""]}];
 
@@ -90,16 +90,16 @@ const Flippy = ({
       // Make sure pages are double
       for (var i = 0; i < pagesWithoutCovers.length; i++) {
         if (i % 2 !== 0) continue;
-  
+
         let page1 = pagesWithoutCovers[i];
         let page2 = pagesWithoutCovers[i + 1];
-  
+
         if (i + 1 <= pagesWithoutCovers.length) {
           page2 = pagesWithoutCovers[i + 1];
         } else {
           page2 = "";
         }
-  
+
         foldedPages.push({zIndex: i + 1, pages: [page1, page2]});
       }
 
@@ -107,7 +107,7 @@ const Flippy = ({
       setIsPagesDouble(true);
 
       // Correcten the current page
-      setCurrentPage(Math.ceil(cPage / 2));
+      if (!reRender) setCurrentPage(Math.ceil(cPage / 2));
     } else if (window.innerWidth <= breakpoint) {
       // Set Full-Width mode for the book pages to true
       setIsFullWidth(true);
@@ -124,7 +124,7 @@ const Flippy = ({
       setIsPagesDouble(false);
 
       // Correcten the current page
-      setCurrentPage(Math.floor(cPage * 2));
+      if (!reRender) setCurrentPage(Math.floor(cPage * 2));
     }
 
     // Add the last page
@@ -150,10 +150,20 @@ const Flippy = ({
       middlePages: foldedPages.slice(1, foldedPages.length - 1),
       coverEndPage: foldedPages[foldedPages.length - 1],
     });
-  }, [breakpoint, currentPage]);
-  
+  }, [children, breakpoint, currentPage]);
+    
   useEffect(() => {
     combinePages();
+
+    if (isPagesDouble) {
+      if (totalPages.middlePages.length * 2 + 2 !== children.length) {
+        combinePages(currentPage, isPagesDouble, true);
+      }
+    } else {
+      if (totalPages.middlePages.length + 2 !== children.length) {
+        combinePages(currentPage, isPagesDouble, true);
+      }
+    }
   }, [children]);
 
   /***

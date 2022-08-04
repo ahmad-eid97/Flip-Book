@@ -40,8 +40,6 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId }) => {
   const [loading, setLoading] = useState(false);
   const [questionNum, setQuestionNum] = useState(1)
 
-  console.log(quizData)
-
   // COMPONENT HANDLERS
   const closeModal = (e) => {
     if(overlay.current === e.target) setOpenQuizModal(false)
@@ -91,11 +89,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId }) => {
 
     if (!response) return;
 
-    console.log(response)
-
     setAttemptId(response.data.data.id)
-
-    console.log(response)
   }
 
   useEffect(() => {

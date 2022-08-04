@@ -54,24 +54,31 @@ const OrderingQuiz = ({ question, setOpenQuizModal, attemptId, questionNum, setQ
     const rightOrder = question.answers.map(answer => (answer.title))
     const answerArray = answers.map(answer => (answer.title))
 
-    const sortedAnswers = answers.sort((a,b) => a.id - b.id)
+    // const sortedAnswers = answers.sort((a,b) => a.id - b.id)
 
-    console.log(rightOrder)
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: sortedAnswers.map(answer => answer.id)
-    }
-
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(answers.length) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
 
-    if(!response) return;
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: answers.map(answer => answer.id)
+      }
+
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+
+      if(!response) return;
+
+    }
     
     // if(rightOrder.length === answerArray.length && rightOrder.every((val, index) => val === answerArray[index])) {
     //   setTimeout(() => {

@@ -43,21 +43,30 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptId, questionNu
   }
 
   const submit = async () => {
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: choosedAnswer.map(answer => answer.id)
-    }
 
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(choosedAnswer.length) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
 
-    if(!response) return;
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: choosedAnswer.map(answer => answer.id)
+      }
+
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+
+      if(!response) return;
+
+    }
 
 
     // if (choosedAnswer.length) {

@@ -16,7 +16,7 @@ import { routeRedirection } from '../../Utils/redirections/routeRedirection/rout
 
 import HTMLFlipBook from 'react-pageflip';
 
-export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPagesAll, pagesLinks }) {
+export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesLinks }) {
   const [allBookPages, setAllBookPages] = useState(ALL_PAGES);
   const [bookDetails, setBookDetails] = useState(book);
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
@@ -29,8 +29,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
   const [quizData, setQuizData] = useState();
   const [isLoad, setIsLoad] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-
-  // console.log(pagesLinks)
+  const [navLinks, setNavLinks] = useState(pagesLinks)
 
   useEffect(() => {
     setIsLoad(true);
@@ -73,18 +72,35 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, allPag
   ]
 
   const goToNextPage = async (pageNum) => {
-    console.log(flippy.getCurrentPageNumber())
-    if(flippy.getCurrentPageNumber() === 10) {
+    if(flippy.getCurrentPageNumber() % 30 === 0) {
       setPageNumber(pageNumber += 1)
-      const response = await axios.get(pagesLinks.next).catch(err => console.log(err));
 
-      if(!response) return;
+      let allPages = []
 
-      setAllBookPages(prev => [...prev, ...response.data.data.pages])
+      if(navLinks.next) {
+        const response = await axios.get(navLinks.next).catch(err => console.log(err));
 
-      // console.log([...allBookPages, ...response.data.data.pages])
+        if(!response) return;
 
-      console.log(response)
+        setNavLinks(response.data.data.links)
+
+        bookPages = response.data.data.pages;
+        // bookPages.sort((a, b) => a.id - b.id);
+        bookPages.forEach(async page => {
+          const unitFound = allPages.findIndex(pa => pa.title === page.lesson.unit.title && !pa.unit && !pa.lesson)
+          if(unitFound <= -1) allPages.push({ ...page.lesson.unit });
+
+          const lessonFound = allPages.findIndex(pa => pa.title === page.lesson.title && pa.unit && pa.unit.id === page.lesson.unit.id)
+          if(lessonFound <= -1) allPages.push({ ...page.lesson });
+
+          const pageFound = allPages.findIndex(pa => pa.title === page.title && pa.lesson && pa.lesson.id === page.lesson.id)
+          if(pageFound <= -1) {
+            allPages.push({ ...page })
+          };
+        });
+
+        setAllBookPages(prev => [...prev, ...allPages])
+      }
     }
   }
 
@@ -143,8 +159,6 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
   if( languageRedirection ) return languageRedirection;
 
   if( routerRedirection ) return routerRedirection;
-
-  console.log(query)
 
   // FETCH PAGES FOR BOOK
   let bookId = 1;

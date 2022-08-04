@@ -57,8 +57,6 @@ const TextSection = ({ title, details, sectionId }) => {
     }).catch(err => console.log(err));
 
     if(!response) return;
-
-    console.log(response)
   }
 
   return (

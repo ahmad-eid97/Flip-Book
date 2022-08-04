@@ -33,21 +33,29 @@ const ImageAnswering = ({ question, setOpenQuizModal, attemptId, questionNum, se
   }
 
   const submit = async () => {
-    const data = {
-      quiz_attempt_id: attemptId,
-      question_id: question.id,
-      given_answer: fields
-    }
 
-    console.log(data)
-
-    const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-      headers: {
-        Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+    if(Object.values(fields).length) {
+      if(questionsNum === questionNum) {
+        setOpenQuizModal(false)
+      } else {
+        setQuestionNum(questionNum += 1)
+        setChanging(true)
       }
-    }).catch(err => console.log(err));
-
-    if(!response) return;
+      
+      const data = {
+        quiz_attempt_id: attemptId,
+        question_id: question.id,
+        given_answer: Object.values(fields).map(value => value)
+      }
+  
+      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
+        headers: {
+          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
+        }
+      }).catch(err => console.log(err));
+  
+      if(!response) return;
+    }
 
     // if(Object.keys(fields).length && Object.values(fields).length) {
     //   const rightAnswers = Object.keys(fields);
