@@ -65,15 +65,15 @@
     text-align: center;
     margin-top: 30px;
     button {
-      background-color: var(--main-color);
+      background-color: var(--book-color);
       color: #fff;
-      border: 1px solid var(--main-color);
+      border: 1px solid var(--book-color);
       padding: 5px 20px;
       border-radius: 5px;
       outline: none;
       &:hover {
         background-color: transparent;
-        color: var(--main-color);
+        color: var(--book-color);
       }
     }
   }

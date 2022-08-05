@@ -1,3 +1,5 @@
+@import '../../styles/mixins.scss';
+
 .page {
   padding: 10px 15px;
   display: flex;
@@ -5,6 +7,11 @@
   align-items: center;
   justify-content: center;
   height: 550px;
+  // margin-bottom: 200px;
+  overflow: hidden;
+  @include xs {
+    height: 400px;
+  }
   .title {
     display: flex;
     justify-content: center;
@@ -46,6 +53,11 @@
         position: absolute;
         top: 25%;
         left: 25%;
+        @include xs {
+          top: 8%;
+          left: 8%;
+          font-size: 0.9rem;
+        }
       }
     }
   }

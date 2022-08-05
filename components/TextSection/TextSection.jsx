@@ -20,9 +20,9 @@ const TextSection = ({ title, details, sectionId }) => {
   const { i18n } = useTranslation()
  
   useEffect(() => {
-    // let parser = new DOMParser();
-    // let doc = parser.parseFromString(details, 'text/html');
-    // setText(doc.body.firstChild.firstChild.innerHTML);
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(details, 'text/html');
+    setText(doc.body.firstChild.innerHTML)
   }, [])
 
   let interval;
@@ -64,7 +64,7 @@ const TextSection = ({ title, details, sectionId }) => {
 
       {/* <h5>{ title }</h5> */}
 
-      <mark className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
+      <mark className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{text}</mark>
 
       {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}
 

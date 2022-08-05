@@ -37,6 +37,7 @@ const TrueAndFalse = ({ question, setOpenQuizModal, attemptId, questionNum, setQ
   })
 
   const submit = async () => {
+    setState('')
     const currentAnswer = ''
     Object.keys(question.answers).forEach(key => {
       if(question.answers[key].answer_two_gap_match === `${state}`) {
@@ -50,6 +51,9 @@ const TrueAndFalse = ({ question, setOpenQuizModal, attemptId, questionNum, setQ
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

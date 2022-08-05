@@ -7,7 +7,7 @@ import QuizSection from './../QuizSection/QuizSection';
 import cls from './page.module.scss';
 import { useEffect } from 'react';
 
-const Page = ({ data, openModal, openQuiz, index, setSectionId }) => {
+const Page = ({ data, openModal, openQuiz, index, setSectionId, footerLogo, footerNumLogo }) => {
 
   const renderSection = (type, section) => {
     setSectionId(section.id)
@@ -72,13 +72,13 @@ const Page = ({ data, openModal, openQuiz, index, setSectionId }) => {
 
       <div className={cls.footer}>
 
-        <img src="/imgs/footer.png" alt="footerLogo" />
+        <img src={footerLogo} alt="footerLogo" />
 
         <div className={cls.pageNum}>
 
           <p>{index + 1}</p>
 
-          <img src="/imgs/pageNum.png" alt="footerLogo" />
+          <img src={footerNumLogo} alt="footerLogo" />
 
         </div>
 

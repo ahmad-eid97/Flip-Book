@@ -46,10 +46,10 @@ const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
   const drawLine = (e, ans) => {
     const FROM_PARENT = document.querySelector(`.${cls.list}`).offsetTop;
     let FROM_OPTION;
-    if(selectedOption) FROM_OPTION = selectedOption.element.offsetTop - FROM_PARENT;
+    if(selectedOption) FROM_OPTION = selectedOption.element.offsetTop - FROM_PARENT + selectedOption.element.offsetHeight / 2;
     
     const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
-    const TO_OPTION = e.target.offsetTop - TO_PARENT;
+    const TO_OPTION = e.target.offsetTop - TO_PARENT + e.target.offsetHeight / 2;
 
     // Check Answers
     // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
@@ -60,14 +60,9 @@ const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
     //   setWrongTries(prev => (prev += 1))
     // } else {
       // Draw Correct Line
-      console.log(selectedOption.element.getBoundingClientRect().top, FROM_PARENT)
       drawCanvasLine(FROM_OPTION, TO_OPTION);
 
-      console.log([...allAnswers, ans])
-
       setAllAnswers(prev => [...prev, ans])
-
-      console.log(ans)
     // }
 
   }
@@ -99,6 +94,9 @@ const Matching = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

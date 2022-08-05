@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-page-custom-font */
+import Head from 'next/head';
+
 import { useState, useEffect, useRef } from 'react';
 
 import LayoutOne from '../../layouts/LayoutOne';
@@ -29,7 +32,37 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
   const [quizData, setQuizData] = useState();
   const [isLoad, setIsLoad] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-  const [navLinks, setNavLinks] = useState(pagesLinks)
+  const [navLinks, setNavLinks] = useState(pagesLinks);
+  const [bookWidth, setBookWidth] = useState(550)
+  const [bookHeight, setBookHeight] = useState(650)
+
+  useEffect(() => {
+    if(window.innerWidth <= 550) {
+      setBookWidth(window.innerWidth - 50)
+      setBookHeight(450)
+    }
+    window.addEventListener('resize', () => {
+      console.log(window.innerWidth)
+      if(window.innerWidth >= 1300) {
+        setBookWidth(550)
+        setBookHeight(650) 
+      } else if (window.innerWidth <= 550) { 
+        console.log('here')
+        setBookWidth(window.innerWidth - 50)
+        setBookHeight(450)
+      } else if (window.innerWidth > 992 && window.innerWidth < 1300) { 
+        setBookWidth(window.innerWidth / 2 - 50)
+        setBookHeight((window.innerWidth - 50) * 1.35)
+      } else if (window.innerWidth > 550 && window.innerWidth < 992) { 
+        setBookWidth(500)
+        setBookHeight((window.innerWidth - 50) * 1.35)
+      }
+    })
+  }, [bookWidth, bookHeight])
+
+  useEffect(() => {
+    document.querySelector(':root').style.setProperty("--book-color", bookDetails.color)
+  }, [])
 
   useEffect(() => {
     setIsLoad(true);
@@ -65,7 +98,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
     bookCover,
     ...allBookPages.map((page, idx) => (
       <div key={idx} className={`${page.title.split(" ")[0] === "Unit" ? 'unit' : ''} ${page.title.split(" ")[0] === "Lesson" ? 'lesson' : ''} demoPage`}>
-        <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} index={idx} setSectionId={setSectionId} />
+        <Page openModal={openModal} data={page.page_sections ? page.page_sections : { title: page.title, details: page.details, photo: page.photo_file }} openQuiz={openQuiz} index={idx} setSectionId={setSectionId} footerLogo={bookDetails.footer_logo} footerNumLogo={bookDetails.footer_number_logo} />
       </div>
     )),
     bookEnd
@@ -112,7 +145,11 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
 
     <LayoutOne>
 
-      <div className="mainPage flipBook" id={locale}>
+      <Head>
+        <link href={bookDetails.font_url} rel="stylesheet"></link>
+      </Head>
+
+      <div className="mainPage flipBook" id={locale} style={{ fontFamily: bookDetails.font_name }}>
 
         {/* <LangSwitch locale={locale} />
 
@@ -121,10 +158,10 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
         {
           isLoad && 
           <Flippy
-            pageWidth={550}
-            pageHeight={650}
-            rtl={true}
-            backSkin="#088a19"
+            pageWidth={bookWidth}
+            pageHeight={bookHeight}
+            rtl={bookDetails.direction === 'rtl' ? true : false}
+            backSkin={bookDetails.color}
             pageSkin="#fff"
             breakpoint={992}
             flippingTime={500}

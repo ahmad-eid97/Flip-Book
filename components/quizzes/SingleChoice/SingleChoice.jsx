@@ -31,6 +31,9 @@ const SingleChoice = ({ question, idx, setOpenQuizModal, attemptId, questionNum,
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

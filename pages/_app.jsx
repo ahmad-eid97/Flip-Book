@@ -31,11 +31,9 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     router.events.on("routeChangeStart", () => {
       setLoading(true)
-      console.log("routeChangeStart");
     });
     router.events.on("routeChangeComplete", () => {
       setLoading(false)
-      console.log("routeChangeComplete");
     });
   }, [router.events]);
 
@@ -51,7 +49,6 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="anonymous"
         />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
         <title>Emicrolearn</title>
       </Head>
       

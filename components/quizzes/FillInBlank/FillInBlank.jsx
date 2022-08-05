@@ -35,6 +35,9 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptId, questionNum, setQu
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
   
       const data = {

@@ -31,6 +31,9 @@ const OpenEnded = ({ question, setOpenQuizModal, attemptId, questionNum, setQues
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

@@ -62,6 +62,9 @@ const OrderingQuiz = ({ question, setOpenQuizModal, attemptId, questionNum, setQ
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

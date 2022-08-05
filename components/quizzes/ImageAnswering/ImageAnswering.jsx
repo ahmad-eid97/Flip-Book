@@ -40,6 +40,9 @@ const ImageAnswering = ({ question, setOpenQuizModal, attemptId, questionNum, se
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
       
       const data = {

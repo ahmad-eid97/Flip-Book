@@ -44,6 +44,9 @@ const DragQuiz = ({ question, setOpenQuizModal, attemptId, questionNum, setQuest
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

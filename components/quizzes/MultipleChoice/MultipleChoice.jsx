@@ -50,6 +50,9 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptId, questionNu
       } else {
         setQuestionNum(questionNum += 1)
         setChanging(true)
+        setTimeout(() => {
+          setChanging(false)
+        }, 1000)
       }
 
       const data = {

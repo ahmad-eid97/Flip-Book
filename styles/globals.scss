@@ -1,3 +1,5 @@
+@import './mixins.scss';
+
 html,
 body {
   padding: 0;
@@ -63,7 +65,7 @@ a {
   &.unit {
     h2 {
       color: #fff;
-      background-color: var(--main-color);
+      background-color: var(--book-color);
       display: inline-block;
       padding: 5px 50px;
       margin: 10px auto;
@@ -106,7 +108,7 @@ a {
 .demoPage {
   &.lesson {
     h2 {
-      text-shadow: 2px 2px 8px var(--main-color);
+      text-shadow: 2px 2px 8px var(--book-color);
     }
     p {
       text-align: center;
@@ -124,7 +126,7 @@ a {
   padding: 0;
   background-color: #088a19;
   height: 100%;
-  // background-color: var(--main-color);
+  // background-color: var(--book-color);
   img {
     width: 100%;
     height: 100% !important;
@@ -146,7 +148,7 @@ a {
 
 .demoPage {
   h2 {
-    background-color: var(--main-color) !important;
+    background-color: var(--book-color) !important;
     color: #fff;
     padding: 8px 20px;
     border-radius: 5px;
@@ -192,33 +194,47 @@ button.wrapper {
     p {
       width: 50px;
       height: 50px;
-      border: 5px solid var(--main-color);
-      color: var(--main-color);
+      border: 5px solid var(--book-color);
+      color: var(--book-color);
       border-radius: 50%;
       display: grid;
       place-items: center;
       font-size: 1.2rem;
       margin-bottom: 5px;
       margin-right: 10px;
+      @include xs {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
     }
     span {
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       text-align: center !important;
+      @include xs {
+        font-size: 0.9rem;
+      }
     }
   }
   .step {
     &:after {
-      content: '';
+      content: ' ';
       position: absolute;
       top: 25%;
-      left: -136%;
+      left: -156%;
       width: 130px;
-      border: 5px dashed var(--main-color);
+      border: 8px dashed var(--book-color);
+      border-bottom: 0px dashed var(--book-color);
+      @include xs {
+        top: 18%;
+        left: -220%;
+        width: 110px;
+      }
     }
   }
   .lastStep {
     p {
-      background-color: var(--main-color);
+      background-color: var(--book-color);
       color: #fff;
     }
   }
