@@ -32,5 +32,17 @@
     "eslint-config-next": "12.1.6",
     "file-loader": "^6.2.0",
     "url-loader": "^4.1.1"
-  }
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": "next-i18next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmad-eid97/Flip-Book.git"
+  },
+  "author": "ahmad eid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahmad-eid97/Flip-Book/issues"
+  },
+  "homepage": "https://github.com/ahmad-eid97/Flip-Book#readme"
 }
