@@ -192,9 +192,10 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
       <div className='bookPageFooter'>
 
         {/* <button onClick={() => goToPage(pages.length)}><i className="fa-regular fa-angles-left"></i></button> */}
-        <button onClick={() => goToPage(2)}><i className="fa-regular fa-angles-left"></i></button>
+        <button><i className="fa-regular fa-angles-left"></i></button>
 
-        <input type="number" onChange={(e) => goToPage(+e.target.value)} />
+        {/* <input type="number" onChange={(e) => goToPage(+e.target.value)} /> */}
+        <input type="number" />
 
         <span>إذهب إلي الصفحة</span>
 
