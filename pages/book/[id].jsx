@@ -34,7 +34,7 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
   const [pageNumber, setPageNumber] = useState(1);
   const [navLinks, setNavLinks] = useState(pagesLinks);
   const [bookWidth, setBookWidth] = useState(550)
-  const [bookHeight, setBookHeight] = useState(650)
+  const [bookHeight, setBookHeight] = useState(620)
 
   useEffect(() => {
     if(window.innerWidth <= 550) {
@@ -42,12 +42,10 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
       setBookHeight(450)
     }
     window.addEventListener('resize', () => {
-      console.log(window.innerWidth)
       if(window.innerWidth >= 1300) {
         setBookWidth(550)
-        setBookHeight(650) 
+        setBookHeight(620) 
       } else if (window.innerWidth <= 550) { 
-        console.log('here')
         setBookWidth(window.innerWidth - 50)
         setBookHeight(450)
       } else if (window.innerWidth > 992 && window.innerWidth < 1300) { 
@@ -141,6 +139,11 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
     
   }
 
+  const goToPage = (pageNum) => {
+    let pageNumber = +pageNum / 2
+    flippy.goToPage(+pageNumber)
+  }
+
   return (
 
     <LayoutOne>
@@ -154,6 +157,8 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
         {/* <LangSwitch locale={locale} />
 
         <h1><i className="fa-solid fa-house-user"></i> {t('welcome')}</h1> */}
+
+        <button className='prev' onClick={() => flippy.flipPrev()}><i className="fa-regular fa-angles-right"></i></button>
 
         {
           isLoad && 
@@ -176,9 +181,24 @@ export default function Home({ locale, book, bookUnits, pages, ALL_PAGES, pagesL
           </Flippy>
         }
 
+        <button className='next' onClick={() => flippy.flipNext()}><i className="fa-regular fa-angles-left"></i></button>
+
         {openPreview && <PreviewModal setOpenPreview={setOpenPreview} imgSrc={previewData} previewType={previewType} sectionId={sectionId} />}
 
         {openQuizModal && <QuizModal setOpenQuizModal={setOpenQuizModal} quizData={quizData} sectionId={sectionId} />}
+
+      </div>
+
+      <div className='bookPageFooter'>
+
+        {/* <button onClick={() => goToPage(pages.length)}><i className="fa-regular fa-angles-left"></i></button> */}
+        <button onClick={() => goToPage(2)}><i className="fa-regular fa-angles-left"></i></button>
+
+        <input type="number" onChange={(e) => goToPage(+e.target.value)} />
+
+        <span>إذهب إلي الصفحة</span>
+
+        <button onClick={() => goToPage(4)}><i className="fa-regular fa-angles-right"></i></button>
 
       </div>
 

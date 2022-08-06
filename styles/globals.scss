@@ -31,10 +31,30 @@ a {
 
 .mainPage {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 95vh;
+
+  @include md {
+    button.prev, button.next {
+      display: none;
+    }
+  }
+
+  button.prev, button.next {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid var(--book-color);
+    color: var(--book-color);
+    outline: none;
+    &:hover {
+      background-color: var(--book-color);
+      color: #fff;
+    }
+  }
 } 
 
 .demoPage, .cover {
@@ -243,4 +263,46 @@ button.wrapper {
   //   width: 100px;
   //   background-color: #ccc;
   // }
+}
+
+.bookPageFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  background-color: var(--book-color);
+  z-index: 99;
+  input {
+    width: 60px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 1rem;
+    outline: none;
+    text-align: center !important;
+  }
+  span {
+    padding: 0 5px;
+  }
+  &:focus {
+    border: 1px solid var(--book-color);
+  }
+  button {
+    width: 35px;
+    height: 35px;
+    margin: 0 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    &:hover {
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    }
+  }
 }
