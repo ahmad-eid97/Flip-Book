@@ -23,13 +23,19 @@
   .wrapper {
     background-color: rgb(241, 241, 241);
     border-radius: 5px;
+    direction: ltr !important;
+    text-align: left !important;
+    * {
+      direction: ltr !important;
+      text-align: left !important;
+    }
   }
   .box {
     margin-top: 20px;
     margin-left: 61px;
     &.ar {
-      margin-left: unset;
-      margin-right: 70px !important;
+      // margin-left: unset;
+      // margin-right: 70px !important;
     }
   } 
   .answers {

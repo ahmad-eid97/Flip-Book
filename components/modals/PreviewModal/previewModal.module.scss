@@ -82,6 +82,18 @@
       img {
         width: 100%;
       }
+      iframe {
+        width: 650px;
+        height: 450px;
+        @include sm {
+          width: 500px !important;
+          height: 350px !important;
+        }
+        @include xs {
+          width: 350px !important;
+          height: 390px !important;
+        }
+      }
     }
 
   }

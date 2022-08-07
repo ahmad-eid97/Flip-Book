@@ -4,12 +4,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 5px 0;
-  span {
-    @include xs {
-      font-size: 0.7rem;
-    }
-  }
+  margin: 10px 0;
   button {
     width: 80px;
     height: 80px;
@@ -24,8 +19,8 @@
       animation: rotate 5s infinite linear; 
     }
     @include xs {
-      width: 55px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       margin: 0 10px;
     }
   }
