@@ -209,7 +209,14 @@ export default function Home({
       <div
         className="mainPage flipBook"
         id={locale}
-        style={{ fontFamily: bookDetails.font_name }}
+        style={{
+          fontFamily: bookDetails.font_name,
+          direction: `${bookDetails.direction} !important`,
+          textAlign:
+            `${bookDetails.direction}` === "rtl"
+              ? "rtl !important"
+              : "ltr !important",
+        }}
       >
         {/* <LangSwitch locale={locale} />
 
@@ -247,6 +254,7 @@ export default function Home({
             imgSrc={previewData}
             previewType={previewType}
             sectionId={sectionId}
+            direction={bookDetails.direction}
           />
         )}
 
@@ -255,6 +263,7 @@ export default function Home({
             setOpenQuizModal={setOpenQuizModal}
             quizData={quizData}
             sectionId={sectionId}
+            direction={bookDetails.direction}
           />
         )}
       </div>

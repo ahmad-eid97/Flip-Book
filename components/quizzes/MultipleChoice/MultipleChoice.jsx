@@ -1,76 +1,79 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
-import axios from '../../../Utils/axios';
+import axios from "../../../Utils/axios";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
-import cls from './multipleChoice.module.scss';
+import cls from "./multipleChoice.module.scss";
 
 const cookie = new Cookies();
 
-const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
+const MultipleChoice = ({
+  question,
+  idx,
+  setOpenQuizModal,
+  attemptId,
+  questionNum,
+  setQuestionNum,
+  questionsNum,
+  direction
+}) => {
   const [choosedAnswer, setChoosedAnswer] = useState([]);
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
-  const { i18n } = useTranslation()
-  const [changing, setChanging] = useState(false)
+  const { i18n } = useTranslation();
+  const [changing, setChanging] = useState(false);
 
   const selectChoice = (answer) => {
+    const answerFound = choosedAnswer.findIndex((ans) => ans.id === answer.id);
 
-    const answerFound = choosedAnswer.findIndex(ans => ans.id === answer.id)
-
-    if(answerFound == -1) {
-
-      setChoosedAnswer(prev => [...prev, answer])
-
+    if (answerFound == -1) {
+      setChoosedAnswer((prev) => [...prev, answer]);
     } else {
+      let choosedAnswers = [...choosedAnswer];
 
-      let choosedAnswers = [...choosedAnswer]
+      choosedAnswers.splice(answerFound, 1);
 
-      choosedAnswers.splice(answerFound, 1)
-
-      setChoosedAnswer(choosedAnswers)
-
+      setChoosedAnswer(choosedAnswers);
     }
-  }
+  };
 
   const submit = async () => {
-
-    if(choosedAnswer.length) {
-      if(questionsNum === questionNum) {
-        setOpenQuizModal(false)
+    if (choosedAnswer.length) {
+      if (questionsNum === questionNum) {
+        setOpenQuizModal(false);
       } else {
-        setQuestionNum(questionNum += 1)
-        setChanging(true)
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
         setTimeout(() => {
-          setChanging(false)
-        }, 1000)
+          setChanging(false);
+        }, 1000);
       }
 
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
-        given_answer: choosedAnswer.map(answer => answer.id)
-      }
+        given_answer: choosedAnswer.map((answer) => answer.id),
+      };
 
-      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-        headers: {
-          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
-        }
-      }).catch(err => console.log(err));
+      const response = await axios
+        .post(`/crm/students/quiz/answer_question`, data, {
+          headers: {
+            Authorization: `Bearer ${cookie.get("EmicrolearnAuth")}`,
+          },
+        })
+        .catch((err) => console.log(err));
 
-      if(!response) return;
-
+      if (!response) return;
     }
-
 
     // if (choosedAnswer.length) {
 
@@ -97,63 +100,68 @@ const MultipleChoice = ({ question, idx, setOpenQuizModal, attemptId, questionNu
     //   setOpenWrong(true)
     //   setWrongTries(prev => (prev += 1))
     // }
-  }
+  };
 
-  const successNotify = (message) => toast.success(message)
-  const errorNotify = (message) => toast.error(message)
+  const successNotify = (message) => toast.success(message);
+  const errorNotify = (message) => toast.error(message);
 
   return (
     <div className={`${cls.multipleChoice} ${changing && cls.animation}`}>
-
-      <div className='stepper'>
-
-        <div className='step'>
+      <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
+        <div className="step">
           <p>{questionNum}</p>
           <span>السؤال الحالي</span>
         </div>
 
-        {/* <div className='line'></div> */}
-
-        <div className='lastStep'>
+        <div className="lastStep">
           <p>{questionsNum}</p>
           <span>عدد الاسئلة</span>
         </div>
-
       </div>
 
-      <h6><span>{idx + 1})</span> {question.title}</h6>
+      <h6>
+        <span>{idx + 1})</span> {question.title}
+      </h6>
 
       <div className={cls.answers}>
-
         {question.answers.map((answer, idx) => (
           <p key={idx}>
-
             <span className={cls.num}>{idx + 1}</span>
 
             <span>
-              <input type="checkbox" name={question.id} value={answer.title} onChange={() => selectChoice(answer)} /> {answer.title}
+              <input
+                type="checkbox"
+                name={question.id}
+                value={answer.title}
+                onChange={() => selectChoice(answer)}
+              />{" "}
+              {answer.title}
             </span>
-
           </p>
         ))}
-
       </div>
 
       <div className={cls.btn}>
-
-        {questionsNum === questionNum ? 
-          <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
-          :
-          <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
-        }
-
+        {questionsNum === questionNum ? (
+          <button onClick={submit}>
+            تأكيد <i className="fa-light fa-badge-check"></i>
+          </button>
+        ) : (
+          <button onClick={submit}>
+            التالي{" "}
+            <i
+              className={`${cls[i18n.language]} ${
+                cls.next
+              } fa-light fa-circle-right`}
+            ></i>
+          </button>
+        )}
       </div>
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}
-
     </div>
-  )
-}
+  );
+};
 
-export default MultipleChoice
+export default MultipleChoice;

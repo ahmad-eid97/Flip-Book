@@ -16,18 +16,18 @@ a {
   box-sizing: border-box;
 }
 
-#en {
-  direction: ltr !important;
-  text-align: left;
-}
+// #en {
+//   direction: ltr !important;
+//   text-align: left;
+// }
 
-#ar {
-  direction: rtl !important;
-  text-align: right;
-  // canvas {
-  //   transform: rotateZ(180deg);
-  // }
-}
+// #ar {
+//   direction: rtl !important;
+//   text-align: right;
+//   // canvas {
+//   //   transform: rotateZ(180deg);
+//   // }
+// }
 
 .mainPage {
   display: flex;
@@ -221,7 +221,7 @@ button.wrapper {
       place-items: center;
       font-size: 1.2rem;
       margin-bottom: 5px;
-      margin-right: 10px;
+      margin-left: 10px;
       @include xs {
         width: 40px;
         height: 40px;
@@ -241,13 +241,21 @@ button.wrapper {
       content: ' ';
       position: absolute;
       top: 25%;
-      left: -156%;
+      left: -140%;
       width: 130px;
       border: 8px dashed var(--book-color);
       border-bottom: 0px dashed var(--book-color);
       @include xs {
         top: 18%;
-        left: -220%;
+        left: -200%;
+        width: 130px;
+      }
+    }
+  }
+  &.arabic {
+    .step {
+      &:after {
+        left: 75%;
         width: 110px;
       }
     }
@@ -258,11 +266,6 @@ button.wrapper {
       color: #fff;
     }
   }
-  // .line {
-  //   height: 10px;
-  //   width: 100px;
-  //   background-color: #ccc;
-  // }
 }
 
 .bookPageFooter {

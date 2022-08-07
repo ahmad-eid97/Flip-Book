@@ -1,73 +1,83 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 import { replaceReact } from "replace-react";
 
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
-import axios from '../../../Utils/axios';
+import axios from "../../../Utils/axios";
 
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from "next-i18next";
 
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 
-import cls from './fillInBlank.module.scss';
-import { useEffect } from 'react';
+import cls from "./fillInBlank.module.scss";
+import { useEffect } from "react";
 
 const cookie = new Cookies();
 
-const FillInBlank = ({ question, setOpenQuizModal, attemptId, questionNum, setQuestionNum, questionsNum }) => {
+const FillInBlank = ({
+  question,
+  setOpenQuizModal,
+  attemptId,
+  questionNum,
+  setQuestionNum,
+  questionsNum,
+  direction,
+}) => {
   const [answers, setAnswers] = useState({});
-  const [wrongAnswers, setWrongAnswers] = useState({})
+  const [wrongAnswers, setWrongAnswers] = useState({});
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
-  const [changing, setChanging] = useState(false)
-  const { i18n } = useTranslation()
+  const [changing, setChanging] = useState(false);
+  const { i18n } = useTranslation();
 
   const submit = async () => {
-    
-    if(Object.values(answers).length) {
-      if(questionsNum === questionNum) {
-        setOpenQuizModal(false)
+    if (Object.values(answers).length) {
+      if (questionsNum === questionNum) {
+        setOpenQuizModal(false);
       } else {
-        setQuestionNum(questionNum += 1)
-        setChanging(true)
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
         setTimeout(() => {
-          setChanging(false)
-        }, 1000)
+          setChanging(false);
+        }, 1000);
       }
-  
+
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
-        given_answer: Object.values(answers).length && Object.values(answers['0'])
-      }
-  
-      const response = await axios.post(`/crm/students/quiz/answer_question`, data, {
-        headers: {
-          Authorization: `Bearer ${cookie.get('EmicrolearnAuth')}`
-        }
-      }).catch(err => console.log(err));
-  
-      if(!response) return;
+        given_answer:
+          Object.values(answers).length && Object.values(answers["0"]),
+      };
+
+      const response = await axios
+        .post(`/crm/students/quiz/answer_question`, data, {
+          headers: {
+            Authorization: `Bearer ${cookie.get("EmicrolearnAuth")}`,
+          },
+        })
+        .catch((err) => console.log(err));
+
+      if (!response) return;
     }
 
     // if(response.success) {
-      // setTimeout(() => {
-      //   setOpenSuccess(false)
-      //   setOpenQuizModal(false)
-      // }, 4000)
-      // setOpenSuccess(true)
+    // setTimeout(() => {
+    //   setOpenSuccess(false)
+    //   setOpenQuizModal(false)
+    // }, 4000)
+    // setOpenSuccess(true)
 
     // } else {
-      // setTimeout(() => {
-      //   setOpenWrong(false)
-      // }, 4000)
-      // setOpenWrong(true)
-      // setWrongTries(prev => (prev += 1))
+    // setTimeout(() => {
+    //   setOpenWrong(false)
+    // }, 4000)
+    // setOpenWrong(true)
+    // setWrongTries(prev => (prev += 1))
     // }
 
     // for(var prop in answers) {
@@ -82,7 +92,7 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptId, questionNum, setQu
     //     setOpenWrong(true)
     //     setWrongTries(prev => (prev += 1))
     //   } else {
-  
+
     //     if(rightAnswers.every((val, index) => val === studentAnswers[index])) {
     //       setTimeout(() => {
     //         setOpenSuccess(false)
@@ -103,78 +113,76 @@ const FillInBlank = ({ question, setOpenQuizModal, attemptId, questionNum, setQu
     //       setWrongTries(prev => (prev += 1))
     //     }
     //   }
-      
-    // }
 
-  }
+    // }
+  };
 
   const handleFields = (e, idx) => {
     setAnswers({
       ...answers,
       [idx]: {
         ...answers[idx],
-        [e.target.name]: e.target.value
-      }
-    })
-  }
+        [e.target.name]: e.target.value,
+      },
+    });
+  };
 
-  const successNotify = (message) => toast.success(message)
-  const errorNotify = (message) => toast.error(message)
+  const successNotify = (message) => toast.success(message);
+  const errorNotify = (message) => toast.error(message);
 
   return (
     <div className={`${cls.fillInBlank} ${changing && cls.animation}`}>
-
-      <div className='stepper'>
-
-        <div className='step'>
+      <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
+        <div className="step">
           <p>{questionNum}</p>
           <span>السؤال الحالي</span>
         </div>
 
-        {/* <div className='line'></div> */}
-
-        <div className='lastStep'>
+        <div className="lastStep">
           <p>{questionsNum}</p>
           <span>عدد الاسئلة</span>
         </div>
-
       </div>
-      
-      <h6> 1) {`${'أكمل الفراغات التاليه بالاجابات المناسبة'}`}</h6>
+
+      <h6> 1) {`${"أكمل الفراغات التاليه بالاجابات المناسبة"}`}</h6>
 
       {question.answers.map((answer, idx) => (
-
         <div key={answer.id} className={cls.text}>
-
           {replaceReact(answer.title, /({dash})/g, (match, key) => (
-            <input 
-              type="text" 
-              placeholder='--------------------------------------' 
-              name={key} 
-              onChange={(e) => handleFields(e, idx)} 
-              className={wrongAnswers[idx] && wrongAnswers[idx][key] ? cls.error : ''}
+            <input
+              type="text"
+              placeholder="--------------------------------------"
+              name={key}
+              onChange={(e) => handleFields(e, idx)}
+              className={
+                wrongAnswers[idx] && wrongAnswers[idx][key] ? cls.error : ""
+              }
             />
           ))}
 
           <div className={cls.btn}>
-
-            {questionsNum === questionNum ? 
-              <button onClick={submit}>تأكيد <i className="fa-light fa-badge-check"></i></button>
-              :
-              <button onClick={submit}>التالي <i className={`${cls[i18n.language]} ${cls.next} fa-light fa-circle-right`}></i></button>
-            }
-
+            {questionsNum === questionNum ? (
+              <button onClick={submit}>
+                تأكيد <i className="fa-light fa-badge-check"></i>
+              </button>
+            ) : (
+              <button onClick={submit}>
+                التالي{" "}
+                <i
+                  className={`${cls[i18n.language]} ${
+                    cls.next
+                  } fa-light fa-circle-right`}
+                ></i>
+              </button>
+            )}
           </div>
-
         </div>
-
       ))}
 
       {openSuccess && <CorrectAnswer />}
       {openWrong && <WrongAnswer />}
-
     </div>
-  )
-}
+  );
+};
 
-export default FillInBlank
+export default FillInBlank;

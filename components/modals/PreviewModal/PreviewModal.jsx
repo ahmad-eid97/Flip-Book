@@ -14,7 +14,13 @@ import cls from "./previewModal.module.scss";
 
 const cookie = new Cookies();
 
-const PreviewModal = ({ setOpenPreview, imgSrc, previewType, sectionId }) => {
+const PreviewModal = ({
+  setOpenPreview,
+  imgSrc,
+  previewType,
+  sectionId,
+  direction,
+}) => {
   // COMPONENT HOOKS
   const [playedSeconds, setPlayedSeconds] = useState();
   const [userPauses, setUserPauses] = useState();
@@ -134,7 +140,13 @@ const PreviewModal = ({ setOpenPreview, imgSrc, previewType, sectionId }) => {
             <i className="fa-solid fa-xmark"></i>
           </div>
 
-          <div container className={cls.area__content} spacing={3}>
+          <div
+            container
+            className={`${cls.area__content} ${
+              direction === "rtl" ? cls.arabic : cls.english
+            }`}
+            spacing={3}
+          >
             {renderView()}
           </div>
         </div>
