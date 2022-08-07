@@ -51,7 +51,7 @@ export default function Home({
   useEffect(() => {
     if (window.innerWidth <= 550) {
       setBookWidth(window.innerWidth - 50);
-      setBookHeight(400);
+      setBookHeight(500);
     }
     window.addEventListener("resize", () => {
       if (window.innerWidth >= 1300) {
