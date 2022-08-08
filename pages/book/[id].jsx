@@ -202,9 +202,54 @@ export default function Home({
     flippy.goToPage(+pageNum + 1);
   };
 
-  const enterToGoToPage = (e, pageNum) => {
+  const enterToGoToPage = async (e, pageNum) => {
     if (e.keyCode === 13) {
+      setPageNumber(+pageNum);
       flippy.goToPage(+pageNum + 1);
+      if (pageNum > 30) {
+        if (navLinks.next) {
+          let allPages = [];
+          const response = await axios
+            .get(navLinks.next)
+            .catch((err) => console.log(err));
+
+          if (!response) return;
+
+          setNavLinks(response.data.data.links);
+
+          bookPages = response.data.data.pages;
+          console.log(response.data.data.pages);
+          bookPages.forEach(async (page) => {
+            const unitFound = allPages.findIndex(
+              (pa) =>
+                pa.title === page.lesson.unit.title && !pa.unit && !pa.lesson
+            );
+            if (unitFound <= -1) allPages.push({ ...page.lesson.unit });
+
+            const lessonFound = allPages.findIndex(
+              (pa) =>
+                pa.title === page.lesson.title &&
+                pa.unit &&
+                pa.unit.id === page.lesson.unit.id
+            );
+            if (lessonFound <= -1) allPages.push({ ...page.lesson });
+
+            const pageFound = allPages.findIndex(
+              (pa) =>
+                pa.title === page.title &&
+                pa.lesson &&
+                pa.lesson.id === page.lesson.id
+            );
+            if (pageFound <= -1) {
+              allPages.push({ ...page });
+            }
+          });
+
+          console.log([...bookPages, ...allPages]);
+
+          setAllBookPages((prev) => [...prev, ...allPages]);
+        }
+      }
     }
   };
 
