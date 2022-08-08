@@ -1,0 +1,20 @@
+/****************| Media Query Mixins |****************/
+/****************| Centering Mixin |****************/
+/****************| main box shadow |****************/
+/****************| Add Font Mixin |****************/
+/****************| Fixed Background Mixin |****************/
+/****************| Overlay Mixin |****************/
+/****************| Float Clearfix Mixin |****************/
+/****************| Reverse Bg Color Function |****************/
+.imageSection img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+}
+
+@media (max-width: 576px) {
+  .imageSection img {
+    max-height: 120px;
+  }
+}
+/*# sourceMappingURL=imageSection.module.css.map */

@@ -22,7 +22,7 @@ const ShortAnswer = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
 }) => {
   const [field, setField] = useState("");
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -96,7 +96,7 @@ const ShortAnswer = ({
 
       <input
         type="text"
-        placeholder="Type your answer"
+        placeholder="اكتب الإجابه"
         value={field}
         onChange={(e) => setField(e.target.value)}
       />

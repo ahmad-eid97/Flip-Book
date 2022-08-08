@@ -1,3 +1,5 @@
+@import '../../../styles/mixins.scss';
+
 .matching {
   &.animation {
     animation: show 1s forwards;
@@ -30,6 +32,17 @@
       cursor: pointer;
       direction: unset !important;
       text-align: center !important;
+      @include xs {
+        width: 100px;
+        font-size: 0.9rem;
+      }
+    }
+
+    canvas {
+      width: 200px;
+      @include xs {
+        width: 50px;
+      }
     }
 
     .list {
