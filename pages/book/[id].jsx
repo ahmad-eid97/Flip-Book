@@ -15,12 +15,16 @@ import PreviewModal from "../../components/modals/PreviewModal/PreviewModal";
 import QuizModal from "../../components/modals/QuizModal/QuizModal";
 import Flippy from "../../components/Flippy/Flippy";
 
+import Cookies from "universal-cookie";
+
 import axios from "../../Utils/axios";
 
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { langRedirection } from "../../Utils/redirections/langRedirection/langRedirection";
 import { routeRedirection } from "../../Utils/redirections/routeRedirection/routeRedirection";
+
+const cookie = new Cookies();
 
 import HTMLFlipBook from "react-pageflip";
 
@@ -82,8 +86,6 @@ export default function Home({
 
   const { t, i18n } = useTranslation("common");
 
-  const [name, setName] = useState("");
-
   const openModal = (state, data, type) => {
     setOpenPreview(state);
     setPreviewData(data);
@@ -95,7 +97,6 @@ export default function Home({
     setQuizData(data);
   };
 
-  let flipBook = useRef(null);
   let flippy = useRef(null);
 
   const bookCover = (
@@ -137,6 +138,7 @@ export default function Home({
           openQuiz={openQuiz}
           index={idx}
           setSectionId={setSectionId}
+          direction={bookDetails.direction}
           footerLogo={bookDetails.footer_logo}
           footerNumLogo={bookDetails.footer_number_logo}
         />
@@ -228,9 +230,15 @@ export default function Home({
 
         <h1><i className="fa-solid fa-house-user"></i> {t('welcome')}</h1> */}
 
-        <button className="prev" onClick={() => flippy.flipPrev()}>
-          <i className="fa-regular fa-angles-right"></i>
-        </button>
+        {bookDetails.direction === "rtl" ? (
+          <button className="next" onClick={() => flippy.flipPrev()}>
+            <i className="fa-regular fa-angles-right"></i>
+          </button>
+        ) : (
+          <button className="next" onClick={() => flippy.flipPrev()}>
+            <i className="fa-regular fa-angles-left"></i>
+          </button>
+        )}
 
         {isLoad && (
           <Flippy
@@ -250,9 +258,15 @@ export default function Home({
           </Flippy>
         )}
 
-        <button className="next" onClick={() => flippy.flipNext()}>
-          <i className="fa-regular fa-angles-left"></i>
-        </button>
+        {bookDetails.direction === "rtl" ? (
+          <button className="next" onClick={() => flippy.flipNext()}>
+            <i className="fa-regular fa-angles-left"></i>
+          </button>
+        ) : (
+          <button className="next" onClick={() => flippy.flipNext()}>
+            <i className="fa-regular fa-angles-right"></i>
+          </button>
+        )}
 
         {openPreview && (
           <PreviewModal
@@ -275,20 +289,36 @@ export default function Home({
       </div>
 
       <div className="bookPageFooter">
-        <button onClick={() => goToPage(pages.length)}>
-          <i className="fa-regular fa-angles-left"></i>
-        </button>
+        {bookDetails.direction === "rtl" ? (
+          <button onClick={() => goToPage(pages.length)}>
+            <i className="fa-regular fa-angles-left"></i>
+          </button>
+        ) : (
+          <button onClick={() => goToPage(2)}>
+            <i className="fa-regular fa-angles-left"></i>
+          </button>
+        )}
 
         <input
           type="number"
           onKeyUp={(e) => enterToGoToPage(e, e.target.value)}
         />
 
-        <span>إذهب إلي الصفحة</span>
+        {bookDetails.direction === "rtl" ? (
+          <span>إذهب إلي الصفحة</span>
+        ) : (
+          <span>Go to page</span>
+        )}
 
-        <button onClick={() => goToPage(2)}>
-          <i className="fa-regular fa-angles-right"></i>
-        </button>
+        {bookDetails.direction === "rtl" ? (
+          <button onClick={() => goToPage(2)}>
+            <i className="fa-regular fa-angles-right"></i>
+          </button>
+        ) : (
+          <button onClick={() => goToPage(pages.length)}>
+            <i className="fa-regular fa-angles-right"></i>
+          </button>
+        )}
       </div>
     </LayoutOne>
   );

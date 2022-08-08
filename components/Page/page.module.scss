@@ -48,7 +48,7 @@
         border-radius: 50%;
         display: grid;
         place-items: center;
-        color: var(--main-color);
+        color: var(--book-color);
         margin-top: 3px;
         position: absolute;
         top: 25%;
@@ -56,7 +56,17 @@
         @include xs {
           top: 8%;
           left: 8%;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
+        }
+      }
+      &.english {
+        p {
+          top: 25%;
+          left: 15%;
+          @include xs {
+            top: 10%;
+            left: 0% !important;
+          }
         }
       }
     }

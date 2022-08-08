@@ -23,7 +23,7 @@ const ImageAnswering = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
 }) => {
   const [fields, setFields] = useState({});
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -114,7 +114,6 @@ const ImageAnswering = ({
 
             <input
               type="text"
-              placeholder="Type answer"
               name={answer.title}
               onChange={(e) => changeFields(e)}
             />

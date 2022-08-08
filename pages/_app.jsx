@@ -8,13 +8,12 @@ import Loader from "../components/Loader/Loader";
 
 import { appWithTranslation } from "next-i18next";
 
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import '../public/css/all.min.css';
-import '../styles/globals.scss';
-import '../styles/variables.scss';
-
+import "../public/css/all.min.css";
+import "../styles/globals.scss";
+import "../styles/variables.scss";
 
 // Router.events.on('routeChangeStart', () => {
 //   console.log('change starts')
@@ -25,21 +24,20 @@ import '../styles/variables.scss';
 // })
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     router.events.on("routeChangeStart", () => {
-      setLoading(true)
+      setLoading(true);
     });
     router.events.on("routeChangeComplete", () => {
-      setLoading(false)
+      setLoading(false);
     });
   }, [router.events]);
 
   return (
     <>
-
       {/* BOOTSTRAP CSS AND JS INTEGERATION */}
       <Head>
         <link
@@ -48,10 +46,13 @@ function MyApp({ Component, pageProps }) {
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
           crossOrigin="anonymous"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet"></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800;900&display=swap"
+          rel="stylesheet"
+        ></link>
         <title>Emicrolearn</title>
       </Head>
-      
+
       <Script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
@@ -70,20 +71,16 @@ function MyApp({ Component, pageProps }) {
         pauseOnHover
       />
 
-      <div style={{ position: 'relative' }}>
-      
+      <div style={{ position: "relative" }}>
         {loading && <Loader />}
 
         <Component {...pageProps} />
-
       </div>
-
     </>
-  )
+  );
 }
 
 MyApp.getInitialProps = async (context) => {
-
   const savedLang = context.ctx.req.cookies["NEXT_LOCALE"];
 
   // GET APP LANGUAGE
@@ -97,15 +94,10 @@ MyApp.getInitialProps = async (context) => {
       context.ctx.res.setHeader("set-cookie", `NEXT_LOCALE=en;path=/`);
     }
   } else {
-    context.ctx.res.setHeader(
-      "set-cookie",
-      `NEXT_LOCALE=${savedLang};path=/`
-    );
+    context.ctx.res.setHeader("set-cookie", `NEXT_LOCALE=${savedLang};path=/`);
   }
 
-  return {
-  }
+  return {};
+};
 
-}
-
-export default appWithTranslation(MyApp)
+export default appWithTranslation(MyApp);

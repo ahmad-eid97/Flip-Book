@@ -96,7 +96,6 @@ const ShortAnswer = ({
 
       <input
         type="text"
-        placeholder="اكتب الإجابه"
         value={field}
         onChange={(e) => setField(e.target.value)}
       />

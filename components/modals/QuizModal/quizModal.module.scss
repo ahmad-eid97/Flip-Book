@@ -29,7 +29,6 @@
     max-height: 80%;
     position: relative;
     animation: show 0.3s forwards ease-in-out 1;
-    // background: url('../../../public/imgs/back.png');
     overflow-x: hidden;
     padding-bottom: 20px;
     @keyframes show {
@@ -82,20 +81,19 @@
     }
 
     .area__content {
+      @include xs { 
+        padding-bottom: 15px;
+      }
       &.arabic {
         direction: rtl !important;
-        // text-align: right;
         * {
           direction: rtl !important;
-          // text-align: right;
         }
       }
       &.english {
         direction: ltr !important;
-        // text-align: left !important;
         * {
           direction: ltr !important;
-          // text-align: left !important;
         }
       }
     }

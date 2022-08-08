@@ -17,6 +17,7 @@ const Page = ({
   setSectionId,
   footerLogo,
   footerNumLogo,
+  direction,
 }) => {
   const renderSection = (type, section) => {
     setSectionId(section.id);
@@ -86,7 +87,11 @@ const Page = ({
       <div className={cls.footer}>
         <img src={footerLogo} alt="footerLogo" />
 
-        <div className={cls.pageNum}>
+        <div
+          className={`${cls.pageNum} ${
+            direction === "rtl" ? cls.arabic : cls.english
+          }`}
+        >
           <p>{index + 1}</p>
 
           <img src={footerNumLogo} alt="footerLogo" />
