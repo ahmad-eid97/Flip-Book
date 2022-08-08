@@ -40,8 +40,10 @@
 
     canvas {
       width: 200px;
+      direction: unset !important;
+      text-align: unset !important;
       @include xs {
-        width: 50px;
+        width: 80px;
       }
     }
 
@@ -55,6 +57,8 @@
       padding: 0px 15px;
       background-color: rgb(238, 238, 238);
       text-align: center !important;
+      direction: unset !important;
+      text-align: unset !important;
     }
   }
 

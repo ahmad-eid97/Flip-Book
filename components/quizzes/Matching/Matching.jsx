@@ -22,7 +22,7 @@ const Matching = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
 }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -42,7 +42,7 @@ const Matching = ({
       ctx.lineTo(300, from);
     } else {
       ctx.moveTo(0, from);
-      ctx.lineTo(300, to);
+      ctx.lineTo(300, from);
     }
     ctx.stroke();
   };
