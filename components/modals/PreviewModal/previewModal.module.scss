@@ -51,7 +51,7 @@
       width: 500px;
     }
     @include xs {
-      width: 90%;
+      width: 100%;
     }
     .close {
       position: absolute;
@@ -68,6 +68,9 @@
       justify-content: center;
       align-items: center;
       transition: all 0.2s ease-in-out !important;
+      @include xs {
+        right: -30px;
+      }
       &:hover {
         background-color: var(--book-color);
         border: 1px solid var(--book-color);
@@ -75,6 +78,9 @@
       &.ar {
         right: unset;
         left: -15px;
+        @include xs {
+          left: 0px;
+        }
       }
     }
 

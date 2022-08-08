@@ -16,6 +16,8 @@
     margin-top: 50px;
     display: flex;
     justify-content: center;
+    direction: unset !important;
+    text-align: unset !important;
     p {
       font-weight: 600;
       color: #fff;
@@ -24,23 +26,22 @@
       border-radius: 5px;
       width: 150px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      text-align: center !important;
       margin-top: 10px;
       cursor: pointer;
+      direction: unset !important;
+      text-align: center !important;
     }
 
     .list {
       padding: 0px 15px;
       background-color: rgb(238, 238, 238);
+      text-align: center !important;
     }
-
-    // canvas {
-    //   width: 200px;
-    // }
 
     .match {
       padding: 0px 15px;
       background-color: rgb(238, 238, 238);
+      text-align: center !important;
     }
   }
 

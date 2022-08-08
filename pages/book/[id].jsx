@@ -196,8 +196,14 @@ export default function Home({
   const goToPrevPage = () => {};
 
   const goToPage = (pageNum) => {
-    let pageNumber = +pageNum / 2;
-    flippy.goToPage(+pageNumber);
+    // let pageNumber = +pageNum / 2;
+    flippy.goToPage(+pageNum + 1);
+  };
+
+  const enterToGoToPage = (e, pageNum) => {
+    if (e.keyCode === 13) {
+      flippy.goToPage(+pageNum + 1);
+    }
   };
 
   return (
@@ -269,17 +275,18 @@ export default function Home({
       </div>
 
       <div className="bookPageFooter">
-        {/* <button onClick={() => goToPage(pages.length)}><i className="fa-regular fa-angles-left"></i></button> */}
-        <button>
+        <button onClick={() => goToPage(pages.length)}>
           <i className="fa-regular fa-angles-left"></i>
         </button>
 
-        {/* <input type="number" onChange={(e) => goToPage(+e.target.value)} /> */}
-        <input type="number" />
+        <input
+          type="number"
+          onKeyUp={(e) => enterToGoToPage(e, e.target.value)}
+        />
 
         <span>إذهب إلي الصفحة</span>
 
-        <button onClick={() => goToPage(4)}>
+        <button onClick={() => goToPage(2)}>
           <i className="fa-regular fa-angles-right"></i>
         </button>
       </div>
