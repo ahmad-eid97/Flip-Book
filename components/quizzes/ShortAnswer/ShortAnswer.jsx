@@ -38,6 +38,8 @@ const ShortAnswer = ({
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);
+
+        setField('')
         setTimeout(() => {
           setChanging(false);
         }, 1000);

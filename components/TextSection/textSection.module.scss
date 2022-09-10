@@ -13,47 +13,46 @@
   }
   // box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 
-  mark.en {
+  // mark.en {
+  //   font-size: 1.2em !important;
+  //   background-color: transparent;
+  //   /* background must be of type background image not color so we can animate it (Notice: linear-gradient is an background-image && second color is opacity: 0 coz we only need one color to highlight be we have to make it of type image got me ?)*/
+  //   background: linear-gradient(90deg, #dfbf09 50%, rgba(255, 255, 255, 0) 50%);
+  //   /* background-size those values makes the background fill all the width of the text */
+  //   background-size: 200% 100%;
+  //   /* background-position 100% to move the background until it's hidden so we can show it with the animation */
+  //   background-position: 100% 0%;
+  //   &:hover {
+	//     animation: 20s highlight ease-out;
+  //   }
+
+  //   @keyframes highlight {
+  //     to {
+  //       background-position: 0% 100%;
+  //     }
+  //   } 
+  //   @include xs {
+  //     font-size: 0.9rem !important;
+  //     line-height: 25px !important;
+  //   }
+  // }
+
+  mark {
     font-size: 1.2em !important;
-    background-color: transparent;
-    /* background must be of type background image not color so we can animate it (Notice: linear-gradient is an background-image && second color is opacity: 0 coz we only need one color to highlight be we have to make it of type image got me ?)*/
-    background: linear-gradient(90deg, #dfbf09 50%, rgba(255, 255, 255, 0) 50%);
-    /* background-size those values makes the background fill all the width of the text */
-    background-size: 200% 100%;
-    /* background-position 100% to move the background until it's hidden so we can show it with the animation */
-    background-position: 100% 0;
-    &:hover {
-	    animation: 20s highlight ease-out;
-    }
-
-    @keyframes highlight {
-      to {
-        background-position: 0 0;
-      }
-    } 
-    @include xs {
-      font-size: 0.9rem !important;
-      line-height: 25px !important;
-    }
-  }
-
-  mark.ar {
-    font-size: 1.2rem !important;
     background-color: transparent;
     /* background must be of type background image not color so we can animate it (Notice: linear-gradient is an background-image && second color is opacity: 0 coz we only need one color to highlight be we have to make it of type image got me ?)*/
     background: linear-gradient(270deg, #dfbf09 50%, rgba(255, 255, 255, 0) 50%);
     /* background-size those values makes the background fill all the width of the text */
     background-size: 200% 100%;
     /* background-position 100% to move the background until it's hidden so we can show it with the animation */
-    background-position: 0 100%;
-    line-height: 35px;
+    background-position: 0% 100%;
     &:hover {
-	    animation: 20s highlight ease-out;
+	    animation: 15s highlight ease-out;
     }
 
     @keyframes highlight {
       to {
-        background-position: 100% 0;
+        background-position: 100% 0%;
       }
     } 
     @include xs {
