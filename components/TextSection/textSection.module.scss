@@ -46,6 +46,7 @@
     background-size: 200% 100%;
     /* background-position 100% to move the background until it's hidden so we can show it with the animation */
     background-position: 0% 100%;
+    line-height: 35px;
     &:hover {
 	    animation: 15s highlight ease-out;
     }
