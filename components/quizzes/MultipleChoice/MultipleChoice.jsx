@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import VideoSection from './../../VideoSection/VideoSection';
+import AudioSection from '../../AudioSection/AudioSection';
+
 import { toast } from "react-toastify";
 
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
@@ -32,6 +35,8 @@ const MultipleChoice = ({
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
+  console.log(question)
+
   const selectChoice = (answer) => {
     const answerFound = choosedAnswer.findIndex((ans) => ans.id === answer.id);
 
@@ -53,6 +58,7 @@ const MultipleChoice = ({
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);
+        setChoosedAnswer([])
         setTimeout(() => {
           setChanging(false);
         }, 1000);
@@ -110,17 +116,47 @@ const MultipleChoice = ({
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          <span>السؤال الحالي</span>
+          {direction === 'rtl' ?
+            <span>السؤال الحالي</span>
+            :
+            <span>Current Question</span>
+          }
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          <span>عدد الاسئلة</span>
+          {direction === 'rtl' ?
+            <span>عدد الاسئلة</span>
+            :
+            <span>Questions Number</span>
+          }
         </div>
       </div>
 
+      <div className="quesImage">
+        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+      </div>
+
+      <div className="quizHelpers">
+        {question?.question_video_link &&
+
+        <div className={cls.videoSection}>
+          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
+        </div>
+
+        }
+        
+        {question?.question_audio && 
+
+          <div className={cls.audioSection}>
+            <AudioSection audio={question?.question_audio} data={false} />
+          </div>
+        
+        }
+      </div>
+
       <h6>
-        <span>{idx + 1})</span> {question.title}
+        <span>{questionNum})</span> {question.title}
       </h6>
 
       <div className={cls.answers}>
@@ -134,6 +170,7 @@ const MultipleChoice = ({
                 name={question.id}
                 value={answer.title}
                 onChange={() => selectChoice(answer)}
+                checked={choosedAnswer ? choosedAnswer.find(ans => ans.id === answer.id) : false}
               />{" "}
               {answer.title}
             </span>
@@ -144,11 +181,23 @@ const MultipleChoice = ({
       <div className={cls.btn}>
         {questionsNum === questionNum ? (
           <button onClick={submit}>
-            تأكيد <i className="fa-light fa-badge-check"></i>
+            {direction === 'rtl' ? 
+              <span>تأكيد{" "}</span>
+              :
+              <span>Submit{" "}</span>
+            }
+            
+            <i className="fa-light fa-badge-check"></i>
+
           </button>
         ) : (
           <button onClick={submit}>
-            التالي{" "}
+            {direction === 'rtl' ? 
+              <span>التالي{" "}</span>
+              :
+              <span>Next {" "}</span>
+            }
+
             <i
               className={`${cls[i18n.language]} ${
                 cls.next

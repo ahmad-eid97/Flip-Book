@@ -9,7 +9,7 @@ const QuizSection = ({ section, openQuiz }) => {
   return (
     <div className={cls.quizSection}>
       <button onClick={() => openQuizPreview(true, section)}>
-        <img src={section.photo_file} alt="quizImage" />
+        {section?.photo_file && <img src={section.photo_file} alt="quizImage" />}
         {/* <iframe src={section.photo_file} frameBorder="0"></iframe> */}
       </button>
     </div>

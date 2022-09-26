@@ -111,7 +111,7 @@ export default function Home({
 
   const bookEnd = (
     <div className="cover">
-      <BookBackCover data="Book End" />
+      <BookBackCover direction={bookDetails.direction} />
     </div>
   );
 
@@ -325,6 +325,7 @@ export default function Home({
 
         {openQuizModal && (
           <QuizModal
+            setOpenPreview={setOpenPreview}
             setOpenQuizModal={setOpenQuizModal}
             quizData={quizData}
             sectionId={sectionId}

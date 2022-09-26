@@ -26,7 +26,7 @@ import Matching from "../../quizzes/Matching/Matching";
 
 const cookie = new Cookies();
 
-const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
+const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPreview }) => {
   // COMPONENT HOOKS
   const [questions, setQuestions] = useState();
   const [answers, setAnswers] = useState({});
@@ -143,6 +143,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -155,6 +156,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -167,6 +169,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -180,6 +183,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -193,6 +197,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -206,6 +211,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -219,6 +225,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -232,6 +239,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -245,6 +253,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
 
@@ -258,6 +267,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction }) => {
                           setQuestionNum={setQuestionNum}
                           questionsNum={questions.length}
                           direction={direction}
+                          setOpenPreview={setOpenPreview}
                         />
                       )}
                     </div>

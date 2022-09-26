@@ -9,7 +9,7 @@ const VideoSection = ({ video, openModal, data }) => {
 
   return (
     <div className={cls.videoSection}>
-      <span>{data.title}</span>
+      {data && <span>{data.title}</span>}
       <button className='wrapper' onClick={() => openPreview(true, video, 'video')}>
         <img src="/imgs/video.png" alt="" />
       </button>

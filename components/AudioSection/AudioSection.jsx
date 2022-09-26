@@ -75,7 +75,8 @@ const VideoSection = ({ audio, data }) => {
 
   return (
     <div className={cls.videoSection}>
-      <span>{data.title}</span>
+      {data && <span>{data.title}</span>}
+      
       <button
         className="wrapper"
         onClick={() => openAudio(audioOpened ? false : true)}

@@ -80,21 +80,34 @@ const Page = ({
 
           </div> */}
 
-          <img src={data.photo} alt="Img" />
+          {data.photo && <img src={data.photo} alt="Img" />}
+
         </div>
       )}
 
       <div className={cls.footer}>
-        <img src={footerLogo} alt="footerLogo" />
+        {footerLogo && <img src={footerLogo} alt="footerLogo" />}
 
         <div
           className={`${cls.pageNum} ${
             direction === "rtl" ? cls.arabic : cls.english
           }`}
         >
-          <p>{index + 1}</p>
 
-          <img src={footerNumLogo} alt="footerLogo" />
+          {footerNumLogo ? 
+
+            <>
+              <p>{index + 1}</p>
+
+              <img src={footerNumLogo} alt="footerImage" />
+            </>
+
+            :
+
+            <p className={cls.numWithNoImg}>{index + 1}</p>
+        
+        }
+          
         </div>
       </div>
 

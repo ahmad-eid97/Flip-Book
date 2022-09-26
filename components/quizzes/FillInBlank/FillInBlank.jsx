@@ -7,6 +7,9 @@ import { replaceReact } from "replace-react";
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
+import VideoSection from "../../VideoSection/VideoSection";
+import AudioSection from '../../AudioSection/AudioSection';
+
 import axios from "../../../Utils/axios";
 
 import { useTranslation } from "next-i18next";
@@ -26,6 +29,7 @@ const FillInBlank = ({
   setQuestionNum,
   questionsNum,
   direction,
+  setOpenPreview
 }) => {
   const [answers, setAnswers] = useState({});
   const [wrongAnswers, setWrongAnswers] = useState({});
@@ -130,24 +134,65 @@ const FillInBlank = ({
   const successNotify = (message) => toast.success(message);
   const errorNotify = (message) => toast.error(message);
 
+  console.log(question)
+
   return (
     <div className={`${cls.fillInBlank} ${changing && cls.animation}`}>
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          <span>السؤال الحالي</span>
+          {direction === 'rtl' ?
+            <span>السؤال الحالي</span>
+            :
+            <span>Current Question</span>
+          }
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          <span>عدد الاسئلة</span>
+          {direction === 'rtl' ?
+            <span>عدد الاسئلة</span>
+            :
+            <span>Questions Number</span>
+          }
         </div>
       </div>
 
-      <h6> 1) {`${"أكمل الفراغات التاليه بالاجابات المناسبة"}`}</h6>
+      <div className="quesImage">
+        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+      </div>
+
+      <div className="quizHelpers">
+        {question?.question_video_link &&
+
+        <div className={cls.videoSection}>
+          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
+        </div>
+
+        }
+        
+        {question?.question_audio && 
+
+          <div className={cls.audioSection}>
+            <AudioSection audio={question?.question_audio} data={false} />
+          </div>
+        
+        }
+      </div>
+
+      {direction === 'rtl' ?
+        <h6>أكمل الفراغات التاليه بالاجابات المناسبة</h6>
+        :
+        <h6>Complete the following blanks with the appropriate answers</h6>
+      }
+
+
 
       {question.answers.map((answer, idx) => (
         <div key={answer.id} className={cls.text}>
+
+          <h6> {questionNum}) {question.title}</h6>
+
           {replaceReact(answer.title, /({dash})/g, (match, key) => (
             <input
               type="text"
@@ -163,11 +208,23 @@ const FillInBlank = ({
           <div className={cls.btn}>
             {questionsNum === questionNum ? (
               <button onClick={submit}>
-                تأكيد <i className="fa-light fa-badge-check"></i>
+                {direction === 'rtl' ? 
+                  <span>تأكيد{" "}</span>
+                  :
+                  <span>Submit{" "}</span>
+                }
+                
+                <i className="fa-light fa-badge-check"></i>
+    
               </button>
             ) : (
               <button onClick={submit}>
-                التالي{" "}
+                {direction === 'rtl' ? 
+                  <span>التالي{" "}</span>
+                  :
+                  <span>Next {" "}</span>
+                }
+    
                 <i
                   className={`${cls[i18n.language]} ${
                     cls.next

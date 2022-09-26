@@ -1,4 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
+
+import VideoSection from './../../VideoSection/VideoSection';
+import AudioSection from '../../AudioSection/AudioSection';
 
 import { toast } from "react-toastify";
 
@@ -85,16 +89,46 @@ const ShortAnswer = ({
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          <span>السؤال الحالي</span>
+          {direction === 'rtl' ?
+            <span>السؤال الحالي</span>
+            :
+            <span>Current Question</span>
+          }
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          <span>عدد الاسئلة</span>
+          {direction === 'rtl' ?
+            <span>عدد الاسئلة</span>
+            :
+            <span>Questions Number</span>
+          }
         </div>
       </div>
 
-      <h6> 1) {question.title}</h6>
+      <div className="quesImage">
+        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+      </div>
+
+      <div className="quizHelpers">
+        {question?.question_video_link &&
+
+        <div className={cls.videoSection}>
+          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
+        </div>
+
+        }
+        
+        {question?.question_audio && 
+
+          <div className={cls.audioSection}>
+            <AudioSection audio={question?.question_audio} data={false} />
+          </div>
+        
+        }
+      </div>
+
+      <h6> {questionNum}) {question.title}</h6>
 
       <input
         type="text"
@@ -105,11 +139,23 @@ const ShortAnswer = ({
       <div className={cls.btn}>
         {questionsNum === questionNum ? (
           <button onClick={submit}>
-            تأكيد <i className="fa-light fa-badge-check"></i>
+            {direction === 'rtl' ? 
+              <span>تأكيد{" "}</span>
+              :
+              <span>Submit{" "}</span>
+            }
+            
+            <i className="fa-light fa-badge-check"></i>
+
           </button>
         ) : (
           <button onClick={submit}>
-            التالي{" "}
+            {direction === 'rtl' ? 
+              <span>التالي{" "}</span>
+              :
+              <span>Next {" "}</span>
+            }
+
             <i
               className={`${cls[i18n.language]} ${
                 cls.next

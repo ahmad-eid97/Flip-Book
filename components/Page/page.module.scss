@@ -58,6 +58,10 @@
           left: 8%;
           font-size: 0.8rem;
         }
+        &.numWithNoImg {
+          position: relative;
+          top: -25%;
+        }
       }
       &.english {
         p {
