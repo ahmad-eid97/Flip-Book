@@ -40,7 +40,7 @@ const Matching = ({
   const drawCanvasLine = (from, to) => {
     const ctx = canvas.current.getContext("2d");
     ctx.beginPath();
-    if (i18n.language === "ar") {
+    if (direction === "rtl") {
       ctx.moveTo(0, to);
       ctx.lineTo(300, from);
     } else {
@@ -59,13 +59,22 @@ const Matching = ({
     let FROM_OPTION;
     if (selectedOption)
       FROM_OPTION =
-        selectedOption.element.offsetTop -
-        FROM_PARENT +
-        selectedOption.element.offsetHeight / 2;
+        (selectedOption.element.offsetTop -
+        FROM_PARENT) +
+        (selectedOption.element.offsetHeight / 2);
 
     const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
     const TO_OPTION =
-      e.target.offsetTop - TO_PARENT + e.target.offsetHeight / 2;
+      (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
+
+    console.log(FROM_PARENT)
+    console.log(selectedOption.element.offsetTop)
+    console.log(selectedOption.element.offsetHeight)
+    console.log('*'.repeat(15))
+
+    console.log(TO_PARENT)
+    console.log(e.target.offsetTop)
+    console.log(e.target.offsetHeight)
 
     // Check Answers
     // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {

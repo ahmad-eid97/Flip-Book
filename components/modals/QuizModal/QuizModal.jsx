@@ -39,11 +39,14 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
   const { t: translate, i18n } = useTranslation("common");
   const [loading, setLoading] = useState(false);
   const [questionNum, setQuestionNum] = useState(1);
+  const [specialModal, setSpecialModal] = useState(false)
 
   // COMPONENT HANDLERS
   const closeModal = (e) => {
     if (overlay.current === e.target) setOpenQuizModal(false);
   };
+
+  console.log(quizData)
 
   const close = () => {
     setOpenQuizModal(false);
@@ -64,6 +67,8 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
     const questions = [];
 
     for (let question of quizesResponse.data.data.questions) {
+      if (question.question_type === "image_matching") setSpecialModal(true)
+      else setSpecialModal(false)
       const answersResponse = await axios.get(
         `/crm/answers?lang=${"en"}&question_id=${question.id}`
       );
@@ -108,7 +113,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
 
   return (
     <div className={cls.overlay} ref={overlay} onClick={(e) => closeModal(e)}>
-      <div className={cls.area}>
+      <div className={`${cls.area} ${specialModal ? cls.specialModal : ''}`}>
         {loading ? (
           <Loader />
         ) : (

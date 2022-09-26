@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 
 import VideoSection from './../../VideoSection/VideoSection';
@@ -155,6 +156,12 @@ const MultipleChoice = ({
         }
       </div>
 
+      {direction === 'rtl' ? 
+        <h6 className={cls.headH6}>إختر الإجابات الصحيحة من الإختيارات التالية</h6>
+        :
+        <h6 className={cls.headH6}>Choose the correct answers for the next question</h6>
+      }
+
       <h6>
         <span>{questionNum})</span> {question.title}
       </h6>
@@ -173,6 +180,9 @@ const MultipleChoice = ({
                 checked={choosedAnswer ? choosedAnswer.find(ans => ans.id === answer.id) : false}
               />{" "}
               {answer.title}
+
+              {answer.answer_img && <img className={cls.ansImage} src={answer.answer_img} alt="answerImage" />}
+
             </span>
           </p>
         ))}

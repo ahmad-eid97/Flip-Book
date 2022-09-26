@@ -30,9 +30,13 @@
       text-align: left !important;
     }
   }
-  .box {
+  .imagesBox {
     margin-top: 20px;
-    margin-left: 61px;
+    // margin-left: 65px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 10px;
     &.ar {
       // margin-left: unset;
       // margin-right: 70px !important;
@@ -41,27 +45,28 @@
   .answers {
     display: flex;
     justify-content: space-evenly;
+    gap: 10px;
     margin-top: 20px;
-    margin-left: 50px;
+    // margin-left: 50px;
     // &.ar {
     //   margin-left: unset;
     //   margin-right: 50px;
     // }
     h6 {
-      margin-right: 60px;
+      // margin-right: 70px;
       font-size: 1.1rem;
-      width: 100px;
+      width: 130px;
       text-align: center !important;
       background-color: rgb(229, 229, 229);
       border-radius: 5px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-      padding: 8px 20px;
+      padding: 8px 10px;
     }
   }
   img {
-    width: 100px;
+    width: 130px;
     height: 100px;
-    margin-right: 1%;
+    // margin-right: 1%;
     background-color: rgb(229, 229, 229);
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);

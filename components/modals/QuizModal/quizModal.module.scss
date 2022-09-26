@@ -29,7 +29,8 @@
     max-height: 80%;
     position: relative;
     animation: show 0.3s forwards ease-in-out 1;
-    overflow-x: hidden;
+    // overflow-x: hidden;
+    overflow-y: scroll;
     padding-bottom: 20px;
     @keyframes show {
       0% {
@@ -95,6 +96,25 @@
         * {
           direction: ltr !important;
         }
+      }
+    }
+    &.specialModal {
+      width: 1300px;
+      @include lg {
+        width: 1300px;
+        transform: scale(0.9);
+      }
+      @include md {
+        width: 1300px;
+        transform: scale(0.8);
+      }
+      @include sm {
+        width: 1300px;
+        transform: scale(0.6);
+      }
+      @include xs {
+        width: 1300px;
+        transform: scale(0.35);
       }
     }
 

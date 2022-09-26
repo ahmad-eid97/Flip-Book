@@ -140,6 +140,12 @@ const SingleChoice = ({
         }
       </div>
 
+      {direction === 'rtl' ? 
+        <h6 className={cls.headH6}>إختر الإجابة الصحيحة من الإختيارات التالية</h6>
+        :
+        <h6 className={cls.headH6}>Choose the correct answer for the next question</h6>
+      }
+
       <h6>
         <span>{questionNum})</span> {question.title}
       </h6>
@@ -159,6 +165,9 @@ const SingleChoice = ({
                 checked={choosedAnswer ? choosedAnswer.id === answer.id : false}
               />{" "}
               {answer.title}
+
+              {answer.answer_img && <img className={cls.ansImage} src={answer.answer_img} alt="answerImage" />}
+              
             </span>
           </p>
         ))}

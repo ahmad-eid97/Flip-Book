@@ -171,7 +171,7 @@ const DragQuiz = ({
             direction="horizontal"
           >
             {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef}>
+              <div {...provided.droppableProps} ref={provided.innerRef} className={cls.imagesBox}>
                 {answers.map((answer, idx) => (
                   <Draggable
                     key={answer.id}

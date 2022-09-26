@@ -87,7 +87,7 @@ const VideoSection = ({ audio, data }) => {
           <img src="/imgs/audio.png" alt="image" />
         )}
         <audio
-          src="/audios/audio.mp3"
+          src={audio}
           ref={Audio}
           onEnded={() => setAudioOpened(false)}
         ></audio>
