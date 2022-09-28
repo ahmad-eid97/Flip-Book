@@ -380,8 +380,6 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
   if (routerRedirection) return routerRedirection;
 
   // FETCH PAGES FOR BOOK
-  let bookId = 1;
-
   let book = {};
 
   const bookResponse = await axios
@@ -433,7 +431,7 @@ export async function getServerSideProps({ req, locale, resolvedUrl, query }) {
   let pagesMeta = {};
 
   const pagesResponse = await axios
-    .get(`/crm/books/all_pages_by_page_index/${bookId}?lang=${locale}`)
+    .get(`/crm/books/all_pages_by_page_index/${query.id}?lang=${locale}`)
     .catch((err) => console.log(err));
 
   if (pagesResponse) {
