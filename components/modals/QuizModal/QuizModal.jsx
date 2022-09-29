@@ -9,6 +9,8 @@ import ShortAnswer from "./../../quizzes/ShortAnswer/ShortAnswer";
 import TrueAndFalse from "./../../quizzes/TrueAndFalse/TrueAndFalse";
 import FillInBlank from "./../../quizzes/FillInBlank/FillInBlank";
 import ImageAnswering from "../../quizzes/ImageAnswering/ImageAnswering";
+import BigImageWithAudio from '../../quizzes/BigImageWithAudio/BigImageWithAudio';
+import BigImageWithVideo from '../../quizzes/BigImageWithVideo/BigImageWithVideo';
 
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
@@ -39,7 +41,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
   const { t: translate, i18n } = useTranslation("common");
   const [loading, setLoading] = useState(false);
   const [questionNum, setQuestionNum] = useState(1);
-  const [specialModal, setSpecialModal] = useState(false)
+  const [specialModal, setSpecialModal] = useState(false);
 
   // COMPONENT HANDLERS
   const closeModal = (e) => {
@@ -110,6 +112,8 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
   }, []);
 
   const submit = () => {};
+
+  console.log(questions)
 
   return (
     <div className={cls.overlay} ref={overlay} onClick={(e) => closeModal(e)}>
@@ -275,6 +279,35 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
                           setOpenPreview={setOpenPreview}
                         />
                       )}
+
+                      {question.question_type === "big_image_with_audio" && (
+                        <BigImageWithAudio
+                          question={question}
+                          setOpenQuizModal={setOpenQuizModal}
+                          idx={idx}
+                          attemptId={attemptId}
+                          questionNum={questionNum}
+                          setQuestionNum={setQuestionNum}
+                          questionsNum={questions.length}
+                          direction={direction}
+                          setOpenPreview={setOpenPreview}
+                        />
+                      )}
+
+                      {question.question_type === "big_image_with_video" && (
+                        <BigImageWithVideo
+                          question={question}
+                          setOpenQuizModal={setOpenQuizModal}
+                          idx={idx}
+                          attemptId={attemptId}
+                          questionNum={questionNum}
+                          setQuestionNum={setQuestionNum}
+                          questionsNum={questions.length}
+                          direction={direction}
+                          setOpenPreview={setOpenPreview}
+                        />
+                      )}
+
                     </div>
                   ))}
             </div>

@@ -67,14 +67,14 @@ const Matching = ({
     const TO_OPTION =
       (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
 
-    console.log(FROM_PARENT)
-    console.log(selectedOption.element.offsetTop)
-    console.log(selectedOption.element.offsetHeight)
-    console.log('*'.repeat(15))
+    // console.log(FROM_PARENT)
+    // console.log(selectedOption.element.offsetTop)
+    // console.log(selectedOption.element.offsetHeight)
+    // console.log('*'.repeat(15))
 
-    console.log(TO_PARENT)
-    console.log(e.target.offsetTop)
-    console.log(e.target.offsetHeight)
+    // console.log(TO_PARENT)
+    // console.log(e.target.offsetTop)
+    // console.log(e.target.offsetHeight)
 
     // Check Answers
     // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
