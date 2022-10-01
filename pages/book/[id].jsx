@@ -141,6 +141,7 @@ export default function Home({
           direction={bookDetails.direction}
           footerLogo={bookDetails.footer_logo}
           footerNumLogo={bookDetails.footer_number_logo}
+          page={page}
         />
       </div>
     )),

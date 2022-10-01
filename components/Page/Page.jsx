@@ -18,6 +18,7 @@ const Page = ({
   footerLogo,
   footerNumLogo,
   direction,
+  page
 }) => {
   const renderSection = (type, section) => {
     setSectionId(section.id);
@@ -30,7 +31,7 @@ const Page = ({
         />
       );
     } else if (type === "image") {
-      return <ImageSection image={section.photo_file} />;
+      return <ImageSection image={section.photo_file} page={page} />;
     } else if (type === "video") {
       return (
         <VideoSection

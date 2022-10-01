@@ -38,6 +38,7 @@ const BigImageWithAudio = ({
   const [changing, setChanging] = useState(false);
 
   const submit = async () => {
+    setOpenQuizModal(false);
   };
 
   const successNotify = (message) => toast.success(message);
