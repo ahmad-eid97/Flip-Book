@@ -8,6 +8,9 @@
     &.fullImage {
       max-height: 100% !important;
     }
+    &.halfImage {
+      max-height: 290px !important;
+    }
     // object-fit: cover;
     @include xs {
       max-height: 140px;

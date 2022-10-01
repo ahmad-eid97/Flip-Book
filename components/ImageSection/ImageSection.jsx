@@ -5,7 +5,7 @@ const ImageSection = ({ image, page }) => {
   return (
     <div className={cls.imageSection}>
 
-      {image && <img src={image} alt="pageImage" className={page.page_sections.length === 1 ? cls.fullImage : ''} />}
+      {image && <img src={image} alt="pageImage" className={`${page.page_sections.length === 1 ? cls.fullImage : ''} ${page.page_sections.length === 2 ? cls.halfImage : ''}`} />}
 
     </div>
   )
