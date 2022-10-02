@@ -117,6 +117,9 @@ const PreviewModal = ({
           width="100%"
           onProgress={videoProgrssHandler}
           onPause={videoPauseHanlder}
+          playing={true}
+          autoPlay='true'
+          controls={true}
         />
       );
     } else if (previewType === "activity") {
