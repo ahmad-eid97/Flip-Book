@@ -52,6 +52,8 @@ export default function Home({
   const [bookWidth, setBookWidth] = useState(550);
   const [bookHeight, setBookHeight] = useState(620);
 
+  console.log(allBookPages)
+
   useEffect(() => {
     if (window.innerWidth <= 550) {
       setBookWidth(window.innerWidth - 50);
@@ -152,7 +154,7 @@ export default function Home({
     if (flippy.getCurrentPageNumber() % 30 === 0) {
       setPageNumber((pageNumber += 1));
 
-      let allPages = [];
+      let allPages = [...allBookPages];
 
       if (navLinks.next) {
         const response = await axios
@@ -170,7 +172,7 @@ export default function Home({
             (pa) =>
               pa.title === page.lesson.unit.title && !pa.unit && !pa.lesson
           );
-          if (unitFound <= -1) allPages.push({ ...page.lesson.unit });
+          if (unitFound === -1) allPages.push({ ...page.lesson.unit });
 
           const lessonFound = allPages.findIndex(
             (pa) =>
@@ -191,7 +193,9 @@ export default function Home({
           }
         });
 
-        setAllBookPages((prev) => [...prev, ...allPages]);
+        console.log(allPages)
+
+        setAllBookPages([...allPages]);
       }
     }
   };
@@ -272,9 +276,6 @@ export default function Home({
               : "ltr !important",
         }}
       >
-        {/* <LangSwitch locale={locale} />
-
-        <h1><i className="fa-solid fa-house-user"></i> {t('welcome')}</h1> */}
 
         {bookDetails.direction === "rtl" ? (
           <button className="next" onClick={() => flippy.flipPrev()}>

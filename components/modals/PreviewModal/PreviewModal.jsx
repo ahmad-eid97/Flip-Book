@@ -118,7 +118,6 @@ const PreviewModal = ({
           onProgress={videoProgrssHandler}
           onPause={videoPauseHanlder}
           playing={true}
-          autoPlay='true'
           controls={true}
         />
       );
