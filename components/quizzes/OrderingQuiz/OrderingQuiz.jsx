@@ -75,6 +75,7 @@ const OrderingQuiz = ({
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);
+        setAnswers(question.answers)
         setTimeout(() => {
           setChanging(false);
         }, 1000);
