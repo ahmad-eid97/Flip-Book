@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+import { useEffect, useState } from "react";
+
 import ImageSection from "../ImageSection/ImageSection";
 import TextSection from "../TextSection/TextSection";
 import VideoSection from "../VideoSection/VideoSection";
@@ -7,7 +9,6 @@ import QuizSection from "./../QuizSection/QuizSection";
 import ActivitySection from "../ActivitySection/ActivitySection";
 
 import cls from "./page.module.scss";
-import { useEffect } from "react";
 
 const Page = ({
   data,
@@ -20,6 +21,7 @@ const Page = ({
   direction,
   page
 }) => {
+
   const renderSection = (type, section) => {
     setSectionId(section.id);
     if (type === "text") {
@@ -60,8 +62,6 @@ const Page = ({
       return <QuizSection section={section} openQuiz={openQuiz} />;
     }
   };
-
-  useEffect(() => {});
 
   return (
     <div className={cls.page}>

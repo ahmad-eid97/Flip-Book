@@ -277,6 +277,7 @@ const Flippy = (
    * Go to specific page
    */
   flippy.goToPage = (page) => {
+
     if (
       +page < 0 ||
       (+page >= totalPages.middlePages.length + 2 && !isPagesDouble) ||

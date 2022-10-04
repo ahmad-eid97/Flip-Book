@@ -56,6 +56,11 @@
         background-position: 100% 0%;
       }
     } 
+    &.long {
+      &:hover {
+        animation: 30s highlight ease-out;
+      }
+    }
     @include xs {
       font-size: 0.9rem !important;
       line-height: 25px !important;

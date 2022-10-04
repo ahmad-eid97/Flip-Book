@@ -18,6 +18,8 @@ const TextSection = ({ title, details, sectionId }) => {
   const [startTime, setStartTime] = useState()
   const [readingTimer, setReadingTimer] = useState(0)
   const { i18n } = useTranslation()
+
+  console.log(details)
  
   useEffect(() => {
     let parser = new DOMParser();
@@ -64,7 +66,8 @@ const TextSection = ({ title, details, sectionId }) => {
 
       {/* <h5>{ title }</h5> */}
 
-      <mark className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{text}</mark>
+      <mark className={`${cls[i18n.language]} ${text.length > 2000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{text}</mark>
+      {/* <mark dangerouslySetInnerHTML={{ __html: details}} className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}></mark> */}
 
       {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}
 

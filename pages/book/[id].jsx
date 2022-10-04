@@ -193,8 +193,6 @@ export default function Home({
           }
         });
 
-        console.log(allPages)
-
         setAllBookPages([...allPages]);
       }
     }
