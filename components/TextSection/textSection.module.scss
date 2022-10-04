@@ -61,6 +61,11 @@
         animation: 60s highlight ease-out;
       }
     }
+    &.medium {
+      &:hover {
+        animation: 30s highlight ease-out;
+      }
+    }
     @include xs {
       font-size: 0.9rem !important;
       line-height: 25px !important;
