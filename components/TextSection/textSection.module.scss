@@ -58,7 +58,7 @@
     } 
     &.long {
       &:hover {
-        animation: 30s highlight ease-out;
+        animation: 60s highlight ease-out;
       }
     }
     @include xs {
