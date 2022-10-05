@@ -87,7 +87,7 @@
       }
       &.arabic {
         direction: rtl !important;
-        * {
+        div {
           direction: rtl !important;
         }
       }

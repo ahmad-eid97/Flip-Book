@@ -98,19 +98,21 @@ const DragQuiz = ({
   };
 
   useEffect(() => {
+    console.log(titles)
     let randomTitles = [];
 
-    for (var index = 0; index < titles.length; index++) {
-      const randomNum = Math.floor(Math.random() * titles.length);
-      if (randomTitles.find((title) => title === titles[randomNum])) {
+    for (var index = 0; index < question.answers.length; index++) {
+      const randomNum = Math.floor(Math.random() * question.answers.length);
+      console.log(randomNum, question.answers[randomNum].id)
+      if (randomTitles.find((answer) => answer.id === question.answers[randomNum].id)) {
         index--;
         continue;
+      } else {
+        randomTitles.push(question.answers[randomNum]);
       }
-      randomTitles.push(titles[randomNum]);
     }
-
     setTitles(randomTitles);
-  }, []);
+  }, [question.answers]);
 
   console.log(question)
 
@@ -171,7 +173,7 @@ const DragQuiz = ({
             direction="horizontal"
           >
             {(provided) => (
-              <div {...provided.droppableProps} ref={provided.innerRef} className={cls.imagesBox}>
+              <section {...provided.droppableProps} ref={provided.innerRef} className={cls.imagesBox}>
                 {answers.map((answer, idx) => (
                   <Draggable
                     key={answer.id}
@@ -193,14 +195,14 @@ const DragQuiz = ({
                 ))}
 
                 {provided.placeholder}
-              </div>
+              </section>
             )}
           </Droppable>
         </DragDropContext>
 
         <div className={`${cls.answers} ${cls[i18n.language]}`}>
           {titles.map((title, idx) => (
-            <h6 key={idx}>{title}</h6>
+            <h6 key={idx}>{title.title}</h6>
           ))}
         </div>
       </div>
