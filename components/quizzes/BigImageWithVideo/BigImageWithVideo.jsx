@@ -2,7 +2,6 @@
 import { useState } from "react";
 
 import VideoSection from '../../VideoSection/VideoSection';
-import AudioSection from '../../AudioSection/AudioSection';
 
 import { toast } from "react-toastify";
 
@@ -19,7 +18,7 @@ import cls from "./bigImageWithVideo.module.scss";
 
 const cookie = new Cookies();
 
-const BigImageWithAudio = ({
+const BigImageWithVideo = ({
   question,
   setOpenQuizModal,
   attemptId,
@@ -52,6 +51,8 @@ const BigImageWithAudio = ({
   const successNotify = (message) => toast.success(message);
   const errorNotify = (message) => toast.error(message);
 
+  console.log(setOpenPreview)
+
   return (
     <div className={`${cls.bigImageWithVideo} ${changing && cls.animation}`}>
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
@@ -81,13 +82,14 @@ const BigImageWithAudio = ({
       </div>
 
       <div className="quizHelpers">
-        {question?.question_video_link &&
+        {console.log('*************************', question)}
+        {/* {question?.question_video_link && */}
 
         <div className={cls.videoSection}>
           <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
         </div>
 
-        }
+        {/* } */}
       </div>
 
       <div className={cls.btn}>
@@ -125,4 +127,4 @@ const BigImageWithAudio = ({
   );
 };
 
-export default BigImageWithAudio;
+export default BigImageWithVideo;

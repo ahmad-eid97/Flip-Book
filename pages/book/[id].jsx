@@ -52,8 +52,6 @@ export default function Home({
   const [bookWidth, setBookWidth] = useState(550);
   const [bookHeight, setBookHeight] = useState(620);
 
-  console.log(allBookPages)
-
   useEffect(() => {
     if (window.innerWidth <= 550) {
       setBookWidth(window.innerWidth - 50);
@@ -89,6 +87,10 @@ export default function Home({
   const { t, i18n } = useTranslation("common");
 
   const openModal = (state, data, type) => {
+    console.log(state)
+    console.log(data)
+    console.log(type)
+    console.log('---------------------->', 'over here')
     setOpenPreview(state);
     setPreviewData(data);
     setPreviewType(type);
@@ -221,7 +223,6 @@ export default function Home({
           setNavLinks(response.data.data.links);
 
           bookPages = response.data.data.pages;
-          console.log(response.data.data.pages);
           bookPages.forEach(async (page) => {
             const unitFound = allPages.findIndex(
               (pa) =>
@@ -247,8 +248,6 @@ export default function Home({
               allPages.push({ ...page });
             }
           });
-
-          console.log([...bookPages, ...allPages]);
 
           setAllBookPages((prev) => [...prev, ...allPages]);
         }
@@ -325,7 +324,7 @@ export default function Home({
 
         {openQuizModal && (
           <QuizModal
-            setOpenPreview={setOpenPreview}
+            setOpenPreview={openModal}
             setOpenQuizModal={setOpenQuizModal}
             quizData={quizData}
             sectionId={sectionId}

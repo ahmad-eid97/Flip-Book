@@ -5,6 +5,9 @@ const VideoSection = ({ video, openModal, data }) => {
 
   const openPreview = (state, data, type) => {
     openModal(state, data, type)
+    console.log(state)
+    console.log(data)
+    console.log(type)
   }
 
   return (

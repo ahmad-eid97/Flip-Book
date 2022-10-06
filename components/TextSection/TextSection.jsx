@@ -18,8 +18,6 @@ const TextSection = ({ title, details, sectionId }) => {
   const [startTime, setStartTime] = useState()
   const [readingTimer, setReadingTimer] = useState(0)
   const { i18n } = useTranslation()
-
-  console.log(details.length)
  
   useEffect(() => {
     let parser = new DOMParser();
