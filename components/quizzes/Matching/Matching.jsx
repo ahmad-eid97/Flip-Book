@@ -26,6 +26,7 @@ const Matching = ({
   setQuestionNum,
   questionsNum,
   direction,
+  setOpenPreview
 }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);

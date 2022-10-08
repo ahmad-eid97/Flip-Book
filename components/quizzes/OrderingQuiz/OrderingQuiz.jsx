@@ -27,7 +27,8 @@ const OrderingQuiz = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
+  setOpenPreview
 }) => {
   const [answers, setAnswers] = useState(question.answers);
   const [openSuccess, setOpenSuccess] = useState(false);

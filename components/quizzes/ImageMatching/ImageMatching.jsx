@@ -27,7 +27,8 @@ const DragQuiz = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
+  setOpenPreview
 }) => {
   const [answers, setAnswers] = useState(question.answers);
   const [titles, setTitles] = useState(

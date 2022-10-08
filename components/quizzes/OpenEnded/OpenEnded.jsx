@@ -26,6 +26,7 @@ const OpenEnded = ({
   setQuestionNum,
   questionsNum,
   direction,
+  setOpenPreview
 }) => {
   const [field, setField] = useState("");
   const [openSuccess, setOpenSuccess] = useState(false);

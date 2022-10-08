@@ -14,16 +14,9 @@ import { format } from 'date-fns';
 const cookie = new Cookies()
 
 const TextSection = ({ title, details, sectionId }) => {
-  const [text, setText] = useState('');
   const [startTime, setStartTime] = useState()
   const [readingTimer, setReadingTimer] = useState(0)
   const { i18n } = useTranslation()
- 
-  useEffect(() => {
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(details, 'text/html');
-    setText(doc.body.firstChild.innerHTML)
-  }, [])
 
   let interval;
 
@@ -64,7 +57,7 @@ const TextSection = ({ title, details, sectionId }) => {
 
       {/* <h5>{ title }</h5> */}
 
-      <mark className={`${cls[i18n.language]} ${text.length > 500 && text.length < 1000 && cls.medium} ${text.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{text}</mark>
+      <mark className={`${cls[i18n.language]} ${details.length > 500 && details.length < 1000 && cls.medium} ${details.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
       {/* <mark dangerouslySetInnerHTML={{ __html: details}} className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}></mark> */}
 
       {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}

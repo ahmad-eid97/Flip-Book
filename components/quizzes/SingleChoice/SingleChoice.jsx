@@ -27,7 +27,8 @@ const SingleChoice = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
+  setOpenPreview
 }) => {
   const [choosedAnswer, setChoosedAnswer] = useState(null);
   const [openSuccess, setOpenSuccess] = useState(false);

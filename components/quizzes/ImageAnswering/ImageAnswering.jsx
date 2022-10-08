@@ -27,6 +27,7 @@ const ImageAnswering = ({
   setQuestionNum,
   questionsNum,
   direction,
+  setOpenPreview
 }) => {
   const [fields, setFields] = useState({});
   const [openSuccess, setOpenSuccess] = useState(false);

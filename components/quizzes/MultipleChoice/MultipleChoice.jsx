@@ -27,7 +27,8 @@ const MultipleChoice = ({
   questionNum,
   setQuestionNum,
   questionsNum,
-  direction
+  direction,
+  setOpenPreview
 }) => {
   const [choosedAnswer, setChoosedAnswer] = useState([]);
   const [openSuccess, setOpenSuccess] = useState(false);

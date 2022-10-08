@@ -27,6 +27,7 @@ const ShortAnswer = ({
   setQuestionNum,
   questionsNum,
   direction,
+  setOpenPreview
 }) => {
   const [field, setField] = useState("");
   const [openSuccess, setOpenSuccess] = useState(false);

@@ -40,6 +40,7 @@ function MyApp({ Component, pageProps }) {
     <>
       {/* BOOTSTRAP CSS AND JS INTEGERATION */}
       <Head>
+        <title>Emicrolearn</title>
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
           rel="stylesheet"
@@ -50,7 +51,6 @@ function MyApp({ Component, pageProps }) {
           href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700;800;900&display=swap"
           rel="stylesheet"
         ></link>
-        <title>Emicrolearn</title>
       </Head>
 
       <Script

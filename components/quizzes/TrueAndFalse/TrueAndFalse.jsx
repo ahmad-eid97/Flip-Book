@@ -26,6 +26,7 @@ const TrueAndFalse = ({
   setQuestionNum,
   questionsNum,
   direction,
+  setOpenPreview
 }) => {
   const [answer, setAnswer] = useState("");
   const [state, setState] = useState("");
