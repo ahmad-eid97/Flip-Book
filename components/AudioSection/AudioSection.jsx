@@ -75,23 +75,35 @@ const VideoSection = ({ audio, data }) => {
 
   return (
     <div className={cls.videoSection}>
-      {data && <span>{data.title}</span>}
       
-      <button
-        className="wrapper"
-        onClick={() => openAudio(audioOpened ? false : true)}
-      >
-        {audioOpened ? (
-          <img src="/imgs/audio2.png" className={cls.playing} alt="image" />
-        ) : (
-          <img src="/imgs/audio.png" alt="image" />
-        )}
-        <audio
-          src={audio}
-          ref={Audio}
-          onEnded={() => setAudioOpened(false)}
-        ></audio>
-      </button>
+      <div className={cls.mainPart}>
+        {data && <span>{data.title}</span>}
+
+        <button
+          className="wrapper"
+          onClick={() => openAudio(audioOpened ? false : true)}
+        >
+          {audioOpened ? (
+            <img src="/imgs/audio2.png" className={cls.playing} alt="image" />
+          ) : (
+            <img src="/imgs/audio.png" alt="image" />
+          )}
+          <audio
+            src={audio}
+            ref={Audio}
+            onEnded={() => setAudioOpened(false)}
+          ></audio>
+        </button>
+      </div>
+      
+      {data.photo_file && 
+      
+        <div>
+          <img src={data.photo_file} alt="voiceImage" />
+        </div>  
+
+      }
+
     </div>
   );
 };
