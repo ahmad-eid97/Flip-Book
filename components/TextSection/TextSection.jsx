@@ -57,7 +57,7 @@ const TextSection = ({ title, details, sectionId }) => {
 
       {/* <h5>{ title }</h5> */}
 
-      <mark className={`${cls[i18n.language]} ${details.length > 500 && details.length < 1000 && cls.medium} ${details.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
+      <mark className={`${cls[i18n.language]} ${details && details.length > 500 && details.length < 1000 && cls.medium} ${details && details.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
       {/* <mark dangerouslySetInnerHTML={{ __html: details}} className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}></mark> */}
 
       {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}
