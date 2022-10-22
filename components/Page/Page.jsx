@@ -30,6 +30,7 @@ const Page = ({
           title={section.title}
           details={section.details}
           sectionId={section.id}
+          direction={direction}
         />
       );
     } else if (type === "image") {

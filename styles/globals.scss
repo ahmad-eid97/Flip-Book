@@ -98,12 +98,12 @@ a {
       font-weight: 600;
     }
     img {
-      height: 350px;
-      width: 350px;
-      display: flex;
-      margin: auto;
-      animation: rotate 10s infinite linear;
-      filter: drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.3));
+      // height: 350px;
+      // width: 350px;
+      // display: flex;
+      // margin: auto;
+      // animation: rotate 10s infinite linear;
+      // filter: drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.3));
     }
     @keyframes rotate {
       0% {
@@ -136,7 +136,7 @@ a {
       font-weight: 600;
     }
     img {
-      filter: drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.3));
+      // filter: drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.3));
     }
   }
 }

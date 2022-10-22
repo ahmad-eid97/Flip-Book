@@ -13,10 +13,15 @@ import { format } from 'date-fns';
 
 const cookie = new Cookies()
 
-const TextSection = ({ title, details, sectionId }) => {
+const TextSection = ({ title, details, sectionId, direction }) => {
+  const [mounted, setMounted] = useState(false)
   const [startTime, setStartTime] = useState()
   const [readingTimer, setReadingTimer] = useState(0)
-  const { i18n } = useTranslation()
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    if(direction) setMounted(true)
+  }, [])
 
   let interval;
 
@@ -50,14 +55,26 @@ const TextSection = ({ title, details, sectionId }) => {
     }).catch(err => console.log(err));
 
     if(!response) return;
+
   }
 
+  if (!mounted) return null;
+
   return (
-    <div className={cls.textSection}>
+    <div className={`${cls.textSection}`}>
 
       {/* <h5>{ title }</h5> */}
 
-      <mark className={`${cls[i18n.language]} ${details && details.length > 500 && details.length < 1000 && cls.medium} ${details && details.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
+      {direction === 'rtl' ?
+
+        <mark className={`${cls.arabic} ${details && details.length > 500 && details.length < 1000 && cls.medium} ${details && details.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
+
+        :
+
+        <mark className={`${cls.english} ${details && details.length > 500 && details.length < 1000 && cls.medium} ${details && details.length > 1000 && cls.long}`} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}>{details}</mark>
+      
+      }
+
       {/* <mark dangerouslySetInnerHTML={{ __html: details}} className={cls[i18n.language]} onMouseEnter={startHoverHandler} onMouseLeave={endHoverHandler}></mark> */}
 
       {/* <mark className={cls[i18n.language]} dangerouslySetInnerHTML={{ __html: details }}></mark> */}
