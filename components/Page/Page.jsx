@@ -6,6 +6,8 @@ import TextSection from "../TextSection/TextSection";
 import VideoSection from "../VideoSection/VideoSection";
 import AudioSection from "./../AudioSection/AudioSection";
 import QuizSection from "./../QuizSection/QuizSection";
+import ImageWithAudio from "../ImageWithAudio/ImageWithAudio";
+import ImageWithVideo from "../ImageWithVideo/ImageWithVideo";
 import ActivitySection from "../ActivitySection/ActivitySection";
 
 import cls from "./page.module.scss";
@@ -13,14 +15,19 @@ import cls from "./page.module.scss";
 const Page = ({
   data,
   openModal,
+  openSectionPreview,
   openQuiz,
   index,
   setSectionId,
   footerLogo,
   footerNumLogo,
   direction,
-  page
+  page,
+  openSectionPreviewModal,
+  sectionPreviewData
 }) => {
+
+  console.log(data)
 
   const renderSection = (type, section) => {
     setSectionId(section.id);
@@ -61,7 +68,11 @@ const Page = ({
       );
     } else if (type === "quiz") {
       return <QuizSection section={section} openQuiz={openQuiz} />;
-    }
+    } else if (type === "big_image_with_audio") {
+      return <ImageWithAudio section={section} openQuiz={openQuiz} page={page} openModal={openSectionPreview} openSectionPreviewModal={openSectionPreviewModal} sectionPreviewData={sectionPreviewData} />;
+    } else if (type === "big_image_with_video") {
+      return <ImageWithVideo section={section} openQuiz={openQuiz} page={page} openModal={openSectionPreview} openSectionPreviewModal={openSectionPreviewModal} sectionPreviewData={sectionPreviewData} openVideoModal={openModal} />;
+    } 
   };
 
   return (

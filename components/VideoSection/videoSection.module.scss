@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 5px 0;
+  margin: 0px 0;
   span {
     @include xs {
       font-size: 0.7rem;
@@ -12,7 +12,7 @@
   }
   button {
     width: 80px;
-    height: 80px;
+    // height: 80px;
     overflow: hidden;
     border: none;
     padding: 0;
@@ -23,8 +23,8 @@
     img {
       animation: rotate 5s infinite linear; 
       object-fit: contain;
-      width: 100px;
-      height: 70px;
+      width: 90px;
+      height: 60px;
     }
     @include xs {
       width: 55px;

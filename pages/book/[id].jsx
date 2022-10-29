@@ -14,6 +14,7 @@ import {
 import PreviewModal from "../../components/modals/PreviewModal/PreviewModal";
 import QuizModal from "../../components/modals/QuizModal/QuizModal";
 import Flippy from "../../components/Flippy/Flippy";
+import SectionPreview from '../../components/modals/SectionPreview/SectionPreview';
 
 import Cookies from "universal-cookie";
 
@@ -41,6 +42,8 @@ export default function Home({
   const [bookUnitsDetails, setBookUnitsDetails] = useState(bookUnits);
   const [allPages, setAllPages] = useState(pages);
   const [openPreview, setOpenPreview] = useState(false);
+  const [openSectionPreview, setOpenSectionPreview] = useState(false);
+  const [sectionPreviewData, setSectionPreviewData] = useState({})
   const [openQuizModal, setOpenQuizModal] = useState(false);
   const [previewData, setPreviewData] = useState();
   const [previewType, setPreviewType] = useState();
@@ -87,13 +90,14 @@ export default function Home({
   const { t, i18n } = useTranslation("common");
 
   const openModal = (state, data, type) => {
-    console.log(state)
-    console.log(data)
-    console.log(type)
-    console.log('---------------------->', 'over here')
     setOpenPreview(state);
     setPreviewData(data);
     setPreviewType(type);
+  };
+
+  const openSectionPreviewModal = (state, data) => {
+    setSectionPreviewData(data);
+    setOpenSectionPreview(state)
   };
 
   const openQuiz = (state, data, type) => {
@@ -146,6 +150,8 @@ export default function Home({
           footerLogo={bookDetails.footer_logo}
           footerNumLogo={bookDetails.footer_number_logo}
           page={page}
+          openSectionPreviewModal={openSectionPreviewModal}
+          sectionPreviewData={sectionPreviewData}
         />
       </div>
     )),
@@ -319,6 +325,15 @@ export default function Home({
             previewType={previewType}
             sectionId={sectionId}
             direction={bookDetails.direction}
+          />
+        )}
+
+        {openSectionPreview && (
+          <SectionPreview
+            setOpenPreview={setOpenSectionPreview}
+            sectionPreviewData={sectionPreviewData}
+            direction={bookDetails.direction}
+            setOpenModalPreview={setOpenPreview}
           />
         )}
 

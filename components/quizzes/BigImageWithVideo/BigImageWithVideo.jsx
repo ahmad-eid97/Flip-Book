@@ -82,7 +82,6 @@ const BigImageWithVideo = ({
       </div>
 
       <div className="quizHelpers">
-        {console.log('*************************', question)}
         {/* {question?.question_video_link && */}
 
         <div className={cls.videoSection}>

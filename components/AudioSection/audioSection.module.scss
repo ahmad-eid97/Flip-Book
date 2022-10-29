@@ -30,6 +30,11 @@
         padding: 5px;
         border-radius: 50%;
       }
+      &.special {
+        img {
+          z-index: 1;
+        }
+      }
       @-webkit-keyframes pulse {
         0% {
           -webkit-box-shadow: 0 0 0 0 var(--book-color);
