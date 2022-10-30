@@ -9,8 +9,8 @@ const VideoSection = ({ video, openModal, data }) => {
 
   return (
     <div className={cls.videoSection}>
-      {data && <span>{data.title}</span>}
-      <button className='wrapper' onClick={() => openPreview(true, video, 'video')}>
+      {data && data.type !== 'big_image_with_video' && <span>{data.title}</span>}
+      <button className={`${data.type === 'big_image_with_video' ? cls.special : ''} wrapper`} onClick={() => openPreview(true, video, 'video')}>
         <img src="/imgs/video.png" alt="" />
       </button>
     </div>

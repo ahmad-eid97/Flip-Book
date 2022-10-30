@@ -80,7 +80,7 @@ const VideoSection = ({ audio, data }) => {
         {data && data.type !== 'big_image_with_audio' && <span>{data.title}</span>}
 
         <button
-          className={`${data.type !== 'big_image_with_audio' ? cls.special : ''} wrapper`}
+          className={`${data.type === 'big_image_with_audio' ? cls.special : ''} wrapper`}
           onClick={() => openAudio(audioOpened ? false : true)}
         >
           {audioOpened ? (

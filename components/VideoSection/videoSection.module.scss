@@ -26,6 +26,11 @@
       width: 90px;
       height: 60px;
     }
+    &.special {
+      img {
+        z-index: 1;
+      }
+    }
     @include xs {
       width: 55px;
       height: 50px;
