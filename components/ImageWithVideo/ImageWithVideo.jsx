@@ -3,7 +3,7 @@ import cls from './imageWithVideo.module.scss';
 
 const ImageWithVideo = ({ section, page, openSectionPreviewModal }) => {
   const openPreview = () => {
-    openSectionPreviewModal(true, section);
+    openSectionPreviewModal(true, section, 'video');
   }
 
   return (

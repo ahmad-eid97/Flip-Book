@@ -95,9 +95,11 @@ export default function Home({
     setPreviewType(type);
   };
 
-  const openSectionPreviewModal = (state, data) => {
+  const openSectionPreviewModal = (state, data, type) => {
+    setPreviewData(data.video_link);
     setSectionPreviewData(data);
     setOpenSectionPreview(state)
+    setPreviewType(type);
   };
 
   const openQuiz = (state, data, type) => {
