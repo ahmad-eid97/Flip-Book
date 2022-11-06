@@ -38,17 +38,46 @@ const Matching = ({
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (canvas.current) {
+        if (window.matchMedia(`(max-width: 768px)`).matches) {
+          canvas.current.width = 80;
+        }
+        
+        let listHeight = document.querySelector(`.${cls.list}`).getBoundingClientRect().height;
+        let matchHeight = document.querySelector(`.${cls.match}`).getBoundingClientRect().height;
+  
+        console.log(listHeight, matchHeight)
+        canvas.current.height = matchHeight > listHeight ? matchHeight : listHeight;
+      }
+    }, 0)
+  }, [canvas, question.answers]);
+
   const drawCanvasLine = (from, to) => {
     const ctx = canvas.current.getContext("2d");
     ctx.beginPath();
+    let color = '#'+Math.floor(Math.random()*16777215).toString(16);
+
     if (direction === "rtl") {
       ctx.moveTo(0, to);
-      ctx.lineTo(300, from);
+      ctx.lineTo(200, from);
+      ctx.stroke();
     } else {
       ctx.moveTo(0, from);
-      ctx.lineTo(300, from);
-    }
-    ctx.stroke();
+      ctx.lineTo(200, from);
+      ctx.stroke();
+    } 
+    
+    ctx.fillStyle = color;
+    // Arrow
+    ctx.moveTo(205, from);
+    ctx.arc(205, from, 10, 0, 2 * Math.PI);
+    ctx.fill();
+    // Arrow
+    ctx.moveTo(3, to);
+    ctx.arc(-5, to, 10, 0, 2 * Math.PI);
+    ctx.fill();
   };
 
   const selectOption = (e, answer) => {
@@ -59,14 +88,21 @@ const Matching = ({
     const FROM_PARENT = document.querySelector(`.${cls.list}`).offsetTop;
     let FROM_OPTION;
     if (selectedOption)
-      FROM_OPTION =
-        (selectedOption.element.offsetTop -
-        FROM_PARENT) +
-        (selectedOption.element.offsetHeight / 2);
+
+    // FROM_OPTION = (selectedOption.element.offsetTop - FROM_PARENT) + (selectedOption.element.offsetHeight / 2);
+    FROM_OPTION = (selectedOption.element.offsetTop - FROM_PARENT) + (selectedOption.element.offsetHeight / 2);
+
+    console.log(FROM_OPTION)
 
     const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
-    const TO_OPTION =
-      (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
+
+    // const TO_OPTION = (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
+    const TO_OPTION = (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
+
+    // console.log(FROM_OPTION)
+    // console.log(TO_OPTION)
+    // console.log(FROM_PARENT)
+    // console.log(TO_PARENT)
 
     // console.log(FROM_PARENT)
     // console.log(selectedOption.element.offsetTop)
@@ -87,6 +123,10 @@ const Matching = ({
     // } else {
     // Draw Correct Line
     drawCanvasLine(FROM_OPTION, TO_OPTION);
+    // drawCanvasLine(FROM_OPTION / (canvas.current.offsetHeight / FROM_OPTION), TO_OPTION / (canvas.current.offsetHeight / TO_OPTION));
+
+    // console.log(canvas.current.offsetHeight / FROM_OPTION)
+    // console.log(canvas.current.offsetHeight / TO_OPTION)
 
     setAllAnswers((prev) => [...prev, ans]);
     // }
@@ -222,7 +262,7 @@ const Matching = ({
           ))}
         </div>
 
-        <canvas id="matching_area" ref={canvas}></canvas>
+        <canvas id="matching_area" ref={canvas} width="200"></canvas>
 
         <div className={cls.list}>
           {options.map((answer, idx) => (

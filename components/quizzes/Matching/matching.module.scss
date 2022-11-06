@@ -18,6 +18,7 @@
     margin-top: 50px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     direction: unset !important;
     text-align: unset !important;
     p {
@@ -44,12 +45,8 @@
     }
 
     canvas {
-      width: 200px;
       direction: unset !important;
       text-align: unset !important;
-      @include xs {
-        width: 80px;
-      }
     }
 
     .list {
