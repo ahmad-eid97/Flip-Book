@@ -44,7 +44,7 @@ const Matching = ({
         if (window.matchMedia(`(max-width: 768px)`).matches) {
           canvas.current.width = 80;
         }
-        
+
         let listHeight = document.querySelector(`.${cls.list}`).getBoundingClientRect().height;
         let matchHeight = document.querySelector(`.${cls.match}`).getBoundingClientRect().height;
   
@@ -153,6 +153,7 @@ const Matching = ({
   }, []);
 
   const submit = async () => {
+    setOpenQuizModal(false);
     if (allAnswers.length) {
       if (questionsNum === questionNum) {
         setOpenQuizModal(false);
