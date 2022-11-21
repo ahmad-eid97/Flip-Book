@@ -241,7 +241,7 @@ button.wrapper {
       content: ' ';
       position: absolute;
       top: 25%;
-      left: -108%;
+      left: -148%;
       width: 130px;
       border: 8px dashed var(--book-color);
       border-bottom: 0px dashed var(--book-color);
@@ -315,6 +315,10 @@ button.wrapper {
   justify-content: center;
   align-content: center;
   margin-bottom: 20px;
+  img {
+    max-width: 500px;
+    max-height: 300px;
+  }
 }
 
 .quizHelpers {

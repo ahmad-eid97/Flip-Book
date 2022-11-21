@@ -82,6 +82,7 @@
     }
 
     .area__content {
+      padding-bottom: 30px;
       @include xs { 
         padding-bottom: 15px;
       }

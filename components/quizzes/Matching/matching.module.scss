@@ -38,6 +38,10 @@
         // padding: 4px 5px;
         display: block;
       }
+      img {
+        width: 100px;
+        height: 100px;
+      }
       @include xs {
         width: 100px;
         font-size: 0.9rem;

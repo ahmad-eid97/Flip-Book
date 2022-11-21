@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState, useRef, useEffect } from "react";
 
 import VideoSection from './../../VideoSection/VideoSection';
@@ -37,6 +38,8 @@ const Matching = ({
   const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
+
+  console.log(question)
 
   useEffect(() => {
     setTimeout(() => {
@@ -257,7 +260,11 @@ const Matching = ({
               className={cls.one}
             >
               <p className="B">
-                <span>{answer.title}</span>
+                {answer.answer_img ? 
+                  <img src={answer.answer_img} alt="answerImage" />
+                  :
+                  <span>{answer.title}</span>
+                }
               </p>
             </div>
           ))}

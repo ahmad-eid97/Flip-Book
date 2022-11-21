@@ -37,6 +37,8 @@ const OrderingQuiz = ({
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
+  console.log(question)
+
   const handleOndragEnd = (result) => {
     if (!result.destination) return;
     const allAnswers = Array.from(answers);
@@ -62,7 +64,7 @@ const OrderingQuiz = ({
     }
 
     setAnswers(randomAnswers);
-  }, []);
+  }, [question]);
 
   const submit = async () => {
     const rightOrder = question.answers.map((answer) => answer.title);
