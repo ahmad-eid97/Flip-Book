@@ -1,0 +1,192 @@
+import { useMemo } from "react";
+import { useRouter } from "next/router";
+
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+
+import axios from "../../../Utils/axios";
+
+import { Pie, PieChart, Legend, Tooltip } from "recharts";
+
+import {
+  useTable,
+  useSortBy,
+  useRowSelect,
+  useGlobalFilter,
+} from "react-table";
+
+import cls from "./quizzesDetailsTable.module.scss";
+
+import Cookies from "universal-cookie";
+const cookie = new Cookies();
+
+const QuizzesDetailsTable = ({ data, fetchQuizAttempts }) => {
+  const router = useRouter();
+
+  const getAttemptsData = (quizId) => {
+    fetchQuizAttempts(quizId)
+    router.push({ path: '/quizzes-reports', query: { bookId: data.quizzes_attempts.data[0].book.id, category: 'attempts', quizId }})
+  }
+
+  const columns = useMemo(
+    () => [
+      {
+        // first group - TV Show
+        Header: "الإختبار",
+        // First group columns
+        accessor: "quiz.title",
+      },
+      {
+        // Second group - Details
+        Header: "قسم الصفحة",
+        // Second group columns
+        accessor: "page_section.title",
+      },
+      {
+        // Second group - Details
+        Header: "عدد الأسئلة",
+        // Second group columns
+        accessor: "total_questions",
+      },
+      {
+        // Second group - Details
+        Header: "مجموع الدرجات",
+        // Second group columns
+        accessor: "total_marks",
+      },
+      {
+        // Second group - Details
+        Header: "حصل علي",
+        // Second group columns
+        accessor: "earned_marks",
+      },
+      {
+        // Second group - Details
+        Header: "عدد المحاولات",
+        // Second group columns
+        accessor: "total_attempt",
+      },
+      {
+        // Second group - Details
+        Header: "خيارات",
+        // Second group columns
+        Cell: ({ row }) => (
+          <button onClick={() => getAttemptsData(row.original.quiz.id)}>
+            <i className="fa-regular fa-eye"></i> 
+            المحاولات
+          </button>
+        ),
+      },
+    ],
+    []
+  );
+
+  const tableInstance = useTable(
+    { columns, data: data.quizzes_attempts.data },
+    useGlobalFilter,
+    useSortBy,
+    useRowSelect
+  );
+
+  const {
+    getTableProps, // table props from react-table
+    getTableBodyProps, // table body props from react-table
+    headerGroups, // headerGroups, if your table has groupings
+    rows, // rows for the table based on the data passed
+    prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
+  } = tableInstance;
+      
+
+  return (
+    <div className={cls.quizzesReports}>
+      <div className={cls.tableReports}>
+        <Table {...getTableProps()}>
+          <TableHead>
+            {headerGroups.map((headerGroup, idx) => (
+              <TableRow
+                key={idx}
+                {...headerGroup.getHeaderGroupProps()}
+              >
+                {headerGroup.headers.map((column, idx) => (
+                  <TableCell key={idx} {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <TableRow key={i} {...row.getRowProps()}>
+                  {row.cells.map((cell, idx) => {
+                    return (
+                      <TableCell key={idx} {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+      <div className={cls.chartsReports}>
+        <div className={cls.chartsSection}>
+          <h5>الكتاب</h5>
+          <div>
+            <PieChart width={300} height={300}>
+              <Tooltip />
+              <Legend layout="horizontal" verticalAlign="top" align="center" />
+              <Pie
+                data={data.charts.book_id}
+                dataKey="num"
+                nameKey="page_section_id"
+                cx={145}
+                cy={120}
+                innerRadius={40}
+                outerRadius={100}
+                fill="#2980b9"
+                // startAngle={0}
+                // endAngle={360}
+                // paddingAngle={3}
+                // stroke="#2980b9"
+              />
+            </PieChart>
+          </div>
+        </div>
+
+        <div className={cls.chartsSection}>
+          <h5>قسم الصفحة</h5>
+          <div>
+            <PieChart width={300} height={300}>
+              <Tooltip />
+              <Legend layout="horizontal" verticalAlign="top" align="center" />
+              <Pie
+                data={data.charts.page_section_id}
+                dataKey="num"
+                nameKey="page_section_id"
+                cx={145}
+                cy={120}
+                innerRadius={40}
+                outerRadius={100}
+                fill="#2980b9"
+                // startAngle={0}
+                // endAngle={360}
+                // paddingAngle={3}
+                // stroke="#2980b9"
+              />
+            </PieChart>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default QuizzesDetailsTable;

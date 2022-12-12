@@ -9,8 +9,8 @@ import ShortAnswer from "./../../quizzes/ShortAnswer/ShortAnswer";
 import TrueAndFalse from "./../../quizzes/TrueAndFalse/TrueAndFalse";
 import FillInBlank from "./../../quizzes/FillInBlank/FillInBlank";
 import ImageAnswering from "../../quizzes/ImageAnswering/ImageAnswering";
-import BigImageWithAudio from '../../quizzes/BigImageWithAudio/BigImageWithAudio';
-import BigImageWithVideo from '../../quizzes/BigImageWithVideo/BigImageWithVideo';
+import BigImageWithAudio from "../../quizzes/BigImageWithAudio/BigImageWithAudio";
+import BigImageWithVideo from "../../quizzes/BigImageWithVideo/BigImageWithVideo";
 
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
 import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
@@ -28,7 +28,13 @@ import Matching from "../../quizzes/Matching/Matching";
 
 const cookie = new Cookies();
 
-const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPreview }) => {
+const QuizModal = ({
+  setOpenQuizModal,
+  quizData,
+  sectionId,
+  direction,
+  setOpenPreview,
+}) => {
   // COMPONENT HOOKS
   const [questions, setQuestions] = useState();
   const [answers, setAnswers] = useState({});
@@ -48,7 +54,7 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
     if (overlay.current === e.target) setOpenQuizModal(false);
   };
 
-  console.log(quizData)
+  console.log(quizData);
 
   const close = () => {
     setOpenQuizModal(false);
@@ -69,8 +75,8 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
     const questions = [];
 
     for (let question of quizesResponse.data.data.questions) {
-      if (question.question_type === "image_matching") setSpecialModal(true)
-      else setSpecialModal(false)
+      if (question.question_type === "image_matching") setSpecialModal(true);
+      else setSpecialModal(false);
       const answersResponse = await axios.get(
         `/crm/answers?lang=${"en"}&question_id=${question.id}`
       );
@@ -84,6 +90,8 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
 
     setLoading(false);
   };
+
+  console.log(questions);
 
   useEffect(() => {
     fetchQuestions();
@@ -113,11 +121,11 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
 
   const submit = () => {};
 
-  console.log(questions)
+  console.log(questions);
 
   return (
     <div className={cls.overlay} ref={overlay} onClick={(e) => closeModal(e)}>
-      <div className={`${cls.area} ${specialModal ? cls.specialModal : ''}`}>
+      <div className={`${cls.area} ${specialModal ? cls.specialModal : ""}`}>
         {loading ? (
           <Loader />
         ) : (
@@ -307,7 +315,6 @@ const QuizModal = ({ setOpenQuizModal, quizData, sectionId, direction, setOpenPr
                           setOpenPreview={setOpenPreview}
                         />
                       )}
-
                     </div>
                   ))}
             </div>

@@ -1,4 +1,4 @@
-@import '../../styles/mixins.scss';
+@import "../../styles/mixins.scss";
 
 .home {
   direction: rtl !important;
@@ -11,25 +11,25 @@
     .one:nth-child(even) {
       background-color: var(--second-color);
       span {
-        background-color: #1EBDF1;
+        background-color: #1ebdf1;
       }
     }
     .one:nth-child(odd) {
       background-color: var(--first-color);
       span {
-        background-color: #1EBDF1;
+        background-color: #1ebdf1;
       }
     }
     .one:nth-child(3) {
       background-color: var(--forth-color);
       span {
-        background-color: #1EBDF1;
+        background-color: #1ebdf1;
       }
     }
     .one:nth-child(6) {
       background-color: var(--forth-color);
       span {
-        background-color: #1EBDF1;
+        background-color: #1ebdf1;
       }
     }
 

@@ -14,7 +14,7 @@ import {
 import PreviewModal from "../../components/modals/PreviewModal/PreviewModal";
 import QuizModal from "../../components/modals/QuizModal/QuizModal";
 import Flippy from "../../components/Flippy/Flippy";
-import SectionPreview from '../../components/modals/SectionPreview/SectionPreview';
+import SectionPreview from "../../components/modals/SectionPreview/SectionPreview";
 
 import Cookies from "universal-cookie";
 
@@ -28,6 +28,7 @@ import { routeRedirection } from "../../Utils/redirections/routeRedirection/rout
 const cookie = new Cookies();
 
 import HTMLFlipBook from "react-pageflip";
+import AdverSection from "../../components/AdverSection/AdverSection";
 
 export default function Home({
   locale,
@@ -43,7 +44,7 @@ export default function Home({
   const [allPages, setAllPages] = useState(pages);
   const [openPreview, setOpenPreview] = useState(false);
   const [openSectionPreview, setOpenSectionPreview] = useState(false);
-  const [sectionPreviewData, setSectionPreviewData] = useState({})
+  const [sectionPreviewData, setSectionPreviewData] = useState({});
   const [openQuizModal, setOpenQuizModal] = useState(false);
   const [previewData, setPreviewData] = useState();
   const [previewType, setPreviewType] = useState();
@@ -98,7 +99,7 @@ export default function Home({
   const openSectionPreviewModal = (state, data, type) => {
     setPreviewData(data.video_link);
     setSectionPreviewData(data);
-    setOpenSectionPreview(state)
+    setOpenSectionPreview(state);
     setPreviewType(type);
   };
 
@@ -281,7 +282,6 @@ export default function Home({
               : "ltr !important",
         }}
       >
-
         {bookDetails.direction === "rtl" ? (
           <button className="next" onClick={() => flippy.flipPrev()}>
             <i className="fa-regular fa-angles-right"></i>
@@ -319,6 +319,11 @@ export default function Home({
             <i className="fa-regular fa-angles-right"></i>
           </button>
         )}
+
+        {/* AVERTISMENT SECTION */}
+        {book.ads.map((one) => (
+          <AdverSection key={one.id} data={one} />
+        ))}
 
         {openPreview && (
           <PreviewModal

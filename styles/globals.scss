@@ -1,10 +1,10 @@
-@import './mixins.scss';
+@import "./mixins.scss";
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 
 a {
@@ -37,12 +37,14 @@ a {
   height: 95vh;
 
   @include md {
-    button.prev, button.next {
+    button.prev,
+    button.next {
       display: none;
     }
   }
 
-  button.prev, button.next {
+  button.prev,
+  button.next {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -55,9 +57,10 @@ a {
       color: #fff;
     }
   }
-} 
+}
 
-.demoPage, .cover {
+.demoPage,
+.cover {
   // box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
   background-color: #088a19;
   padding: 10px 0;
@@ -204,7 +207,8 @@ button.wrapper {
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
-  .step, .lastStep {
+  .step,
+  .lastStep {
     position: relative;
     margin: 0 50px;
     display: flex;
@@ -238,10 +242,10 @@ button.wrapper {
   }
   .step {
     &:after {
-      content: ' ';
+      content: " ";
       position: absolute;
       top: 25%;
-      left: -148%;
+      left: -110%;
       width: 130px;
       border: 8px dashed var(--book-color);
       border-bottom: 0px dashed var(--book-color);
@@ -310,7 +314,7 @@ button.wrapper {
   }
 }
 
-.quesImage  {
+.quesImage {
   display: flex;
   justify-content: center;
   align-content: center;

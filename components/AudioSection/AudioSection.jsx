@@ -75,12 +75,15 @@ const VideoSection = ({ audio, data }) => {
 
   return (
     <div className={cls.videoSection}>
-      
       <div className={cls.mainPart}>
-        {data && data.type !== 'big_image_with_audio' && <span>{data.title}</span>}
+        {data && data.type !== "big_image_with_audio" && (
+          <span>{data.title}</span>
+        )}
 
         <button
-          className={`${data.type === 'big_image_with_audio' ? cls.special : ''} wrapper`}
+          className={`${
+            data.type === "big_image_with_audio" ? cls.special : ""
+          } wrapper`}
           onClick={() => openAudio(audioOpened ? false : true)}
         >
           {audioOpened ? (
@@ -95,15 +98,12 @@ const VideoSection = ({ audio, data }) => {
           ></audio>
         </button>
       </div>
-      
-      {data.photo_file && data.type !== 'big_image_with_audio' && 
-      
-        <div>
+
+      {data.photo_file && data.type !== "big_image_with_audio" && (
+        <div className="quesImage">
           <img src={data.photo_file} alt="voiceImage" />
-        </div>  
-
-      }
-
+        </div>
+      )}
     </div>
   );
 };

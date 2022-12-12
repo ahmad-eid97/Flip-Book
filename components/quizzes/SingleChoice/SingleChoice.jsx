@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useRef} from "react";
+import { useState, useRef } from "react";
 
-import VideoSection from './../../VideoSection/VideoSection';
-import AudioSection from '../../AudioSection/AudioSection';
+import VideoSection from "./../../VideoSection/VideoSection";
+import AudioSection from "../../AudioSection/AudioSection";
 
 import { toast } from "react-toastify";
 
@@ -28,7 +28,7 @@ const SingleChoice = ({
   setQuestionNum,
   questionsNum,
   direction,
-  setOpenPreview
+  setOpenPreview,
 }) => {
   const [choosedAnswer, setChoosedAnswer] = useState(null);
   const [openSuccess, setOpenSuccess] = useState(false);
@@ -38,7 +38,7 @@ const SingleChoice = ({
   const [changing, setChanging] = useState(false);
   const inputRef = useRef();
 
-  console.log(question)
+  console.log(question);
 
   const submit = async () => {
     if (choosedAnswer) {
@@ -47,9 +47,9 @@ const SingleChoice = ({
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);
-        
+
         // inputRef.current.checked  = false
-        setChoosedAnswer(null)
+        setChoosedAnswer(null);
         setTimeout(() => {
           setChanging(false);
         }, 1000);
@@ -102,50 +102,56 @@ const SingleChoice = ({
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>السؤال الحالي</span>
-            :
+          ) : (
             <span>Current Question</span>
-          }
+          )}
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>عدد الاسئلة</span>
-            :
+          ) : (
             <span>Questions Number</span>
-          }
+          )}
         </div>
       </div>
 
       <div className="quesImage">
-        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+        {question?.question_img && !changing && (
+          <img src={question?.question_img} alt="image" />
+        )}
       </div>
 
       <div className="quizHelpers">
-        {question?.question_video_link &&
+        {question?.question_video_link && (
+          <div className={cls.videoSection}>
+            <VideoSection
+              video={question?.question_video_link}
+              openModal={setOpenPreview}
+              data={false}
+            />
+          </div>
+        )}
 
-        <div className={cls.videoSection}>
-          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
-        </div>
-
-        }
-        
-        {question?.question_audio && 
-
+        {question?.question_audio && (
           <div className={cls.audioSection}>
             <AudioSection audio={question?.question_audio} data={false} />
           </div>
-        
-        }
+        )}
       </div>
 
-      {direction === 'rtl' ? 
-        <h6 className={cls.headH6}>إختر الإجابة الصحيحة من الإختيارات التالية</h6>
-        :
-        <h6 className={cls.headH6}>Choose the correct answer for the next question</h6>
-      }
+      {direction === "rtl" ? (
+        <h6 className={cls.headH6}>
+          إختر الإجابة الصحيحة من الإختيارات التالية
+        </h6>
+      ) : (
+        <h6 className={cls.headH6}>
+          Choose the correct answer for the next question
+        </h6>
+      )}
 
       <h6>
         <span>{questionNum})</span> {question.title}
@@ -161,14 +167,19 @@ const SingleChoice = ({
                 type="radio"
                 ref={inputRef}
                 name={question.id}
-                value={choosedAnswer ? choosedAnswer?.title : ''}
+                id={answer.id}
+                value={choosedAnswer ? choosedAnswer?.title : ""}
                 onChange={() => setChoosedAnswer(answer)}
                 checked={choosedAnswer ? choosedAnswer.id === answer.id : false}
               />{" "}
-              {answer.title}
-
-              {answer.answer_img && <img className={cls.ansImage} src={answer.answer_img} alt="answerImage" />}
-              
+              <label htmlFor={answer.id}>{answer.title}</label>
+              {answer.answer_img && (
+                <img
+                  className={cls.ansImage}
+                  src={answer.answer_img}
+                  alt="answerImage"
+                />
+              )}
             </span>
           </p>
         ))}
@@ -177,22 +188,13 @@ const SingleChoice = ({
       <div className={cls.btn}>
         {questionsNum === questionNum ? (
           <button onClick={submit}>
-            {direction === 'rtl' ? 
-              <span>تأكيد{" "}</span>
-              :
-              <span>Submit{" "}</span>
-            }
-            
-            <i className="fa-light fa-badge-check"></i>
+            {direction === "rtl" ? <span>تأكيد </span> : <span>Submit </span>}
 
+            <i className="fa-light fa-badge-check"></i>
           </button>
         ) : (
           <button onClick={submit}>
-            {direction === 'rtl' ? 
-              <span>التالي{" "}</span>
-              :
-              <span>Next {" "}</span>
-            }
+            {direction === "rtl" ? <span>التالي </span> : <span>Next </span>}
 
             <i
               className={`${cls[i18n.language]} ${

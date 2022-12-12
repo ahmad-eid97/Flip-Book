@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import VideoSection from './../../VideoSection/VideoSection';
-import AudioSection from '../../AudioSection/AudioSection';
+import VideoSection from "./../../VideoSection/VideoSection";
+import AudioSection from "../../AudioSection/AudioSection";
 
 import { toast } from "react-toastify";
 
@@ -26,7 +26,7 @@ const TrueAndFalse = ({
   setQuestionNum,
   questionsNum,
   direction,
-  setOpenPreview
+  setOpenPreview,
 }) => {
   const [answer, setAnswer] = useState("");
   const [state, setState] = useState("");
@@ -83,29 +83,9 @@ const TrueAndFalse = ({
         .catch((err) => console.log(err));
 
       if (!response) return;
-    }
 
-    // if (answer) {
-    //   if(answer.is_correct === '1') {
-    //     setTimeout(() => {
-    //       setOpenSuccess(false)
-    //       setOpenQuizModal(false)
-    //     }, 4000)
-    //     setOpenSuccess(true)
-    //   } else {
-    //     setTimeout(() => {
-    //       setOpenWrong(false)
-    //     }, 4000)
-    //     setOpenWrong(true)
-    //     setWrongTries(prev => (prev += 1))
-    //   }
-    // } else {
-    //     setTimeout(() => {
-    //       setOpenWrong(false)
-    //     }, 4000)
-    //     setOpenWrong(true)
-    //     setWrongTries(prev => (prev += 1))
-    // }
+      console.log(response);
+    }
   };
 
   const successNotify = (message) => toast.success(message);
@@ -116,54 +96,58 @@ const TrueAndFalse = ({
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>السؤال الحالي</span>
-            :
+          ) : (
             <span>Current Question</span>
-          }
+          )}
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>عدد الاسئلة</span>
-            :
+          ) : (
             <span>Questions Number</span>
-          }
+          )}
         </div>
       </div>
 
       <div className="quesImage">
-        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+        {question?.question_img && !changing && (
+          <img src={question?.question_img} alt="image" />
+        )}
       </div>
 
       <div className="quizHelpers">
-        {question?.question_video_link &&
+        {question?.question_video_link && (
+          <div className={cls.videoSection}>
+            <VideoSection
+              video={question?.question_video_link}
+              openModal={setOpenPreview}
+              data={false}
+            />
+          </div>
+        )}
 
-        <div className={cls.videoSection}>
-          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
-        </div>
-
-        }
-        
-        {question?.question_audio && 
-
+        {question?.question_audio && (
           <div className={cls.audioSection}>
             <AudioSection audio={question?.question_audio} data={false} />
           </div>
-        
-        }
+        )}
       </div>
 
-      {direction === "rtl" ?
+      {direction === "rtl" ? (
         <h6>ضع علامة صح او خطأ امام الاجابه المناسبه</h6>
-        :
+      ) : (
         <h6>Put a mark of true or false in front of the appropriate answer</h6>
-      }
-
+      )}
 
       <div className={cls.question}>
-        <h6> {questionNum}) {question.title}</h6>
+        <h6>
+          {" "}
+          {questionNum}) {question.title}
+        </h6>
 
         <div className={cls.checks}>
           <i
@@ -181,22 +165,13 @@ const TrueAndFalse = ({
       <div className={cls.btn}>
         {questionsNum === questionNum ? (
           <button onClick={submit}>
-            {direction === 'rtl' ? 
-              <span>تأكيد{" "}</span>
-              :
-              <span>Submit{" "}</span>
-            }
-            
-            <i className="fa-light fa-badge-check"></i>
+            {direction === "rtl" ? <span>تأكيد </span> : <span>Submit </span>}
 
+            <i className="fa-light fa-badge-check"></i>
           </button>
         ) : (
           <button onClick={submit}>
-            {direction === 'rtl' ? 
-              <span>التالي{" "}</span>
-              :
-              <span>Next {" "}</span>
-            }
+            {direction === "rtl" ? <span>التالي </span> : <span>Next </span>}
 
             <i
               className={`${cls[i18n.language]} ${

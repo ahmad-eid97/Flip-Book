@@ -24,10 +24,9 @@ const Page = ({
   direction,
   page,
   openSectionPreviewModal,
-  sectionPreviewData
+  sectionPreviewData,
 }) => {
-
-  console.log(data)
+  console.log(data);
 
   const renderSection = (type, section) => {
     setSectionId(section.id);
@@ -69,10 +68,29 @@ const Page = ({
     } else if (type === "quiz") {
       return <QuizSection section={section} openQuiz={openQuiz} />;
     } else if (type === "big_image_with_audio") {
-      return <ImageWithAudio section={section} openQuiz={openQuiz} page={page} openModal={openSectionPreview} openSectionPreviewModal={openSectionPreviewModal} sectionPreviewData={sectionPreviewData} />;
+      return (
+        <ImageWithAudio
+          section={section}
+          openQuiz={openQuiz}
+          page={page}
+          openModal={openSectionPreview}
+          openSectionPreviewModal={openSectionPreviewModal}
+          sectionPreviewData={sectionPreviewData}
+        />
+      );
     } else if (type === "big_image_with_video") {
-      return <ImageWithVideo section={section} openQuiz={openQuiz} page={page} openModal={openSectionPreview} openSectionPreviewModal={openSectionPreviewModal} sectionPreviewData={sectionPreviewData} openVideoModal={openModal} />;
-    } 
+      return (
+        <ImageWithVideo
+          section={section}
+          openQuiz={openQuiz}
+          page={page}
+          openModal={openSectionPreview}
+          openSectionPreviewModal={openSectionPreviewModal}
+          sectionPreviewData={sectionPreviewData}
+          openVideoModal={openModal}
+        />
+      );
+    }
   };
 
   return (
@@ -94,7 +112,6 @@ const Page = ({
           </div> */}
 
           {data.photo && <img src={data.photo} alt="Img" />}
-
         </div>
       )}
 
@@ -106,21 +123,15 @@ const Page = ({
             direction === "rtl" ? cls.arabic : cls.english
           }`}
         >
-
-          {footerNumLogo ? 
-
+          {footerNumLogo ? (
             <>
               <p>{index + 1}</p>
 
               <img src={footerNumLogo} alt="footerImage" />
             </>
-
-            :
-
+          ) : (
             <p className={cls.numWithNoImg}>{index + 1}</p>
-        
-        }
-          
+          )}
         </div>
       </div>
 

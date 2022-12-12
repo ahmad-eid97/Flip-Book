@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useRef, useEffect } from "react";
 
-import VideoSection from './../../VideoSection/VideoSection';
-import AudioSection from '../../AudioSection/AudioSection';
+import VideoSection from "./../../VideoSection/VideoSection";
+import AudioSection from "../../AudioSection/AudioSection";
 
 import { toast } from "react-toastify";
 
@@ -27,7 +27,7 @@ const Matching = ({
   setQuestionNum,
   questionsNum,
   direction,
-  setOpenPreview
+  setOpenPreview,
 }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -39,7 +39,7 @@ const Matching = ({
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
-  console.log(question)
+  console.log(question);
 
   useEffect(() => {
     setTimeout(() => {
@@ -48,19 +48,24 @@ const Matching = ({
           canvas.current.width = 80;
         }
 
-        let listHeight = document.querySelector(`.${cls.list}`).getBoundingClientRect().height;
-        let matchHeight = document.querySelector(`.${cls.match}`).getBoundingClientRect().height;
-  
-        console.log(listHeight, matchHeight)
-        canvas.current.height = matchHeight > listHeight ? matchHeight : listHeight;
+        let listHeight = document
+          .querySelector(`.${cls.list}`)
+          .getBoundingClientRect().height;
+        let matchHeight = document
+          .querySelector(`.${cls.match}`)
+          .getBoundingClientRect().height;
+
+        console.log(listHeight, matchHeight);
+        canvas.current.height =
+          matchHeight > listHeight ? matchHeight : listHeight;
       }
-    }, 0)
+    }, 0);
   }, [canvas, question.answers]);
 
   const drawCanvasLine = (from, to) => {
     const ctx = canvas.current.getContext("2d");
     ctx.beginPath();
-    let color = '#'+Math.floor(Math.random()*16777215).toString(16);
+    let color = "#" + Math.floor(Math.random() * 16777215).toString(16);
 
     if (direction === "rtl") {
       ctx.moveTo(0, to);
@@ -70,8 +75,8 @@ const Matching = ({
       ctx.moveTo(0, from);
       ctx.lineTo(200, from);
       ctx.stroke();
-    } 
-    
+    }
+
     ctx.fillStyle = color;
     // Arrow
     ctx.moveTo(205, from);
@@ -91,16 +96,19 @@ const Matching = ({
     const FROM_PARENT = document.querySelector(`.${cls.list}`).offsetTop;
     let FROM_OPTION;
     if (selectedOption)
+      // FROM_OPTION = (selectedOption.element.offsetTop - FROM_PARENT) + (selectedOption.element.offsetHeight / 2);
+      FROM_OPTION =
+        selectedOption.element.offsetTop -
+        FROM_PARENT +
+        selectedOption.element.offsetHeight / 2;
 
-    // FROM_OPTION = (selectedOption.element.offsetTop - FROM_PARENT) + (selectedOption.element.offsetHeight / 2);
-    FROM_OPTION = (selectedOption.element.offsetTop - FROM_PARENT) + (selectedOption.element.offsetHeight / 2);
-
-    console.log(FROM_OPTION)
+    console.log(FROM_OPTION);
 
     const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
 
     // const TO_OPTION = (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
-    const TO_OPTION = (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
+    const TO_OPTION =
+      e.target.offsetTop - TO_PARENT + e.target.offsetHeight / 2;
 
     // console.log(FROM_OPTION)
     // console.log(TO_OPTION)
@@ -156,7 +164,7 @@ const Matching = ({
   }, []);
 
   const submit = async () => {
-    setOpenQuizModal(false);
+    // setOpenQuizModal(false);
     if (allAnswers.length) {
       if (questionsNum === questionNum) {
         setOpenQuizModal(false);
@@ -200,7 +208,7 @@ const Matching = ({
     // }
   };
 
-  console.log(question)
+  console.log(question);
 
   const successNotify = (message) => toast.success(message);
   const errorNotify = (message) => toast.error(message);
@@ -210,46 +218,51 @@ const Matching = ({
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>السؤال الحالي</span>
-            :
+          ) : (
             <span>Current Question</span>
-          }
+          )}
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>عدد الاسئلة</span>
-            :
+          ) : (
             <span>Questions Number</span>
-          }
+          )}
         </div>
       </div>
 
       <div className="quesImage">
-        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+        {question?.question_img && !changing && (
+          <img src={question?.question_img} alt="image" />
+        )}
       </div>
 
       <div className="quizHelpers">
-        {question?.question_video_link &&
+        {question?.question_video_link && (
+          <div className={cls.videoSection}>
+            <VideoSection
+              video={question?.question_video_link}
+              openModal={setOpenPreview}
+              data={false}
+            />
+          </div>
+        )}
 
-        <div className={cls.videoSection}>
-          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
-        </div>
-
-        }
-        
-        {question?.question_audio && 
-
+        {question?.question_audio && (
           <div className={cls.audioSection}>
             <AudioSection audio={question?.question_audio} data={false} />
           </div>
-        
-        }
+        )}
       </div>
 
-      <h6> {questionNum}) {question.title}</h6>
+      <h6>
+        {" "}
+        {questionNum}) {question.title}
+      </h6>
 
       <div className={`${cls.wrapper} wrapper`}>
         <div className={cls.match}>
@@ -260,11 +273,11 @@ const Matching = ({
               className={cls.one}
             >
               <p className="B">
-                {answer.answer_img ? 
+                {answer.answer_img ? (
                   <img src={answer.answer_img} alt="answerImage" />
-                  :
+                ) : (
                   <span>{answer.title}</span>
-                }
+                )}
               </p>
             </div>
           ))}
@@ -290,22 +303,13 @@ const Matching = ({
       <div className={cls.btn}>
         {questionsNum === questionNum ? (
           <button onClick={submit}>
-            {direction === 'rtl' ? 
-              <span>تأكيد{" "}</span>
-              :
-              <span>Submit{" "}</span>
-            }
-            
-            <i className="fa-light fa-badge-check"></i>
+            {direction === "rtl" ? <span>تأكيد </span> : <span>Submit </span>}
 
+            <i className="fa-light fa-badge-check"></i>
           </button>
         ) : (
           <button onClick={submit}>
-            {direction === 'rtl' ? 
-              <span>التالي{" "}</span>
-              :
-              <span>Next {" "}</span>
-            }
+            {direction === "rtl" ? <span>التالي </span> : <span>Next </span>}
 
             <i
               className={`${cls[i18n.language]} ${

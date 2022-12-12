@@ -6,17 +6,28 @@ const ActivitySection = ({ activity, openModal, data }) => {
     openModal(state, data, type);
   };
 
-  console.log(activity);
-
   return (
-    <div className={cls.videoSection}>
-      <span>{data.title}</span>
-      <button
-        className="wrapper"
-        onClick={() => openPreview(true, activity, "activity")}
-      >
-        <img src="/imgs/activity.png" alt="image" />
-      </button>
+    <div className={cls.activitySection}>
+      {/* <span>{data.title}</span> */}
+      {data.photo_file ? (
+        <div
+          className={cls.activityImagePreview}
+          onClick={() => openPreview(true, activity, "activity")}
+        >
+          <img src={data.photo_file} alt="activity_image" />
+
+          <div className={cls.questionIcon}>
+            <i className="fa-regular fa-chart-network"></i>
+          </div>
+        </div>
+      ) : (
+        <button
+          className="wrapper"
+          onClick={() => openPreview(true, activity, "activity")}
+        >
+          <img src="/imgs/activity.png" alt="image" />
+        </button>
+      )}
     </div>
   );
 };
