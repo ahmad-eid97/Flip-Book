@@ -25,7 +25,8 @@ const Navbar = () => {
   return (
     <div className={cls.navbar}>
       <Container maxWidth="xl" className={cls.wrapper}>
-        <h5>Emicrolearn</h5>
+        {/* <h5>Emicrolearn</h5> */}
+        <img src="/imgs/logo.png" alt="logoImage" onClick={() => router.push('/home')} />
         
         <div>
           <button
