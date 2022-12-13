@@ -20,7 +20,7 @@ import {
 
 import cls from "./quizzesAttemptsTable.module.scss";
 
-import Cookies from "universal-cookie";
+import Cookies from "universal-cookie"; 
 const cookie = new Cookies();
 
 const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
