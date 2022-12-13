@@ -1,6 +1,17 @@
 @import '../../../styles/mixins.scss';
 
 .quizzesReports {
+  .goBack {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    button {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--error-color);
+    }
+  }
   .tableReports {
     overflow-x: scroll;
     table {

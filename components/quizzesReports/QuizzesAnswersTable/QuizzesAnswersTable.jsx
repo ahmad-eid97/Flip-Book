@@ -21,6 +21,7 @@ import { format } from 'date-fns';
 import cls from "./quizzesAnswersTable.module.scss";
 
 const QuizzesAnswersTable = ({ data }) => {
+  const router = useRouter()
 
   const columns = useMemo(
     () => [
@@ -89,14 +90,17 @@ const QuizzesAnswersTable = ({ data }) => {
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
   } = tableInstance;
 
-  const data1 = [
-    { name: "Total Time", value: 120 },
-    { name: "Times", value: 100 },
-  ];
+  console.log(data)
       
+  const goBack = () => {
+    router.push({ path: '/quizzes-reports', query: { bookId: data.quiz_attempt.book.id, category: 'attempts', quizId: data.quiz_attempt.quiz.id } });
+  }
 
   return (
     <div className={cls.quizzesReports}>
+      <div className={cls.goBack}>
+        <button onClick={goBack}><i className="fa-duotone fa-rotate-left"></i> رجوع للخلف</button>
+      </div>
       <div className={cls.tableReports}>
         <Table {...getTableProps()}>
           <TableHead>
@@ -146,7 +150,7 @@ const QuizzesAnswersTable = ({ data }) => {
                 cy={120}
                 innerRadius={40}
                 outerRadius={100}
-                fill="#2980b9"
+                fill="#00b894"
               />
             </PieChart> 
           </div>

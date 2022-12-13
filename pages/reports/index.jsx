@@ -25,7 +25,7 @@ import {
 } from "react-table";
 
 // import { PieChart, Pie } from "recharts";
-import { Pie, PieChart, Legend, Tooltip } from "recharts";
+import { Pie, PieChart, Legend, Tooltip, ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar, AreaChart, Area } from "recharts";
 
 import cls from "./reports.module.scss";
 
@@ -200,168 +200,140 @@ const Reports = ({ allBooks }) => {
                 <div className={cls.chartsSection}>
                   <h5>تصنيف الحدث</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.event_category}
-                        dataKey="num"
-                        nameKey="label"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Tooltip />
+                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Pie
+                          data={bookCharts.event_category}
+                          dataKey="num"
+                          nameKey="label"
+                          innerRadius={40}
+                          outerRadius={100}
+                          fill="#ff7675"
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
                 <div className={cls.chartsSection}>
                   <h5>إجراء الحدث</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.event_action}
-                        dataKey="num"
-                        nameKey="label"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Tooltip />
+                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Pie
+                          data={bookCharts.event_action}
+                          dataKey="num"
+                          nameKey="label"
+                          innerRadius={40}
+                          outerRadius={100}
+                          fill="#6c5ce7"
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
                 <div className={cls.chartsSection}>
                   <h5>النوع</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.type}
-                        dataKey="num"
-                        nameKey="label"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Tooltip />
+                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Pie
+                          data={bookCharts.type}
+                          dataKey="num"
+                          nameKey="label"
+                          innerRadius={40}
+                          outerRadius={100}
+                          fill="#00b894"
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
                 <div className={cls.chartsSection}>
                   <h5>الكتاب</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.book_id}
-                        dataKey="num"
-                        nameKey="book.title_ar"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Tooltip />
+                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Pie
+                          data={bookCharts.book_id}
+                          dataKey="num"
+                          nameKey="book.title_ar"
+                          innerRadius={40}
+                          outerRadius={100}
+                          fill="#2980b9"
+                          // startAngle={0}
+                          // endAngle={360}
+                          // paddingAngle={3}
+                          // stroke="#2980b9"
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
                 <div className={cls.chartsSection}>
                   <h5>الصفحة</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.page_id}
-                        dataKey="num"
-                        nameKey="book.title_ar"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <AreaChart width={730} height={250} data={bookCharts.page_id}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                        <defs>
+                          {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+                          </linearGradient> */}
+                          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <XAxis dataKey="page_section.title" />
+                        <YAxis />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Tooltip />
+                        {/* <Area type="monotone" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> */}
+                        <Area type="monotone" dataKey="num" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
                 <div className={cls.chartsSection}>
                   <h5>قسم الصفحة</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.page_section_id}
-                        dataKey="num"
-                        nameKey="book.title_ar"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <BarChart data={bookCharts.page_section_id}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="page_section.title" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="num" fill="#8884d8" />
+                        {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
 
                 <div className={cls.chartsSection}>
                   <h5>الطالب</h5>
                   <div>
-                    <PieChart width={300} height={300}>
-                      <Tooltip />
-                      <Legend layout="horizontal" verticalAlign="top" align="center" />
-                      <Pie
-                        data={bookCharts.student_id}
-                        dataKey="num"
-                        nameKey="book.title_ar"
-                        cx={145}
-                        cy={120}
-                        innerRadius={40}
-                        outerRadius={100}
-                        fill="#2980b9"
-                        // startAngle={0}
-                        // endAngle={360}
-                        // paddingAngle={3}
-                        // stroke="#2980b9"
-                      />
-                    </PieChart>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart width={730} height={250}>
+                        {/* <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" /> */}
+                        <Pie data={bookCharts.student_id} dataKey="num" nameKey="page_section.title" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />
+                      </PieChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
               </div>

@@ -9,7 +9,7 @@ import TableCell from "@mui/material/TableCell";
 
 import axios from "../../../Utils/axios";
 
-import { Pie, PieChart, Legend, Tooltip } from "recharts";
+import { Pie, PieChart, Legend, Tooltip, AreaChart, XAxis, YAxis, CartesianGrid, Area, ResponsiveContainer, RadialBarChart, RadialBar } from "recharts";
 
 import {
   useTable,
@@ -82,7 +82,7 @@ const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
         Cell: ({ row }) => (
           <div className={cls.statusBar}>
             <span className={`${row.original.total_answered_questions < row.original.total_questions ? cls.notFinished : ''}`}>
-              {row.original.total_answered_questions < row.original.total_questions ? 'لم ينتهي' : 'إنتهي'}
+              {row.original.total_answered_questions < row.original.total_questions ? 'لم ينتهي' : 'انتهي'}
             </span>
           </div>
         ),
@@ -121,7 +121,7 @@ const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
   );
 
   const tableInstance = useTable(
-    { columns, data: data.quiz_attempts.data },
+    { columns, data: data?.quiz_attempts.data },
     useGlobalFilter,
     useSortBy,
     useRowSelect
@@ -134,10 +134,16 @@ const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
     rows, // rows for the table based on the data passed
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
   } = tableInstance;
-      
+
+  const goBack = () => {
+    router.push('/quizzes-reports');
+  }
 
   return (
     <div className={cls.quizzesReports}>
+      <div className={cls.goBack}>
+        <button onClick={goBack}><i className="fa-duotone fa-rotate-left"></i> رجوع للخلف</button>
+      </div>
       <div className={cls.tableReports}>
         <Table {...getTableProps()}>
           <TableHead>
@@ -176,96 +182,103 @@ const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
         <div className={cls.chartsSection}>
           <h5>بدء المحاولة</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.attempt_started_at}
-                dataKey="num"
-                nameKey="label"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={data.charts.attempt_started_at}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+                  {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+                  </linearGradient> */}
+                  <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="label" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                {/* <Area type="monotone" dataKey="num" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> */}
+                <Area type="monotone" dataKey="num" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </div>
         <div className={cls.chartsSection}>
           <h5>نهاية المحاولة</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.attempt_ended_at}
-                dataKey="num"
-                nameKey="label"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend layout="horizontal" verticalAlign="top" align="center" />
+                <Pie
+                  data={data.charts.attempt_ended_at}
+                  dataKey="num"
+                  nameKey="label"
+                  innerRadius={40}
+                  outerRadius={100}
+                  fill="#ff7675"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
         <div className={cls.chartsSection}>
           <h5>التصحيح</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.attempt_status}
-                dataKey="num"
-                nameKey="label"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend layout="horizontal" verticalAlign="top" align="center" />
+                <Pie
+                  data={data.charts.attempt_status}
+                  dataKey="num"
+                  nameKey="label"
+                  innerRadius={40}
+                  outerRadius={100}
+                  fill="#6c5ce7"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
         <div className={cls.chartsSection}>
           <h5>الكتاب</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.book_id}
-                dataKey="num"
-                nameKey="book.title_ar"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend layout="horizontal" verticalAlign="top" align="center" />
+                <Pie
+                  data={data.charts.book_id}
+                  dataKey="num"
+                  nameKey="page_section.title"
+                  innerRadius={40}
+                  outerRadius={100}
+                  fill="#00b894"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
         <div className={cls.chartsSection}>
           <h5>قسم الصفحة</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.page_section_id}
-                dataKey="num"
-                nameKey="book.title_ar"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend layout="horizontal" verticalAlign="top" align="center" />
+                <Pie
+                  data={data.charts.page_section_id}
+                  dataKey="num"
+                  nameKey="book.title_ar"
+                  innerRadius={40}
+                  outerRadius={100}
+                  fill="#2980b9"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

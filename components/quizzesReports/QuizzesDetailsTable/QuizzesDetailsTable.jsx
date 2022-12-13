@@ -7,9 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
-import axios from "../../../Utils/axios";
-
-import { Pie, PieChart, Legend, Tooltip } from "recharts";
+import { Pie, PieChart, Legend, Tooltip, ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar } from "recharts";
 
 import {
   useTable,
@@ -140,48 +138,41 @@ const QuizzesDetailsTable = ({ data, fetchQuizAttempts }) => {
         <div className={cls.chartsSection}>
           <h5>الكتاب</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.book_id}
-                dataKey="num"
-                nameKey="page_section_id"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-                // startAngle={0}
-                // endAngle={360}
-                // paddingAngle={3}
-                // stroke="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend layout="horizontal" verticalAlign="top" align="center" />
+                <Pie
+                  data={data.charts.book_id}
+                  dataKey="num"
+                  nameKey="page_section_id"
+                  innerRadius={40}
+                  outerRadius={100}
+                  fill="#2980b9"
+                  // startAngle={0}
+                  // endAngle={360}
+                  // paddingAngle={3}
+                  // stroke="#2980b9"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
         <div className={cls.chartsSection}>
           <h5>قسم الصفحة</h5>
           <div>
-            <PieChart width={300} height={300}>
-              <Tooltip />
-              <Legend layout="horizontal" verticalAlign="top" align="center" />
-              <Pie
-                data={data.charts.page_section_id}
-                dataKey="num"
-                nameKey="page_section_id"
-                cx={145}
-                cy={120}
-                innerRadius={40}
-                outerRadius={100}
-                fill="#2980b9"
-                // startAngle={0}
-                // endAngle={360}
-                // paddingAngle={3}
-                // stroke="#2980b9"
-              />
-            </PieChart>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={data.charts.page_section_id}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="page_section.title" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="num" fill="#8884d8" />
+                {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
