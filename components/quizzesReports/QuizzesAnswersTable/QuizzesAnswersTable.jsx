@@ -148,7 +148,7 @@ const QuizzesAnswersTable = ({ data }) => {
                 outerRadius={100}
                 fill="#2980b9"
               />
-            </PieChart>
+            </PieChart> 
           </div>
         </div>
       </div>
