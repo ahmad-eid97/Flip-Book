@@ -6,9 +6,6 @@ import AudioSection from "../../AudioSection/AudioSection";
 
 import { toast } from "react-toastify";
 
-import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
-import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
-
 import axios from "../../../Utils/axios";
 
 import { useTranslation } from "react-i18next";
@@ -29,10 +26,11 @@ const SingleChoice = ({
   questionsNum,
   direction,
   setOpenPreview,
+  setLoading,
+  setResults,
+  setOpenSuccess,
 }) => {
   const [choosedAnswer, setChoosedAnswer] = useState(null);
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
@@ -42,19 +40,7 @@ const SingleChoice = ({
 
   const submit = async () => {
     if (choosedAnswer) {
-      if (questionsNum === questionNum) {
-        setOpenQuizModal(false);
-      } else {
-        setQuestionNum((questionNum += 1));
-        setChanging(true);
-
-        // inputRef.current.checked  = false
-        setChoosedAnswer(null);
-        setTimeout(() => {
-          setChanging(false);
-        }, 1000);
-      }
-
+      setLoading(true);
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
@@ -70,6 +56,26 @@ const SingleChoice = ({
         .catch((err) => console.log(err));
 
       if (!response) return;
+
+      setLoading(false);
+
+      setResults((prev) => [...prev, response.data.data.is_correct]);
+
+      if (questionsNum === questionNum) {
+        setOpenSuccess(true);
+        setTimeout(() => {
+          setOpenQuizModal(false);
+        }, 15000);
+      } else {
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
+
+        // inputRef.current.checked  = false
+        setChoosedAnswer(null);
+        setTimeout(() => {
+          setChanging(false);
+        }, 1000);
+      }
     }
 
     // if (choosedAnswer) {
@@ -204,9 +210,6 @@ const SingleChoice = ({
           </button>
         )}
       </div>
-
-      {openSuccess && <CorrectAnswer />}
-      {openWrong && <WrongAnswer />}
     </div>
   );
 };

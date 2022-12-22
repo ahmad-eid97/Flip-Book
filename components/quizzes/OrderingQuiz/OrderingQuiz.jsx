@@ -5,9 +5,6 @@ import AudioSection from "../../AudioSection/AudioSection";
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
-import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
-
 import { toast } from "react-toastify";
 
 import axios from "../../../Utils/axios";
@@ -29,10 +26,11 @@ const OrderingQuiz = ({
   questionsNum,
   direction,
   setOpenPreview,
+  setLoading,
+  setResults,
+  setOpenSuccess,
 }) => {
   const [answers, setAnswers] = useState(question.answers);
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
@@ -73,16 +71,7 @@ const OrderingQuiz = ({
     // const sortedAnswers = answers.sort((a,b) => a.id - b.id)
 
     if (answers.length) {
-      if (questionsNum === questionNum) {
-        setOpenQuizModal(false);
-      } else {
-        setQuestionNum((questionNum += 1));
-        setChanging(true);
-        setAnswers(question.answers);
-        setTimeout(() => {
-          setChanging(false);
-        }, 1000);
-      }
+      setLoading(true);
 
       const data = {
         quiz_attempt_id: attemptId,
@@ -100,7 +89,23 @@ const OrderingQuiz = ({
 
       if (!response) return;
 
-      console.log(response);
+      setLoading(false);
+
+      setResults((prev) => [...prev, response.data.data.is_correct]);
+
+      if (questionsNum === questionNum) {
+        setOpenSuccess(true);
+        setTimeout(() => {
+          setOpenQuizModal(false);
+        }, 15000);
+      } else {
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
+        setAnswers(question.answers);
+        setTimeout(() => {
+          setChanging(false);
+        }, 1000);
+      }
     }
 
     // if(rightOrder.length === answerArray.length && rightOrder.every((val, index) => val === answerArray[index])) {
@@ -223,9 +228,6 @@ const OrderingQuiz = ({
           )}
         </div>
       </div>
-
-      {openSuccess && <CorrectAnswer />}
-      {openWrong && <WrongAnswer />}
     </div>
   );
 };

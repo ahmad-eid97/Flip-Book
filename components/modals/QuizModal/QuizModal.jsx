@@ -13,7 +13,6 @@ import BigImageWithAudio from "../../quizzes/BigImageWithAudio/BigImageWithAudio
 import BigImageWithVideo from "../../quizzes/BigImageWithVideo/BigImageWithVideo";
 
 import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
-import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
 
 import Loader from "../../UIs/Loader/Loader";
 
@@ -48,13 +47,12 @@ const QuizModal = ({
   const [loading, setLoading] = useState(false);
   const [questionNum, setQuestionNum] = useState(1);
   const [specialModal, setSpecialModal] = useState(false);
+  const [results, setResults] = useState([]);
 
   // COMPONENT HANDLERS
   const closeModal = (e) => {
     if (overlay.current === e.target) setOpenQuizModal(false);
   };
-
-  console.log(quizData);
 
   const close = () => {
     setOpenQuizModal(false);
@@ -91,8 +89,6 @@ const QuizModal = ({
     setLoading(false);
   };
 
-  console.log(questions);
-
   useEffect(() => {
     fetchQuestions();
   }, []);
@@ -118,10 +114,6 @@ const QuizModal = ({
   useEffect(() => {
     startQuiz();
   }, []);
-
-  const submit = () => {};
-
-  console.log(questions);
 
   return (
     <div className={cls.overlay} ref={overlay} onClick={(e) => closeModal(e)}>
@@ -161,6 +153,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -174,6 +170,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -187,6 +187,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -201,6 +205,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -215,6 +223,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -229,6 +241,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -243,6 +259,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -257,6 +277,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -271,6 +295,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -285,6 +313,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -299,6 +331,10 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
 
@@ -313,23 +349,20 @@ const QuizModal = ({
                           questionsNum={questions.length}
                           direction={direction}
                           setOpenPreview={setOpenPreview}
+                          results={results}
+                          setResults={setResults}
+                          setLoading={setLoading}
+                          setOpenSuccess={setOpenSuccess}
                         />
                       )}
                     </div>
                   ))}
             </div>
-
-            {/* <div className={cls.btn}>
-
-              <button onClick={submit}><i className="fa-light fa-badge-check"></i> تأكيد</button>
-
-            </div> */}
           </div>
         )}
       </div>
 
-      {openSuccess && <CorrectAnswer />}
-      {openWrong && <WrongAnswer />}
+      {openSuccess && <CorrectAnswer results={results} setOpenQuizModal={setOpenQuizModal} />}
     </div>
   );
 };

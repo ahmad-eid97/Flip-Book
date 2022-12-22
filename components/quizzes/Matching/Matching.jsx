@@ -12,9 +12,6 @@ import axios from "../../../Utils/axios";
 
 import Cookies from "universal-cookie";
 
-import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
-import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
-
 import cls from "./matching.module.scss";
 
 const cookie = new Cookies();
@@ -28,20 +25,22 @@ const Matching = ({
   questionsNum,
   direction,
   setOpenPreview,
+  results,
+  setLoading,
+  setResults,
+  setOpenSuccess,
 }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [choosedOptions, setChoosedOptions] = useState([]);
   const [allAnswers, setAllAnswers] = useState([]);
   const canvas = useRef();
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openWrong, setOpenWrong] = useState(false);
+  // const [openSuccess, setOpenSuccess] = useState(false);
+  // const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
   const [alreadyHere, setAlreadyHere] = useState(false);
-  const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
-
-  console.log(question);
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -103,7 +102,6 @@ const Matching = ({
   };
 
   const selectOption = (e, answer, choosedOption) => {
-    // setSelectedOption({ element: e.target, answer });
     const foundChoosed = choosedOptions.findIndex(
       (option) => option === choosedOption
     );
@@ -121,7 +119,6 @@ const Matching = ({
     if (!selectedOption) return;
     const answerFound = allAnswers.find((answer) => answer.id === ans.id);
     if (answerFound || alreadyHere) {
-      console.log(selectedOption);
       setChoosedOptions((prev) => [
         ...prev.filter((option) => option !== selectedOption.answer.title),
       ]);
@@ -134,7 +131,6 @@ const Matching = ({
     const FROM_PARENT = document.querySelector(`.${cls.list}`).offsetTop;
     let FROM_OPTION;
     if (selectedOption)
-      // FROM_OPTION = (selectedOption.element.offsetTop - FROM_PARENT) + (selectedOption.element.offsetHeight / 2);
       FROM_OPTION =
         selectedOption.element.offsetTop -
         FROM_PARENT +
@@ -142,28 +138,13 @@ const Matching = ({
 
     const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
 
-    // const TO_OPTION = (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
     const TO_OPTION =
       e.target.offsetTop - TO_PARENT + e.target.offsetHeight / 2;
 
-    // Check Answers
-    // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
-    //   setTimeout(() => {
-    //     setOpenWrong(false)
-    //   }, 4000)
-    //   setOpenWrong(true)
-    //   setWrongTries(prev => (prev += 1))
-    // } else {
-    // Draw Correct Line
     drawCanvasLine(FROM_OPTION, TO_OPTION);
-    // drawCanvasLine(FROM_OPTION / (canvas.current.offsetHeight / FROM_OPTION), TO_OPTION / (canvas.current.offsetHeight / TO_OPTION));
-
-    // console.log(canvas.current.offsetHeight / FROM_OPTION)
-    // console.log(canvas.current.offsetHeight / TO_OPTION)
 
     setAllAnswers((prev) => [...prev, ans]);
     setSelectedOption(null);
-    // }
   };
 
   useEffect(() => {
@@ -187,18 +168,8 @@ const Matching = ({
   }, []);
 
   const submit = async () => {
-    // setOpenQuizModal(false);
     if (allAnswers.length) {
-      if (questionsNum === questionNum) {
-        setOpenQuizModal(false);
-      } else {
-        setQuestionNum((questionNum += 1));
-        setChanging(true);
-        setTimeout(() => {
-          setChanging(false);
-        }, 1000);
-      }
-
+      setLoading(true);
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
@@ -211,24 +182,27 @@ const Matching = ({
             Authorization: `Bearer ${cookie.get("EmicrolearnAuth")}`,
           },
         })
-        .catch((err) => console.log(err));
+        .catch((err) => errorNotify(err));
 
       if (!response) return;
-    }
 
-    // if(allAnswers.length < question.answers.length) {
-    //   setTimeout(() => {
-    //     setOpenWrong(false)
-    //   }, 4000)
-    //   setOpenWrong(true)
-    //   setWrongTries(prev => (prev += 1))
-    // } else {
-    //   setTimeout(() => {
-    //     setOpenSuccess(false)
-    //     setOpenQuizModal(false)
-    //   }, 4000)
-    //   setOpenSuccess(true)
-    // }
+      setLoading(false);
+
+      setResults((prev) => [...prev, response.data.data.is_correct]);
+
+      if (questionsNum === questionNum) {
+        setOpenSuccess(true);
+        setTimeout(() => {
+          setOpenQuizModal(false);
+        }, 15000000000);
+      } else {
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
+        setTimeout(() => {
+          setChanging(false);
+        }, 1000);
+      }
+    }
   };
 
   console.log(question);
@@ -343,8 +317,8 @@ const Matching = ({
         )}
       </div>
 
-      {openSuccess && <CorrectAnswer />}
-      {openWrong && <WrongAnswer />}
+      {/* {openSuccess && <CorrectAnswer results={results} />}
+      {openWrong && <WrongAnswer results={results} />} */}
     </div>
   );
 };

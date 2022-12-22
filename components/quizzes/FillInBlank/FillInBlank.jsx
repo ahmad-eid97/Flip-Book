@@ -4,11 +4,8 @@ import { toast } from "react-toastify";
 
 import { replaceReact } from "replace-react";
 
-import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
-import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
-
 import VideoSection from "../../VideoSection/VideoSection";
-import AudioSection from '../../AudioSection/AudioSection';
+import AudioSection from "../../AudioSection/AudioSection";
 
 import axios from "../../../Utils/axios";
 
@@ -29,28 +26,20 @@ const FillInBlank = ({
   setQuestionNum,
   questionsNum,
   direction,
-  setOpenPreview
+  setOpenPreview,
+  setLoading,
+  setResults,
+  setOpenSuccess,
 }) => {
   const [answers, setAnswers] = useState({});
   const [wrongAnswers, setWrongAnswers] = useState({});
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
   const [changing, setChanging] = useState(false);
   const { i18n } = useTranslation();
 
   const submit = async () => {
     if (Object.values(answers).length) {
-      if (questionsNum === questionNum) {
-        setOpenQuizModal(false);
-      } else {
-        setQuestionNum((questionNum += 1));
-        setChanging(true);
-        setTimeout(() => {
-          setChanging(false);
-        }, 1000);
-      }
-
+      setLoading(true);
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
@@ -67,6 +56,23 @@ const FillInBlank = ({
         .catch((err) => console.log(err));
 
       if (!response) return;
+
+      setLoading(false);
+
+      setResults((prev) => [...prev, response.data.data.is_correct]);
+
+      if (questionsNum === questionNum) {
+        setOpenSuccess(true);
+        setTimeout(() => {
+          setOpenQuizModal(false);
+        }, 15000);
+      } else {
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
+        setTimeout(() => {
+          setChanging(false);
+        }, 1000);
+      }
     }
 
     // if(response.success) {
@@ -134,64 +140,66 @@ const FillInBlank = ({
   const successNotify = (message) => toast.success(message);
   const errorNotify = (message) => toast.error(message);
 
-  console.log(question)
+  console.log(question);
 
   return (
     <div className={`${cls.fillInBlank} ${changing && cls.animation}`}>
       <div className={`stepper ${direction === "rtl" ? "arabic" : "english"}`}>
         <div className="step">
           <p>{questionNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>السؤال الحالي</span>
-            :
+          ) : (
             <span>Current Question</span>
-          }
+          )}
         </div>
 
         <div className="lastStep">
           <p>{questionsNum}</p>
-          {direction === 'rtl' ?
+          {direction === "rtl" ? (
             <span>عدد الاسئلة</span>
-            :
+          ) : (
             <span>Questions Number</span>
-          }
+          )}
         </div>
       </div>
 
       <div className="quesImage">
-        {question?.question_img && !changing && <img src={question?.question_img} alt="image" />}
+        {question?.question_img && !changing && (
+          <img src={question?.question_img} alt="image" />
+        )}
       </div>
 
       <div className="quizHelpers">
-        {question?.question_video_link &&
+        {question?.question_video_link && (
+          <div className={cls.videoSection}>
+            <VideoSection
+              video={question?.question_video_link}
+              openModal={setOpenPreview}
+              data={false}
+            />
+          </div>
+        )}
 
-        <div className={cls.videoSection}>
-          <VideoSection video={question?.question_video_link} openModal={setOpenPreview} data={false} />
-        </div>
-
-        }
-        
-        {question?.question_audio && 
-
+        {question?.question_audio && (
           <div className={cls.audioSection}>
             <AudioSection audio={question?.question_audio} data={false} />
           </div>
-        
-        }
+        )}
       </div>
 
-      {direction === 'rtl' ?
+      {direction === "rtl" ? (
         <h6>أكمل الفراغات التاليه بالاجابات المناسبة</h6>
-        :
+      ) : (
         <h6>Complete the following blanks with the appropriate answers</h6>
-      }
-
-
+      )}
 
       {question.answers.map((answer, idx) => (
         <div key={answer.id} className={cls.text}>
-
-          <h6> {questionNum}) {question.title}</h6>
+          <h6>
+            {" "}
+            {questionNum}) {question.title}
+          </h6>
 
           {replaceReact(answer.title, /({dash})/g, (match, key) => (
             <input
@@ -208,23 +216,22 @@ const FillInBlank = ({
           <div className={cls.btn}>
             {questionsNum === questionNum ? (
               <button onClick={submit}>
-                {direction === 'rtl' ? 
-                  <span>تأكيد{" "}</span>
-                  :
-                  <span>Submit{" "}</span>
-                }
-                
+                {direction === "rtl" ? (
+                  <span>تأكيد </span>
+                ) : (
+                  <span>Submit </span>
+                )}
+
                 <i className="fa-light fa-badge-check"></i>
-    
               </button>
             ) : (
               <button onClick={submit}>
-                {direction === 'rtl' ? 
-                  <span>التالي{" "}</span>
-                  :
-                  <span>Next {" "}</span>
-                }
-    
+                {direction === "rtl" ? (
+                  <span>التالي </span>
+                ) : (
+                  <span>Next </span>
+                )}
+
                 <i
                   className={`${cls[i18n.language]} ${
                     cls.next
@@ -235,9 +242,6 @@ const FillInBlank = ({
           </div>
         </div>
       ))}
-
-      {openSuccess && <CorrectAnswer />}
-      {openWrong && <WrongAnswer />}
     </div>
   );
 };

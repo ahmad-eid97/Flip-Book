@@ -5,9 +5,6 @@ import AudioSection from "../../AudioSection/AudioSection";
 
 import { toast } from "react-toastify";
 
-import CorrectAnswer from "../../UIs/CorrectAnswer/CorrectAnswer";
-import WrongAnswer from "../../UIs/WrongAnswer/WrongAnswer";
-
 import axios from "../../../Utils/axios";
 
 import { useTranslation } from "react-i18next";
@@ -27,11 +24,12 @@ const TrueAndFalse = ({
   questionsNum,
   direction,
   setOpenPreview,
+  setLoading,
+  setResults,
+  setOpenSuccess,
 }) => {
   const [answer, setAnswer] = useState("");
   const [state, setState] = useState("");
-  const [openSuccess, setOpenSuccess] = useState(false);
-  const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
@@ -58,16 +56,7 @@ const TrueAndFalse = ({
     });
 
     if (currentAnswer) {
-      if (questionsNum === questionNum) {
-        setOpenQuizModal(false);
-      } else {
-        setQuestionNum((questionNum += 1));
-        setChanging(true);
-        setTimeout(() => {
-          setChanging(false);
-        }, 1000);
-      }
-
+      setLoading(true);
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
@@ -84,7 +73,22 @@ const TrueAndFalse = ({
 
       if (!response) return;
 
-      console.log(response);
+      setLoading(false);
+
+      setResults((prev) => [...prev, response.data.data.is_correct]);
+
+      if (questionsNum === questionNum) {
+        setOpenSuccess(true);
+        setTimeout(() => {
+          setOpenQuizModal(false);
+        }, 15000);
+      } else {
+        setQuestionNum((questionNum += 1));
+        setChanging(true);
+        setTimeout(() => {
+          setChanging(false);
+        }, 1000);
+      }
     }
   };
 
@@ -181,9 +185,6 @@ const TrueAndFalse = ({
           </button>
         )}
       </div>
-
-      {openSuccess && <CorrectAnswer />}
-      {openWrong && <WrongAnswer />}
     </div>
   );
 };
