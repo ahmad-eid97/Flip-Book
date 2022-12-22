@@ -31,11 +31,13 @@ const Matching = ({
 }) => {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [choosedOptions, setChoosedOptions] = useState([]);
   const [allAnswers, setAllAnswers] = useState([]);
   const canvas = useRef();
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openWrong, setOpenWrong] = useState(false);
   const [wrongTries, setWrongTries] = useState(0);
+  const [alreadyHere, setAlreadyHere] = useState(false);
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
@@ -73,26 +75,62 @@ const Matching = ({
       ctx.stroke();
     } else {
       ctx.moveTo(0, from);
-      ctx.lineTo(200, from);
+      // ctx.lineTo(200, from);
+      ctx.lineTo(200, to);
       ctx.stroke();
     }
 
     ctx.fillStyle = color;
-    // Arrow
-    ctx.moveTo(205, from);
-    ctx.arc(205, from, 10, 0, 2 * Math.PI);
-    ctx.fill();
-    // Arrow
-    ctx.moveTo(3, to);
-    ctx.arc(-5, to, 10, 0, 2 * Math.PI);
-    ctx.fill();
+
+    if (direction === "rtl") {
+      // Arrow
+      ctx.moveTo(205, from);
+      ctx.arc(205, from, 10, 0, 2 * Math.PI);
+      ctx.fill();
+      // Arrow
+      ctx.moveTo(3, to);
+      ctx.arc(-5, to, 10, 0, 2 * Math.PI);
+      ctx.fill();
+    } else {
+      ctx.moveTo(205, to);
+      ctx.arc(205, to, 10, 0, 2 * Math.PI);
+      ctx.fill();
+      // Arrow
+      ctx.moveTo(3, from);
+      ctx.arc(-5, from, 10, 0, 2 * Math.PI);
+      ctx.fill();
+    }
   };
 
-  const selectOption = (e, answer) => {
+  const selectOption = (e, answer, choosedOption) => {
+    // setSelectedOption({ element: e.target, answer });
+    const foundChoosed = choosedOptions.findIndex(
+      (option) => option === choosedOption
+    );
+    if (choosedOption && foundChoosed >= 0) {
+      setAlreadyHere(true);
+      return;
+    }
+    setChoosedOptions((prev) => [...prev, choosedOption]);
     setSelectedOption({ element: e.target, answer });
+    setAlreadyHere(false);
   };
 
   const drawLine = (e, ans) => {
+    // CHECK IF ANSWER ALREADY EXISTS
+    if (!selectedOption) return;
+    const answerFound = allAnswers.find((answer) => answer.id === ans.id);
+    if (answerFound || alreadyHere) {
+      console.log(selectedOption);
+      setChoosedOptions((prev) => [
+        ...prev.filter((option) => option !== selectedOption.answer.title),
+      ]);
+      setSelectedOption(null);
+      return;
+    }
+
+    setAlreadyHere(false);
+
     const FROM_PARENT = document.querySelector(`.${cls.list}`).offsetTop;
     let FROM_OPTION;
     if (selectedOption)
@@ -102,27 +140,11 @@ const Matching = ({
         FROM_PARENT +
         selectedOption.element.offsetHeight / 2;
 
-    console.log(FROM_OPTION);
-
     const TO_PARENT = document.querySelector(`.${cls.match}`).offsetTop;
 
     // const TO_OPTION = (e.target.offsetTop - TO_PARENT) + (e.target.offsetHeight / 2);
     const TO_OPTION =
       e.target.offsetTop - TO_PARENT + e.target.offsetHeight / 2;
-
-    // console.log(FROM_OPTION)
-    // console.log(TO_OPTION)
-    // console.log(FROM_PARENT)
-    // console.log(TO_PARENT)
-
-    // console.log(FROM_PARENT)
-    // console.log(selectedOption.element.offsetTop)
-    // console.log(selectedOption.element.offsetHeight)
-    // console.log('*'.repeat(15))
-
-    // console.log(TO_PARENT)
-    // console.log(e.target.offsetTop)
-    // console.log(e.target.offsetHeight)
 
     // Check Answers
     // if (selectedOption && selectedOption.answer.answer_two_gap_match !== ans) {
@@ -140,6 +162,7 @@ const Matching = ({
     // console.log(canvas.current.offsetHeight / TO_OPTION)
 
     setAllAnswers((prev) => [...prev, ans]);
+    setSelectedOption(null);
     // }
   };
 
@@ -269,7 +292,7 @@ const Matching = ({
           {question.answers.map((answer, idx) => (
             <div
               key={idx}
-              onClick={(e) => selectOption(e, answer)}
+              onClick={(e) => selectOption(e, answer, answer.title)}
               className={cls.one}
             >
               <p className="B">
@@ -289,7 +312,7 @@ const Matching = ({
           {options.map((answer, idx) => (
             <div
               key={idx}
-              onClick={(e) => selectOption(e, answer)}
+              // onClick={(e) => selectOption(e, answer)}
               className={cls.one}
             >
               <p className="A" onClick={(e) => drawLine(e, answer)}>

@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+import Cookies from "universal-cookie";
+
 import Container from "@mui/material/Container";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
+import Swal from "sweetalert2";
+
 import cls from "./navbar.module.scss";
+
+const cookie = new Cookies();
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -22,12 +28,37 @@ const Navbar = () => {
     }
   };
 
+  const checkLogout = () => {
+    handleClose("");
+    Swal.fire({
+      title: "تسجيل الخروج!",
+      text: "هل تريد تسجيل الخروج!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "تسجيل الخروج",
+      cancelButtonText: "إلغاء",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+      }
+    });
+  };
+
+  const logout = () => {
+    cookie.remove("EmicrolearnAuth");
+    router.push("/login");
+  };
+
   return (
     <div className={cls.navbar}>
       <Container maxWidth="xl" className={cls.wrapper}>
         {/* <h5>Emicrolearn</h5> */}
-        <img src="/imgs/logo.png" alt="logoImage" onClick={() => router.push('/home')} />
-        
+        <img
+          src="/imgs/logo.png"
+          alt="logoImage"
+          onClick={() => router.push("/home")}
+        />
+
         <div>
           <button
             id="basic-button"
@@ -51,8 +82,10 @@ const Navbar = () => {
             <MenuItem onClick={() => handleClose("/reports")}>
               Books Reports
             </MenuItem>
-            <MenuItem onClick={() => handleClose("/quizzes-reports")}>Quizzes Reports</MenuItem>
-            <MenuItem onClick={() => handleClose("")}>Logout</MenuItem>
+            <MenuItem onClick={() => handleClose("/quizzes-reports")}>
+              Quizzes Reports
+            </MenuItem>
+            <MenuItem onClick={checkLogout}>Logout</MenuItem>
           </Menu>
         </div>
       </Container>

@@ -1,6 +1,6 @@
 // IMPORTING GLOBAL VARIABLES AND MIXINS
-@import '../../../styles/mixins';
-@import '../../../styles/extends';
+@import "../../../styles/mixins";
+@import "../../../styles/extends";
 
 .overlay {
   @keyframes showModal {
@@ -24,7 +24,7 @@
   animation: showModal 0.2s forwards ease-in-out 1;
   .area {
     background-color: transparent;
-    width: 700px;
+    width: 800px;
     height: auto;
     max-height: 90%;
     position: relative;
@@ -68,8 +68,11 @@
       justify-content: center;
       align-items: center;
       transition: all 0.2s ease-in-out !important;
+      @include sm {
+        right: -40px;
+      }
       @include xs {
-        right: -30px;
+        right: 0px;
       }
       &:hover {
         background-color: var(--book-color);
@@ -105,18 +108,17 @@
         width: 100%;
       }
       iframe {
-        width: 650px;
+        width: 100%;
         height: 450px;
         @include sm {
           width: 500px !important;
           height: 350px !important;
         }
         @include xs {
-          width: 350px !important;
+          width: 100% !important;
           height: 390px !important;
         }
       }
     }
-
   }
 }

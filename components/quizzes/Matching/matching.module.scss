@@ -1,15 +1,15 @@
-@import '../../../styles/mixins.scss';
+@import "../../../styles/mixins.scss";
 
 .matching {
   &.animation {
     animation: show 1s forwards;
   }
   @keyframes show {
-    0%{
+    0% {
       opacity: 0;
       transform: translateX(100px);
     }
-    100%{
+    100% {
       opacity: 1;
       transform: translateY(0px);
     }
@@ -26,7 +26,7 @@
       color: #000;
       background-color: rgb(231, 231, 231);
       margin-bottom: 5px;
-      
+
       border-radius: 5px;
       // width: 150px;
       // box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
@@ -57,6 +57,9 @@
       // padding: 0px 15px;
       // background-color: rgb(238, 238, 238);
       text-align: center !important;
+      span {
+        padding: 5px 20px;
+      }
     }
 
     .match {
@@ -65,6 +68,9 @@
       text-align: center !important;
       direction: unset !important;
       text-align: unset !important;
+      span {
+        padding: 5px 20px;
+      }
     }
   }
 

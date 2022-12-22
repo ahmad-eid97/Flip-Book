@@ -10,7 +10,7 @@
     position: relative;
     display: grid;
     place-items: center;
-    min-height: 120px;
+    min-height: 60px;
     img {
       object-fit: contain;
       height: auto;
@@ -25,7 +25,7 @@
       place-items: center;
       z-index: 9999;
       i {
-        font-size: 70px;
+        font-size: 50px;
         color: rgb(255 64 4 / 30%);
         animation: show 0.3s forwards;
       }

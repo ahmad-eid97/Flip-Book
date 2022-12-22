@@ -331,3 +331,46 @@ button.wrapper {
   gap: 20px;
   justify-content: center;
 }
+
+// SWEET ALERT GLOBAL STYLES
+body.swal2-shown {
+  padding: 0 !important;
+}
+
+button.swal2-confirm {
+  background-color: var(--main-color) !important;
+  padding: 10px 20px;
+  border: 1px solid var(--main-color);
+  outline: none;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #fff !important;
+    color: var(--main-color);
+  }
+}
+
+button.swal2-cancel {
+  background-color: transparent !important;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  position: relative;
+  color: var(--text-color) !important;
+  top: 3px;
+  border-radius: 20px;
+  font-size: 17px;
+  margin: 0 5px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--main-color);
+  text-decoration: unset !important;
+  &:hover {
+    background-color: #fff;
+    color: var(--main-color);
+    text-decoration: underline;
+  }
+}
