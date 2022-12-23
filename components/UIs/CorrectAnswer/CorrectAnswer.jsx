@@ -30,7 +30,7 @@ const CorrectAnswer = ({ results, setOpenQuizModal }) => {
             )}
           </h1>
           <h3>
-            لقد حصلت علي: {studentResult} / {results.length}
+            لقد حصلت علي: {studentResult} \ {results.length}
           </h3>
 
           <button onClick={() => setOpenQuizModal(false)}>حسناَ</button>
