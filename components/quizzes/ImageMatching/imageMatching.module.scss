@@ -5,16 +5,12 @@
   &.animation {
     animation: show 1s forwards;
   }
-  * {
-    direction: ltr !important;
-    text-align: left !important;
-  }
   @keyframes show {
-    0%{
+    0% {
       opacity: 0;
       transform: translateX(100px);
     }
-    100%{
+    100% {
       opacity: 1;
       transform: translateY(0px);
     }
@@ -27,8 +23,10 @@
   .wrapper {
     background-color: rgb(241, 241, 241);
     border-radius: 5px;
-    direction: ltr !important;
-    text-align: left !important;
+    * {
+      direction: ltr !important;
+      text-align: left !important;
+    }
   }
   .imagesBox {
     margin-top: 20px;
@@ -39,10 +37,11 @@
     gap: 20px;
     &.ar {
     }
-  } 
+  }
   .answers {
     display: flex;
     justify-content: center;
+    flex-direction: row-reverse;
     gap: 20px;
     margin-top: 20px;
     // margin-left: 50px;

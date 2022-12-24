@@ -31,31 +31,32 @@ const DragQuiz = ({
   setResults,
   setOpenSuccess,
 }) => {
-  const [answers, setAnswers] = useState(question.answers);
-  const [titles, setTitles] = useState(
-    question.answers.map((ans) => ans.title)
-  );
+  const [answers, setAnswers] = useState(null);
+  const [randomImages, setRandomImages] = useState([]);
   const [wrongTries, setWrongTries] = useState(0);
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
   const handleOndragEnd = (result) => {
     if (!result.destination) return;
-    const allAnswers = Array.from(answers);
+    console.log(randomImages);
+    const allAnswers = Array.from(randomImages);
     const [reorderedItem] = allAnswers.splice(result.source.index, 1);
     allAnswers.splice(result.destination.index, 0, reorderedItem);
-    setAnswers(allAnswers);
+    console.log(allAnswers);
+    setRandomImages(allAnswers);
   };
 
   const submit = async () => {
     // const sortedAnswers = answers.sort((a,b) => a.id - b.id)
-
-    if (answers.length) {
+    console.log(randomImages);
+    console.log(randomImages.map((answer) => answer.id));
+    if (randomImages.length) {
       setLoading(true);
       const data = {
         quiz_attempt_id: attemptId,
         question_id: question.id,
-        given_answer: answers.map((answer) => answer.id),
+        given_answer: randomImages.map((answer) => answer.id),
       };
 
       const response = await axios
@@ -105,25 +106,47 @@ const DragQuiz = ({
     // }
   };
 
+  // useEffect(() => {
+  //   console.log(titles);
+  //   let randomTitles = [];
+
+  //   for (var index = 0; index < question.answers.length; index++) {
+  //     const randomNum = Math.floor(Math.random() * question.answers.length);
+  //     console.log(randomNum, question.answers[randomNum].id);
+  //     if (
+  //       randomTitles.find(
+  //         (answer) => answer.id === question.answers[randomNum].id
+  //       )
+  //     ) {
+  //       index--;
+  //       continue;
+  //     } else {
+  //       randomTitles.push(question.answers[randomNum]);
+  //     }
+  //   }
+  //   setTitles(randomTitles);
+  // }, [question.answers]);
+
   useEffect(() => {
-    console.log(titles);
-    let randomTitles = [];
+    let randomImages = [];
 
     for (var index = 0; index < question.answers.length; index++) {
       const randomNum = Math.floor(Math.random() * question.answers.length);
       console.log(randomNum, question.answers[randomNum].id);
       if (
-        randomTitles.find(
+        randomImages.find(
           (answer) => answer.id === question.answers[randomNum].id
         )
       ) {
         index--;
         continue;
       } else {
-        randomTitles.push(question.answers[randomNum]);
+        randomImages.push(question.answers[randomNum]);
       }
     }
-    setTitles(randomTitles);
+    console.log(randomImages);
+    setRandomImages(randomImages);
+    // setAnswers(randomImages);
   }, [question.answers]);
 
   console.log(question);
@@ -183,7 +206,7 @@ const DragQuiz = ({
       </h6>
 
       <div className={cls.wrapper}>
-        <DragDropContext onDragEnd={handleOndragEnd}>
+        <DragDropContext onDragEnd={handleOndragEnd} className={cls.draggable}>
           <Droppable
             droppableId="matching"
             className={`${cls.box} ${cls[i18n.language]}`}
@@ -195,25 +218,26 @@ const DragQuiz = ({
                 ref={provided.innerRef}
                 className={cls.imagesBox}
               >
-                {answers.map((answer, idx) => (
-                  <Draggable
-                    key={answer.id}
-                    draggableId={answer.id.toString()}
-                    index={idx}
-                    direction="horizontal"
-                  >
-                    {(provided) => (
-                      <img
-                        src={answer.answer_img}
-                        alt="answerImage"
-                        className={`${cls.box} ${cls[i18n.language]}`}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}
-                      />
-                    )}
-                  </Draggable>
-                ))}
+                {randomImages &&
+                  randomImages.map((answer, idx) => (
+                    <Draggable
+                      key={answer.id}
+                      draggableId={answer.id.toString()}
+                      index={idx}
+                      direction="horizontal"
+                    >
+                      {(provided) => (
+                        <img
+                          src={answer.answer_img}
+                          alt="answerImage"
+                          className={`${cls.box} ${cls[i18n.language]}`}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                        />
+                      )}
+                    </Draggable>
+                  ))}
 
                 {provided.placeholder}
               </section>
@@ -222,8 +246,8 @@ const DragQuiz = ({
         </DragDropContext>
 
         <div className={`${cls.answers} ${cls[i18n.language]}`}>
-          {titles.map((title, idx) => (
-            <h6 key={idx}>{title.title}</h6>
+          {question.answers.map((answer, idx) => (
+            <h6 key={idx}>{answer.title}</h6>
           ))}
         </div>
       </div>

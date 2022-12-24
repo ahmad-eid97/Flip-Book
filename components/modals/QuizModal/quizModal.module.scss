@@ -1,6 +1,6 @@
 // IMPORTING GLOBAL VARIABLES AND MIXINS
-@import '../../../styles/mixins';
-@import '../../../styles/extends';
+@import "../../../styles/mixins";
+@import "../../../styles/extends";
 
 .overlay {
   @keyframes showModal {
@@ -83,7 +83,7 @@
 
     .area__content {
       padding-bottom: 30px;
-      @include xs { 
+      @include xs {
         padding-bottom: 15px;
       }
       &.arabic {
@@ -118,7 +118,6 @@
         transform: scale(0.35);
       }
     }
-
   }
 
   .btn {
