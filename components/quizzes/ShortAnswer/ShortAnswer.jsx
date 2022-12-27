@@ -59,9 +59,6 @@ const ShortAnswer = ({
 
       if (questionsNum === questionNum) {
         setOpenSuccess(true);
-        setTimeout(() => {
-          setOpenQuizModal(false);
-        }, 15000);
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);
@@ -71,7 +68,6 @@ const ShortAnswer = ({
           setChanging(false);
         }, 1000);
       }
-
     }
 
     // if(!field) {

@@ -36,8 +36,6 @@ const SingleChoice = ({
   const [changing, setChanging] = useState(false);
   const inputRef = useRef();
 
-  console.log(question);
-
   const submit = async () => {
     if (choosedAnswer) {
       setLoading(true);
@@ -47,13 +45,15 @@ const SingleChoice = ({
         given_answer: choosedAnswer.id,
       };
 
-      const response = await axios
-        .post(`/crm/students/quiz/answer_question`, data, {
+      const response = await axios.post(
+        `/crm/students/quiz/answer_question`,
+        data,
+        {
           headers: {
             Authorization: `Bearer ${cookie.get("EmicrolearnAuth")}`,
           },
-        })
-        .catch((err) => console.log(err));
+        }
+      );
 
       if (!response) return;
 
@@ -63,9 +63,6 @@ const SingleChoice = ({
 
       if (questionsNum === questionNum) {
         setOpenSuccess(true);
-        setTimeout(() => {
-          setOpenQuizModal(false);
-        }, 15000);
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);

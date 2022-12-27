@@ -59,9 +59,6 @@ const OpenEnded = ({
 
       if (questionsNum === questionNum) {
         setOpenSuccess(true);
-        setTimeout(() => {
-          setOpenQuizModal(false);
-        }, 15000);
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);

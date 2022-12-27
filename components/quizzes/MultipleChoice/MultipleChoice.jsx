@@ -35,8 +35,6 @@ const MultipleChoice = ({
   const { i18n } = useTranslation();
   const [changing, setChanging] = useState(false);
 
-  console.log(question);
-
   const selectChoice = (answer) => {
     const answerFound = choosedAnswer.findIndex((ans) => ans.id === answer.id);
 
@@ -76,9 +74,6 @@ const MultipleChoice = ({
 
       if (questionsNum === questionNum) {
         setOpenSuccess(true);
-        setTimeout(() => {
-          setOpenQuizModal(false);
-        }, 15000);
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);

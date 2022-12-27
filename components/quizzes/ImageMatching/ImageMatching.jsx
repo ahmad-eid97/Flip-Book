@@ -48,9 +48,6 @@ const DragQuiz = ({
   };
 
   const submit = async () => {
-    // const sortedAnswers = answers.sort((a,b) => a.id - b.id)
-    console.log(randomImages);
-    console.log(randomImages.map((answer) => answer.id));
     if (randomImages.length) {
       setLoading(true);
       const data = {
@@ -75,9 +72,6 @@ const DragQuiz = ({
 
       if (questionsNum === questionNum) {
         setOpenSuccess(true);
-        setTimeout(() => {
-          setOpenQuizModal(false);
-        }, 15000);
       } else {
         setQuestionNum((questionNum += 1));
         setChanging(true);
@@ -144,12 +138,9 @@ const DragQuiz = ({
         randomImages.push(question.answers[randomNum]);
       }
     }
-    console.log(randomImages);
     setRandomImages(randomImages);
     // setAnswers(randomImages);
   }, [question.answers]);
-
-  console.log(question);
 
   const successNotify = (message) => toast.success(message);
   const errorNotify = (message) => toast.error(message);
