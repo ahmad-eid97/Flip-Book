@@ -168,6 +168,8 @@ const Matching = ({
   }, []);
 
   const submit = async () => {
+    console.log(allAnswers.map((answer) => answer.id));
+    console.log("=======>", attemptId);
     if (allAnswers.length) {
       setLoading(true);
       const data = {
