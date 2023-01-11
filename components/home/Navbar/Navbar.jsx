@@ -67,7 +67,7 @@ const Navbar = () => {
           onClick={() => router.push("/home")}
         />
 
-        <div>
+        <div className={cls.options}>
           <button
             id="basic-button"
             aria-controls={open ? "basic-menu" : undefined}
@@ -79,10 +79,8 @@ const Navbar = () => {
               src={
                 userData?.logo_file ? userData?.logo_file : "/imgs/default.jpg"
               }
-              alt=""
+              alt="user photo"
             />
-
-            {/* <i className="fa-duotone fa-bars"></i> */}
           </button>
           <Menu
             id="basic-menu"
@@ -95,21 +93,27 @@ const Navbar = () => {
           >
             {user && user.type !== "student" && (
               <MenuItem onClick={() => handleClose("/parent")}>
-                لوحة التحكم
+                <i className="fa-duotone fa-chart-line"></i> لوحة التحكم
               </MenuItem>
             )}
-            <MenuItem onClick={() => handleClose("")}>الصفحة الشخصية</MenuItem>
+            <MenuItem onClick={() => handleClose("")}>
+              {" "}
+              <i className="fa-duotone fa-user"></i> الصفحة الشخصية
+            </MenuItem>
             {user && user.type !== "parent" && (
               <MenuItem onClick={() => handleClose("/reports")}>
-                تقارير الكتب
+                <i className="fa-duotone fa-books"></i> تقارير الكتب
               </MenuItem>
             )}
             {user && user.type !== "parent" && (
               <MenuItem onClick={() => handleClose("/quizzes-reports")}>
-                تقارير الإختبارات
+                <i className="fa-duotone fa-feather"></i> تقارير الإختبارات
               </MenuItem>
             )}
-            <MenuItem onClick={checkLogout}>تسجيل خروج</MenuItem>
+            <MenuItem onClick={checkLogout}>
+              <i className="fa-duotone fa-arrow-right-from-bracket"></i> تسجيل
+              خروج
+            </MenuItem>
           </Menu>
         </div>
       </Container>

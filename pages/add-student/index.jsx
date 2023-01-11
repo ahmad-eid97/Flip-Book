@@ -94,7 +94,6 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
     for (const [key, value] of Object.entries(student)) {
       if (key !== "phone" && key !== "school_class_id") {
         if (value === "" || value === undefined) {
-          console.log(key);
           return setEmptyFields(true);
         }
       }
@@ -138,7 +137,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
         <div className={cls.studentForm}>
           <h3>إضافة طالب</h3>
           <Grid container spacing={2}>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">إسم المستخدم ( باللغة الإنجليزية )</label>
                 <input
@@ -156,7 +155,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">إسم الطالب</label>
                 <input
@@ -172,7 +171,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">البريد الإلكتروني</label>
                 <input
@@ -181,7 +180,11 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                   value={studentData.email}
                   name="email"
                   onChange={(e) => handleStudentDataChange(e)}
-                  className={emptyFields && !studentData.email ? cls.error : ""}
+                  className={
+                    (emptyFields && !studentData.email) || !validEmail
+                      ? cls.error
+                      : ""
+                  }
                 />
                 {emptyFields && !studentData.email && (
                   <span>هذا الحقل لا يجب أن يكون فارغاَ</span>
@@ -189,7 +192,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 {!validEmail && <span>البريد الإلكتروني غير صالح</span>}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">كلمة السر</label>
                 <input
@@ -207,7 +210,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">رقم الموبايل</label>
                 <input
@@ -219,7 +222,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 />
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">الجنس</label>
                 <Choose
@@ -235,7 +238,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.specialField}>
                 <label htmlFor="">تاريخ الميلاد</label>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -251,7 +254,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">الدولة</label>
                 <Choose
@@ -267,7 +270,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label htmlFor="">المدينة</label>
                 <Choose
@@ -283,7 +286,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label>الصف الدراسي</label>
                 <Choose
@@ -299,7 +302,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label>الفصل الدراسي</label>
                 <Choose
@@ -315,7 +318,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 )}
               </div>
             </Grid>
-            <Grid item md={6}>
+            <Grid item xs={12} sm={6}>
               <div className={cls.field}>
                 <label>الفصل المدرسي</label>
                 <Choose

@@ -10,6 +10,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    .options {
+      button {
+        direction: rtl !important;
+        text-align: right !important;
+      }
+      ul {
+        min-width: 300px !important;
+      }
+    }
   }
   img {
     width: 140px;

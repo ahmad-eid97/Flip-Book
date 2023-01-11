@@ -374,3 +374,16 @@ button.swal2-cancel {
     text-decoration: underline;
   }
 }
+
+.MuiMenuItem-root {
+  direction: rtl;
+  align-items: right;
+  min-width: 200px;
+  font-family: "Cairo", sans-serif;
+  display: flex;
+  gap: 10px;
+  i {
+    font-size: 1.2rem;
+    color: var(--main-color);
+  }
+}

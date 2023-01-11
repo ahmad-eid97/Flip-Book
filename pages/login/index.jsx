@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { userActions } from "./../../store/userSlice";
 
+import Loader from "../../components/Loader/Loader";
+
 import Cookies from "universal-cookie";
 
 import axios from "../../Utils/axios";
@@ -18,7 +20,6 @@ import { routeRedirection } from "./../../Utils/redirections/routeRedirection/ro
 import { useTranslation } from "next-i18next";
 
 import cls from "./login.module.scss";
-import Loader from "../../components/Loader/Loader";
 
 const cookie = new Cookies();
 
@@ -42,8 +43,6 @@ const Login = () => {
         setLoading(false);
         return errorNotify("خطأ في البريد الإلكتروني أو كلمة المرور");
       }
-
-      console.log(response);
 
       cookie.set("EmicrolearnAuth", response.data.data.access_token, {
         path: "/",
