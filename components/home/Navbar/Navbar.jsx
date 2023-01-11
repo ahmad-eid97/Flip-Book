@@ -51,6 +51,9 @@ const Navbar = () => {
   const logout = () => {
     cookie.remove("EmicrolearnAuth");
     cookie.remove("EmicrolearnUser");
+    if (cookie.get("EmicrolearnParentOptions")) {
+      cookie.remove("EmicrolearnParentOptions");
+    }
     router.push("/login");
   };
 
@@ -90,11 +93,11 @@ const Navbar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-          {user && user.type !== "student" && (
-            <MenuItem onClick={() => handleClose("/parent")}>
-              لوحة التحكم
-            </MenuItem>
-          )}
+            {user && user.type !== "student" && (
+              <MenuItem onClick={() => handleClose("/parent")}>
+                لوحة التحكم
+              </MenuItem>
+            )}
             <MenuItem onClick={() => handleClose("")}>الصفحة الشخصية</MenuItem>
             {user && user.type !== "parent" && (
               <MenuItem onClick={() => handleClose("/reports")}>

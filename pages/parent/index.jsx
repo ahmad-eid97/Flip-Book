@@ -78,7 +78,7 @@ const Parent = ({ parentData, canAddData }) => {
   );
 };
 
-export async function getServerSideProps({ req, locale, resolvedUrl }) {
+export async function getServerSideProps({ req, res, locale, resolvedUrl }) {
   const languageRedirection = langRedirection(req, locale);
 
   const routerRedirection = routeRedirection(req, resolvedUrl);
@@ -99,7 +99,7 @@ export async function getServerSideProps({ req, locale, resolvedUrl }) {
 
   let canAddData = [];
 
-  const res = await axios.get(
+  const resp = await axios.get(
     `/crm/parents/students/add_student/check?lang=${locale}`,
     {
       headers: {
@@ -107,7 +107,11 @@ export async function getServerSideProps({ req, locale, resolvedUrl }) {
       },
     }
   );
-  canAddData = res.data.data;
+  canAddData = resp.data.data;
+  res.setHeader(
+    "set-cookie",
+    `EmicrolearnParentOptions=${JSON.stringify(resp.data.data)}; path=/`
+  );
 
   return {
     props: {

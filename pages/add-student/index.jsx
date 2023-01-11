@@ -91,12 +91,13 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
       school_class_id: studentClass.id,
     };
 
-    if (
-      Object.values(student).findIndex(
-        (one) => one === "" || one === undefined
-      ) >= 0
-    ) {
-      return setEmptyFields(true);
+    for (const [key, value] of Object.entries(student)) {
+      if (key !== "phone" && key !== "school_class_id") {
+        if (value === "" || value === undefined) {
+          console.log(key);
+          return setEmptyFields(true);
+        }
+      }
     }
 
     if (!EmailValidator.validate(studentData.email)) {

@@ -5,6 +5,10 @@ export const routeRedirection = (req, resolvedUrl) => {
     req.cookies["EmicrolearnUser"] &&
     JSON.parse(req.cookies["EmicrolearnUser"]);
 
+  const parentOptions =
+    req.cookies["EmicrolearnParentOptions"] &&
+    JSON.parse(req.cookies["EmicrolearnParentOptions"]);
+
   const userType = authenticatedUserData && authenticatedUserData.type;
 
   const requireNoAuthRoutes = ["/signup", "/login", "/login-parents"];
@@ -28,7 +32,7 @@ export const routeRedirection = (req, resolvedUrl) => {
     "/book",
   ];
 
-  const parentRoutes = ["/parent", "add-student"];
+  const parentRoutes = ["/parent", "/add-student"];
 
   const requireNoAuth = requireNoAuthRoutes.find((route) =>
     resolvedUrl.startsWith(route)
@@ -53,6 +57,18 @@ export const routeRedirection = (req, resolvedUrl) => {
         permanent: false,
       },
     };
+  } else if (
+    requireParent &&
+    resolvedUrl === "/add-student" &&
+    userType === "parent" &&
+    parentOptions.feature_remaining <= 0
+  ) {
+    return {
+      redirect: {
+        destination: "/parent",
+        permanent: false,
+      },
+    };
   } else if (authenticated && requireAuth) {
     if (requireParent && userType === "student") {
       return {
@@ -68,22 +84,21 @@ export const routeRedirection = (req, resolvedUrl) => {
           permanent: false,
         },
       };
+    } else if (!authenticated && requireAuth) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    } else if (resolvedUrl === "/") {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
     }
-  } else if (!authenticated && requireAuth) {
-    console.log("again we are here");
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  } else if (resolvedUrl === "/") {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
   }
 
   return false;
