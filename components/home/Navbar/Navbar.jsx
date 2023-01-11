@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+import { useSelector } from "react-redux";
+
 import Cookies from "universal-cookie";
 
 import Container from "@mui/material/Container";
@@ -14,9 +16,11 @@ import cls from "./navbar.module.scss";
 const cookie = new Cookies();
 
 const Navbar = () => {
+  const [userData, setUserData] = useState(cookie.get("EmicrolearnUser"));
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
+  const { user } = useSelector(({ user }) => user);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -46,6 +50,7 @@ const Navbar = () => {
 
   const logout = () => {
     cookie.remove("EmicrolearnAuth");
+    cookie.remove("EmicrolearnUser");
     router.push("/login");
   };
 
@@ -67,7 +72,14 @@ const Navbar = () => {
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
           >
-            <i className="fa-duotone fa-bars"></i>
+            <img
+              src={
+                userData?.logo_file ? userData?.logo_file : "/imgs/default.jpg"
+              }
+              alt=""
+            />
+
+            {/* <i className="fa-duotone fa-bars"></i> */}
           </button>
           <Menu
             id="basic-menu"
@@ -78,14 +90,18 @@ const Navbar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={() => handleClose("")}>Profile</MenuItem>
-            <MenuItem onClick={() => handleClose("/reports")}>
-              Books Reports
-            </MenuItem>
-            <MenuItem onClick={() => handleClose("/quizzes-reports")}>
-              Quizzes Reports
-            </MenuItem>
-            <MenuItem onClick={checkLogout}>Logout</MenuItem>
+            <MenuItem onClick={() => handleClose("")}>الصفحة الشخصية</MenuItem>
+            {user && user.type !== "parent" && (
+              <MenuItem onClick={() => handleClose("/reports")}>
+                تقارير الكتب
+              </MenuItem>
+            )}
+            {user && user.type !== "parent" && (
+              <MenuItem onClick={() => handleClose("/quizzes-reports")}>
+                تقارير الإختبارات
+              </MenuItem>
+            )}
+            <MenuItem onClick={checkLogout}>تسجيل خروج</MenuItem>
           </Menu>
         </div>
       </Container>

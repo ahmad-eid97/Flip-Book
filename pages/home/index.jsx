@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 
 import Navbar from "../../components/home/Navbar/Navbar";
 
+import { useSelector } from "react-redux";
+
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { langRedirection } from "../../Utils/redirections/langRedirection/langRedirection";
@@ -15,6 +17,9 @@ import cls from "./home.module.scss";
 
 export default function Home({ locale, levels }) {
   const router = useRouter();
+  const { user } = useSelector(({ user }) => user);
+
+  console.log(user);
 
   const renderImages = (idx) => {
     switch (idx) {

@@ -1,36 +1,90 @@
 export const routeRedirection = (req, resolvedUrl) => {
-  const authenticated = req.cookies['EmicrolearnAuth'];
+  const authenticated = req.cookies["EmicrolearnAuth"];
 
-  const requireNoAuthRoutes = ['/signup', '/login'];
+  const authenticatedUserData =
+    req.cookies["EmicrolearnUser"] &&
+    JSON.parse(req.cookies["EmicrolearnUser"]);
 
-  const requireAuthRoutes = ['/home', '/levels', '/levels/books', '/book'];
+  const userType = authenticatedUserData && authenticatedUserData.type;
 
-  const requireNoAuth = requireNoAuthRoutes.find(route => resolvedUrl.startsWith(route));
+  const requireNoAuthRoutes = ["/signup", "/login", "/login-parents"];
 
-  const requireAuth = requireAuthRoutes.find(route => resolvedUrl.startsWith(route));
+  const requireAuthRoutes = [
+    "/home",
+    "/levels",
+    "/levels/books",
+    "/reports",
+    "/quizzes-reports",
+    "/book",
+    "/parent",
+  ];
 
-  if(authenticated && requireNoAuth) {
+  const studentRoutes = [
+    "/home",
+    "/levels",
+    "/levels/books",
+    "/reports",
+    "/quizzes-reports",
+    "/book",
+  ];
+
+  const parentRoutes = ["/parent", "add-student"];
+
+  const requireNoAuth = requireNoAuthRoutes.find((route) =>
+    resolvedUrl.startsWith(route)
+  );
+
+  const requireAuth = requireAuthRoutes.find((route) =>
+    resolvedUrl.startsWith(route)
+  );
+
+  const requireStudent = studentRoutes.find((route) =>
+    resolvedUrl.startsWith(route)
+  );
+
+  const requireParent = parentRoutes.find((route) =>
+    resolvedUrl.startsWith(route)
+  );
+
+  if (authenticated && requireNoAuth) {
     return {
       redirect: {
-        destination: '/home',
-        permanent: false
-      }
+        destination: "/home",
+        permanent: false,
+      },
+    };
+  } else if (authenticated && requireAuth) {
+    if (requireParent && userType === "student") {
+      return {
+        redirect: {
+          destination: "/home",
+          permanent: false,
+        },
+      };
+    } else if (requireStudent && userType === "parent") {
+      return {
+        redirect: {
+          destination: "/parent",
+          permanent: false,
+        },
+      };
     }
   } else if (!authenticated && requireAuth) {
+    console.log("again we are here");
     return {
       redirect: {
-        destination: '/login',
-        permanent: false
-      }
-    }
-  } else if (resolvedUrl === '/') {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  } else if (resolvedUrl === "/") {
     return {
       redirect: {
-        destination: '/login',
-        permanent: false
-      }
-    }
+        destination: "/login",
+        permanent: false,
+      },
+    };
   }
 
-  return false
-}
+  return false;
+};

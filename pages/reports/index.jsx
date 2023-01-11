@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 
 import Navbar from "../../components/home/Navbar/Navbar";
 import Choose from "./../../components/UIs/Choose/Choose";
-import Loader from '../../components/UIs/Loader/Loader';
+import Loader from "../../components/UIs/Loader/Loader";
 
 import Container from "@mui/material/Container";
 import Table from "@mui/material/Table";
@@ -25,7 +25,20 @@ import {
 } from "react-table";
 
 // import { PieChart, Pie } from "recharts";
-import { Pie, PieChart, Legend, Tooltip, ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Bar, AreaChart, Area } from "recharts";
+import {
+  Pie,
+  PieChart,
+  Legend,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Bar,
+  AreaChart,
+  Area,
+} from "recharts";
 
 import cls from "./reports.module.scss";
 
@@ -40,28 +53,27 @@ const Reports = ({ allBooks }) => {
   const [error, setError] = useState("");
 
   const chooseBook = async (book) => {
-    setLoading(true)
+    setLoading(true);
     setChoosedBook(book);
-    const bookDetails = await axios.get(
-      `/crm/students/book_reports?selected_book_id=${book.id}`,
-      {
+    const bookDetails = await axios
+      .get(`/crm/students/book_reports?selected_book_id=${book.id}`, {
         headers: {
           Authorization: `Bearer ${cookie.get("EmicrolearnAuth")}`,
         },
-      }
-    ).catch(() => {
-      setLoading(false)
-    })
+      })
+      .catch(() => {
+        setLoading(false);
+      });
 
     if (!bookDetails.data.success) return setError("Something went wrong!");
 
     setBookData(bookDetails.data.data.book_reports.data);
 
-    setBookCharts(bookDetails.data.data.charts)
+    setBookCharts(bookDetails.data.data.charts);
 
-    console.log(bookDetails.data.data)
+    console.log(bookDetails.data.data);
 
-    setLoading(false)
+    setLoading(false);
   };
 
   const columns = useMemo(
@@ -125,19 +137,8 @@ const Reports = ({ allBooks }) => {
     useRowSelect
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance;
-
-  const data = [
-    { name: "Total Time", value: 120 },
-    { name: "Times", value: 100 },
-  ];
-      
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
 
   return (
     <div className={cls.reports}>
@@ -156,7 +157,6 @@ const Reports = ({ allBooks }) => {
         </div>
 
         <div className={cls.bookReports}>
-
           {loading && <Loader />}
 
           {bookData.length && !loading ? (
@@ -203,7 +203,11 @@ const Reports = ({ allBooks }) => {
                     <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Tooltip />
-                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Legend
+                          layout="horizontal"
+                          verticalAlign="top"
+                          align="center"
+                        />
                         <Pie
                           data={bookCharts.event_category}
                           dataKey="num"
@@ -223,7 +227,11 @@ const Reports = ({ allBooks }) => {
                     <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Tooltip />
-                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Legend
+                          layout="horizontal"
+                          verticalAlign="top"
+                          align="center"
+                        />
                         <Pie
                           data={bookCharts.event_action}
                           dataKey="num"
@@ -243,7 +251,11 @@ const Reports = ({ allBooks }) => {
                     <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Tooltip />
-                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Legend
+                          layout="horizontal"
+                          verticalAlign="top"
+                          align="center"
+                        />
                         <Pie
                           data={bookCharts.type}
                           dataKey="num"
@@ -263,7 +275,11 @@ const Reports = ({ allBooks }) => {
                     <ResponsiveContainer width="100%" height={300}>
                       <PieChart>
                         <Tooltip />
-                        <Legend layout="horizontal" verticalAlign="top" align="center" />
+                        <Legend
+                          layout="horizontal"
+                          verticalAlign="top"
+                          align="center"
+                        />
                         <Pie
                           data={bookCharts.book_id}
                           dataKey="num"
@@ -285,16 +301,34 @@ const Reports = ({ allBooks }) => {
                   <h5>الصفحة</h5>
                   <div>
                     <ResponsiveContainer width="100%" height={300}>
-                      <AreaChart width={730} height={250} data={bookCharts.page_id}
-                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                      <AreaChart
+                        width={730}
+                        height={250}
+                        data={bookCharts.page_id}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                      >
                         <defs>
                           {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
                             <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
                           </linearGradient> */}
-                          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-                            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                          <linearGradient
+                            id="colorPv"
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="1"
+                          >
+                            <stop
+                              offset="5%"
+                              stopColor="#82ca9d"
+                              stopOpacity={0.8}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="#82ca9d"
+                              stopOpacity={0}
+                            />
                           </linearGradient>
                         </defs>
                         <XAxis dataKey="page_section.title" />
@@ -302,7 +336,13 @@ const Reports = ({ allBooks }) => {
                         <CartesianGrid strokeDasharray="3 3" />
                         <Tooltip />
                         {/* <Area type="monotone" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" /> */}
-                        <Area type="monotone" dataKey="num" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+                        <Area
+                          type="monotone"
+                          dataKey="num"
+                          stroke="#82ca9d"
+                          fillOpacity={1}
+                          fill="url(#colorPv)"
+                        />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -331,7 +371,17 @@ const Reports = ({ allBooks }) => {
                     <ResponsiveContainer width="100%" height={300}>
                       <PieChart width={730} height={250}>
                         {/* <Pie data={data01} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" /> */}
-                        <Pie data={bookCharts.student_id} dataKey="num" nameKey="page_section.title" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" label />
+                        <Pie
+                          data={bookCharts.student_id}
+                          dataKey="num"
+                          nameKey="page_section.title"
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          fill="#82ca9d"
+                          label
+                        />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>

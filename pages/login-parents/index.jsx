@@ -12,12 +12,12 @@ import axios from "../../Utils/axios";
 import { toast } from "react-toastify";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { langRedirection } from "./../../Utils/redirections/langRedirection/langRedirection";
-import { routeRedirection } from "./../../Utils/redirections/routeRedirection/routeRedirection";
+import { langRedirection } from "../../Utils/redirections/langRedirection/langRedirection";
+import { routeRedirection } from "../../Utils/redirections/routeRedirection/routeRedirection";
 
 import { useTranslation } from "next-i18next";
 
-import cls from "./login.module.scss";
+import cls from "./parentsLogin.module.scss";
 import Loader from "../../components/Loader/Loader";
 
 const cookie = new Cookies();
@@ -35,7 +35,7 @@ const Login = () => {
       setLoading(true);
 
       const response = await axios
-        .post("/crm/students/auth/login", { email, password })
+        .post("/crm/parents/auth/login", { email, password })
         .catch((err) => errorNotify("خطأ في البريد الإلكتروني أو كلمة المرور"));
 
       if (!response || !response.data || !response.data.data) {
@@ -43,26 +43,24 @@ const Login = () => {
         return errorNotify("خطأ في البريد الإلكتروني أو كلمة المرور");
       }
 
-      console.log(response);
-
       cookie.set("EmicrolearnAuth", response.data.data.access_token, {
         path: "/",
       });
 
       cookie.set(
         "EmicrolearnUser",
-        JSON.stringify({ ...response.data.data.student, type: "student" }),
+        JSON.stringify({ ...response.data.data.parent, type: "parent" }),
         {
           path: "/",
         }
       );
 
       dispatch(
-        userActions.setUser({ ...response.data.data.parent, type: "student" })
+        userActions.setUser({ ...response.data.data.parent, type: "parent" })
       );
 
       setTimeout(() => {
-        router.push("/home");
+        router.push("/parent");
       }, 100);
 
       setLoading(false);
@@ -77,7 +75,7 @@ const Login = () => {
       <img src="/imgs/logo.png" alt="logo" />
 
       <div className={cls.area}>
-        <h3>تسجيل دخول الطلاب</h3>
+        <h3>تسجيل دخول أولياء الأمور</h3>
 
         <div className={`${cls.field} ${i18n.language}`}>
           <input
@@ -105,8 +103,8 @@ const Login = () => {
           دخول <i className="fa-light fa-arrow-right-to-bracket"></i>
         </button>
 
-        <p onClick={() => router.push("/login-parents")}>
-          تسجيل الدخول كـ <span>ولي أمر</span>
+        <p onClick={() => router.push("/login")}>
+          تسجيل الدخول كـ <span>طالب</span>
         </p>
       </div>
     </div>

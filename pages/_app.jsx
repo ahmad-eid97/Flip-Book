@@ -8,6 +8,9 @@ import Loader from "../components/Loader/Loader";
 
 import { appWithTranslation } from "next-i18next";
 
+import { Provider } from "react-redux";
+import store from "../store/store";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -74,7 +77,9 @@ function MyApp({ Component, pageProps }) {
       <div style={{ position: "relative" }}>
         {loading && <Loader />}
 
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </div>
     </>
   );
