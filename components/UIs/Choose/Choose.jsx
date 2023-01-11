@@ -4,7 +4,15 @@ import { useTranslation } from "react-i18next";
 // STYLES FILES
 import cls from "./choose.module.scss";
 
-const Choose = ({ placeholder, results, choose, value, disabled, keyword }) => {
+const Choose = ({
+  placeholder,
+  results,
+  choose,
+  value,
+  disabled,
+  keyword,
+  error,
+}) => {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value);
   const [filteredResults, setFilteredResults] = useState(results);
@@ -60,16 +68,17 @@ const Choose = ({ placeholder, results, choose, value, disabled, keyword }) => {
           onChange={(e) => filterResults(e.target.value)}
           onFocus={() => setOpen(true)}
           disabled={disabled}
+          className={error ? cls.error : ""}
         />
         <i className={`fa-solid fa-angle-down ${cls[i18n.language]}`}></i>
 
         <div className={`${cls.field__results} ${open ? cls.active : ""}`}>
           <div className={cls.field__results_result}>
-            {filteredResults.map((result) => (
+            {filteredResults.map((result, idx) => (
               <div
                 className={cls.resultInside}
                 onClick={() => selectChoose(result)}
-                key={result.option}
+                key={idx}
               >
                 <p key={result}>{result.title}</p>
               </div>

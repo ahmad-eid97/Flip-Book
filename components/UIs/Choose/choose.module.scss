@@ -19,7 +19,7 @@
     outline: none;
     border: 1px solid #ccc;
     &.error {
-      border-color: var(--main-color) !important;
+      border-color: var(--error-alert) !important;
     }
   }
   i {

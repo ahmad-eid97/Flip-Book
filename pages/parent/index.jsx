@@ -22,18 +22,37 @@ const Parent = ({ parentData, canAddData }) => {
       <h2>لوحة تحكم أولياء الأمور</h2>
 
       <Container>
-        <Grid container spacing={2}>
-          <Grid item md={8}>
+        <Grid container spacing={2} className={cls.cardsWrapper}>
+          <Grid item xs={12} md={8}>
             <div className={cls.students}>
-              <h3>قائم الأبناء</h3>
+              <h3>قائمة الأبناء</h3>
+              {parentData.students.length <= 0 && (
+                <h4>قائمة الأبناء فارغة حتي الاَن</h4>
+              )}
               {parentData.students.map((student) => (
                 <div className={cls.student} key={student.id}>
-                  one
+                  <div className={cls.details}>
+                    <img
+                      src={
+                        student.logo_file
+                          ? student.logo_file
+                          : "/imgs/default.jpg"
+                      }
+                      alt={student.name}
+                    />
+                    <div className={cls.info}>
+                      <h5>{student.name}</h5>
+                      <p>{student.username}</p>
+                    </div>
+                  </div>
+                  <Link href={`/student/${student.id}`}>
+                    <button>عرض التفاصيل</button>
+                  </Link>
                 </div>
               ))}
             </div>
           </Grid>
-          <Grid item md={4}>
+          <Grid item xs={12} md={4}>
             <div className={cls.options}>
               <p>
                 عدد الإضافات: <span>{canAddData.feature_usage}</span>

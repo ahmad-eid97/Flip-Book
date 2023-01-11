@@ -90,6 +90,11 @@ const Navbar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
+          {user && user.type !== "student" && (
+            <MenuItem onClick={() => handleClose("/parent")}>
+              لوحة التحكم
+            </MenuItem>
+          )}
             <MenuItem onClick={() => handleClose("")}>الصفحة الشخصية</MenuItem>
             {user && user.type !== "parent" && (
               <MenuItem onClick={() => handleClose("/reports")}>
