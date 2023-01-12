@@ -21,12 +21,12 @@ import cls from "./quizzesDetailsTable.module.scss";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
 
-const QuizzesDetailsTable = ({ data, fetchQuizAttempts }) => {
+const QuizzesDetailsTable = ({ path, data, fetchQuizAttempts }) => {
   const router = useRouter();
 
   const getAttemptsData = (quizId) => {
     fetchQuizAttempts(quizId)
-    router.push({ path: '/quizzes-reports', query: { bookId: data.quizzes_attempts.data[0].book.id, category: 'attempts', quizId }})
+    router.push({ pathname: path, query: { bookId: data.quizzes_attempts.data[0].book.id, category: 'attempts', quizId }})
   }
 
   const columns = useMemo(
@@ -139,22 +139,15 @@ const QuizzesDetailsTable = ({ data, fetchQuizAttempts }) => {
           <h5>الكتاب</h5>
           <div>
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <BarChart data={data.charts.book_id}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="page_section_id" />
+                <YAxis />
                 <Tooltip />
-                <Legend layout="horizontal" verticalAlign="top" align="center" />
-                <Pie
-                  data={data.charts.book_id}
-                  dataKey="num"
-                  nameKey="page_section_id"
-                  innerRadius={40}
-                  outerRadius={100}
-                  fill="#2980b9"
-                  // startAngle={0}
-                  // endAngle={360}
-                  // paddingAngle={3}
-                  // stroke="#2980b9"
-                />
-              </PieChart>
+                <Legend />
+                <Bar dataKey="num" fill="#2980b9" />
+                {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </div>

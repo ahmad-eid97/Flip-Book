@@ -1,4 +1,6 @@
 // COMPONENTS
+import Link from "next/link";
+
 import Navbar from "../../components/home/Navbar/Navbar";
 
 import Grid from "@mui/material/Grid";
@@ -12,7 +14,6 @@ import axios from "../../Utils/axios";
 
 // STYLES
 import cls from "./parent.module.scss";
-import { Link } from "@mui/material";
 
 const Parent = ({ parentData, canAddData }) => {
   return (

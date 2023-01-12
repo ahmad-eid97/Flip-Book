@@ -20,7 +20,7 @@ import { format } from 'date-fns';
 
 import cls from "./quizzesAnswersTable.module.scss";
 
-const QuizzesAnswersTable = ({ data }) => {
+const QuizzesAnswersTable = ({ data, path }) => {
   const router = useRouter()
 
   const columns = useMemo(
@@ -89,11 +89,9 @@ const QuizzesAnswersTable = ({ data }) => {
     rows, // rows for the table based on the data passed
     prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
   } = tableInstance;
-
-  console.log(data)
       
   const goBack = () => {
-    router.push({ path: '/quizzes-reports', query: { bookId: data.quiz_attempt.book.id, category: 'attempts', quizId: data.quiz_attempt.quiz.id } });
+    router.push({ pathname: path, query: { bookId: data.quiz_attempt.book.id, category: 'attempts', quizId: data.quiz_attempt.quiz.id }})
   }
 
   return (

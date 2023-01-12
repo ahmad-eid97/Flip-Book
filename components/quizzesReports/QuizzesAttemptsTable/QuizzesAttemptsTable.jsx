@@ -23,7 +23,7 @@ import cls from "./quizzesAttemptsTable.module.scss";
 import Cookies from "universal-cookie"; 
 const cookie = new Cookies();
 
-const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
+const QuizzesAttemptsTable = ({ data, fetchQuizAnswers, path }) => {
   const router = useRouter();
 
   const getAnswersData = (quizAttemptId) => {
@@ -136,7 +136,7 @@ const QuizzesAttemptsTable = ({ data, fetchQuizAnswers }) => {
   } = tableInstance;
 
   const goBack = () => {
-    router.push('/quizzes-reports');
+    router.push(path);
   }
 
   return (

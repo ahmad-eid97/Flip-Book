@@ -105,13 +105,11 @@ const Reports = ({ allBooks }) => {
     setQuizzesData(quizzesDetails.data.data);
 
     setLoading(false)
-
-    console.log(quizzesDetails.data.data);
   };
 
   const showSpecificTable = {
-    attempts: <QuizzesAttemptsTable data={attemptsData} fetchQuizAnswers={fetchQuizAnswers} />,
-    answers: <QuizzesAnswersTable data={answersData} />
+    attempts: <QuizzesAttemptsTable path="/quizzes-reports" data={attemptsData} fetchQuizAnswers={fetchQuizAnswers} />,
+    answers: <QuizzesAnswersTable path="/quizzes-reports" data={answersData} />
   }
       
 
@@ -138,7 +136,7 @@ const Reports = ({ allBooks }) => {
           {quizzesData?.quizzes_attempts?.data.length && !loading ? (
             <>
             {!router.query.category ? 
-              <QuizzesDetailsTable data={quizzesData} fetchQuizAttempts={fetchQuizAttempts} /> 
+              <QuizzesDetailsTable path={'/quizzes-reports'} data={quizzesData} fetchQuizAttempts={fetchQuizAttempts} /> 
               :
               showSpecificTable[router.query.category]
             }
@@ -147,7 +145,7 @@ const Reports = ({ allBooks }) => {
 
           {!choosedBook && !loading && (
             <div className={cls.notChoosed}>
-              <h4>إختر كتاب أولاَ لتظر التقارير!</h4>
+              <h4>إختر كتاب أولاَ لتظهر التقارير!</h4>
             </div>
           )}
 
