@@ -26,12 +26,14 @@ export default function Books({ locale, books }) {
         <div className={cls.wrapper}>
 
           {books.map(book => (
-
-            <div key={book.id} className={cls.book} onClick={() => router.push(`/book/${book.id}`)}>
-              <img src={book.logo_file} alt="bookCover" />
-              <h5>{book.title}</h5>
-            </div>
-
+            <>
+              {book.status && 
+                <div key={book.id} className={cls.book} onClick={() => router.push(`/book/${book.id}`)}>
+                  <img src={book.logo_file} alt="bookCover" />
+                  <h5>{book.title}</h5>
+                </div>
+              }
+            </>
           ))}
 
         </div>

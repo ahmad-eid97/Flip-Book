@@ -58,19 +58,19 @@ export const routeRedirection = (req, resolvedUrl) => {
       },
     };
   }
-  else if (
-    requireParent &&
-    resolvedUrl === "/add-student" &&
-    userType === "parent" &&
-    parentOptions.feature_remaining <= 0
-  ) {
-    return {
-      redirect: {
-        destination: "/parent",
-        permanent: false,
-      },
-    };
-  }
+  // else if (
+  //   requireParent &&
+  //   resolvedUrl === "/add-student" &&
+  //   userType === "parent" &&
+  //   parentOptions.feature_remaining <= 0
+  // ) {
+  //   return {
+  //     redirect: {
+  //       destination: "/parent",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   else if (authenticated && requireAuth) {
     if (requireParent && userType === "student") {
       return {

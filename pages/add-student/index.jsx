@@ -28,7 +28,7 @@ const cookie = new Cookies();
 // STYLES
 import cls from "./addStudent.module.scss";
 
-const AddStudent = ({ countries, cities, semesters, levels }) => {
+const AddStudent = ({ studentCountry, cities, semesters, levels }) => {
   const [studentData, setStudentData] = useState({
     username: "",
     name: "",
@@ -38,7 +38,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
   });
   const [studentGender, setStudentGender] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState(studentCountry);
   const [city, setCity] = useState("");
   const [semester, setSemester] = useState("");
   const [level, setLevel] = useState("");
@@ -259,11 +259,12 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 <label htmlFor="">الدولة</label>
                 <Choose
                   placeholder="الدولة"
-                  results={countries}
+                  results={[]}
                   choose={setCountry}
                   value={country.title ? country.title : ""}
                   keyword="title"
                   error={emptyFields && !country}
+                  disabled={true}
                 />
                 {emptyFields && !country && (
                   <span>هذا الحقل لا يجب أن يكون فارغاَ</span>
@@ -275,7 +276,7 @@ const AddStudent = ({ countries, cities, semesters, levels }) => {
                 <label htmlFor="">المدينة</label>
                 <Choose
                   placeholder="المدينة"
-                  results={cities}
+                  results={country.cities}
                   choose={setCity}
                   value={city.title ? city.title : ""}
                   keyword="title"
@@ -349,14 +350,13 @@ export async function getServerSideProps({ req, locale, resolvedUrl }) {
 
   if (routerRedirection) return routerRedirection;
 
-  let countries = [];
-  // const response = await axios.get(`/crm/countries?lang=${locale}`);
-  const response = await axios.get(`/crm/countries?lang=ar`);
-  countries = response.data.data.countries;
+  let country = [];
+  const response = await axios.get(`/crm/countries/149?lang=ar`);
+  country = response.data.data;
 
-  let cities = [];
-  const citiesResponse = await axios.get(`/crm/cities?lang=ar`);
-  cities = citiesResponse.data.data.cities;
+  // let cities = [];
+  // const citiesResponse = await axios.get(`/crm/cities?lang=ar`);
+  // cities = citiesResponse.data.data.cities;
 
   let semesters = [];
   const semestersRsponse = await axios.get(`/crm/semesters?lang=ar`);
@@ -369,8 +369,8 @@ export async function getServerSideProps({ req, locale, resolvedUrl }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      countries,
-      cities,
+      studentCountry: country,
+      // cities,
       semesters,
       levels,
     },

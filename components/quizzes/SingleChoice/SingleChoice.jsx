@@ -67,7 +67,6 @@ const SingleChoice = ({
         setQuestionNum((questionNum += 1));
         setChanging(true);
 
-        // inputRef.current.checked  = false
         setChoosedAnswer(null);
         setTimeout(() => {
           setChanging(false);

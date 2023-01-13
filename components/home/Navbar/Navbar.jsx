@@ -49,14 +49,15 @@ const Navbar = () => {
   };
 
   const logout = () => {
-    if (cookie.get("EmicrolearnParentOptions")) {
-      cookie.remove("EmicrolearnParentOptions");
-    }
+    // if (cookie.get("EmicrolearnParentOptions")) {
+    //   cookie.remove("EmicrolearnParentOptions");
+    // }
+    cookie.remove("EmicrolearnParentOptions");
     cookie.remove("EmicrolearnAuth");
     cookie.remove("EmicrolearnUser");
     setTimeout(() => {
       router.push("/login");
-    }, 100)
+    }, 200)
   };
 
   return (
